@@ -1,114 +1,262 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Telegram Mini App — Ads Unlock</title>
 
   <!-- Telegram SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-  <!-- Axidum Ads SDK -->
+  <!-- Axidum / Adexium SDK -->
   <script src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      margin: 0;
-      padding: 20px;
+    :root{
+      --bg1:#0f172a;      /* dark slate */
+      --bg2:#111827;      /* near black */
+      --card:#0b1220;     /* deep card */
+      --card-border:#1f2a44;
+      --text:#e5e7eb;     /* light text */
+      --muted:#9aa4b2;    /* muted text */
+      --ok:#22c55e;       /* green */
+      --brand:#111;
+      --accent:#60a5fa;   /* blue accent */
     }
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      color:var(--text);
+      font:14px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      background: radial-gradient(1200px 600px at 20% -10%, #1e293b 0%, transparent 60%),
+                  radial-gradient(1000px 500px at 100% 10%, #0b3b61 0%, transparent 55%),
+                  linear-gradient(180deg, var(--bg1), var(--bg2));
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
     }
-    .thumb {
-      width: 100%;
-      border-radius: 10px;
+    .wrap{max-width:960px;margin:0 auto;padding:18px 16px;flex:1}
+    h2{
+      margin:8px 0 18px;
+      font-weight:800; letter-spacing:.2px;
+      font-size:22px;
+      display:flex;align-items:center;gap:10px;
     }
-    h3 { margin: 10px 0 5px; }
-    p { margin: 0 0 10px; color: #555; }
-    button {
-      border: none;
-      border-radius: 10px;
-      padding: 10px 15px;
-      font-weight: bold;
-      cursor: pointer;
+    .badge{
+      font-size:11px;color:#0f172a;background:#93c5fd;border-radius:999px;
+      padding:4px 8px;font-weight:800;
     }
-    .watch { background: #ddd; }
-    .join { background: #0c9; color: white; float: right; }
-    .progress {
-      height: 8px;
-      background: #eee;
-      border-radius: 5px;
-      overflow: hidden;
-      margin-bottom: 10px;
+
+    .card{
+      background:linear-gradient(180deg, #0e1629, #0a1220);
+      border:1px solid var(--card-border);
+      border-radius:18px;padding:14px;margin-bottom:16px;
+      box-shadow:0 10px 25px rgba(2,6,23,.35), inset 0 1px 0 rgba(255,255,255,.03);
     }
-    .progress-inner {
-      height: 8px;
-      width: 0%;
-      background: #0c9;
-      transition: width 0.3s;
+    .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;background:#1f2937}
+    .title{font-weight:800;margin:12px 0 6px;font-size:16px}
+    .desc{color:var(--muted);margin:0 0 12px}
+    .progress{height:8px;background:#101826;border:1px solid #1f2a44;border-radius:999px;overflow:hidden;margin-bottom:12px}
+    .bar{height:100%;width:0;background:linear-gradient(90deg,#22c55e,#a3e635);transition:width .3s}
+    .row{display:flex;gap:10px}
+    .btn{
+      flex:1;padding:11px 12px;border:none;border-radius:12px;font-weight:800;
+      letter-spacing:.2px; cursor:pointer;
     }
+    .watch{background:#2563eb;color:#fff;box-shadow:0 6px 16px rgba(37,99,235,.35)}
+    .watch.disabled{background:#334155;color:#94a3b8;cursor:not-allowed;box-shadow:none}
+    .join{background:#334155;color:#cbd5e1}
+    .join.ready{background:var(--ok);color:#0b1321;box-shadow:0 6px 16px rgba(34,197,94,.35)}
+
+    /* modal */
+    .modal{position:fixed;inset:0;background:rgba(2,6,23,.7);backdrop-filter:blur(2px);
+      display:none;align-items:center;justify-content:center;padding:16px;z-index:9999}
+    .sheet{width:100%;max-width:420px;background:#0b1220;border:1px solid var(--card-border);
+      border-radius:16px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.6)}
+    .sheethd{padding:12px 14px;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center}
+    .sheethd b{color:#93c5fd}
+    .sheetbd{padding:14px}
+    .close{border:none;background:transparent;font-size:18px;color:#cbd5e1;cursor:pointer}
+    .hint{font-size:12px;color:var(--muted);margin-top:6px}
+
+    /* footer */
+    .footer{
+      width:100%;
+      border-top:1px solid rgba(255,255,255,.08);
+      background:rgba(15,23,42,.4);
+    }
+    .footer-inner{
+      max-width:960px;margin:0 auto;padding:14px 16px;
+      display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;
+      color:#cbd5e1;font-size:13px;
+    }
+    .footer a{
+      color:#93c5fd;text-decoration:none;font-weight:800;
+    }
+    .footer a:hover{ text-decoration:underline }
   </style>
 </head>
 <body>
-  <h2>Telegram Mini App — Ads Unlock 🔓</h2>
+  <div class="wrap">
+    <h2>Telegram Mini App — Ads Unlock <span class="badge">PRO</span></h2>
 
-  <!-- Post 1 -->
-  <div class="card">
-    <img class="thumb" src="https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_193741_659.jpg" alt="Jannat Toha" />
-    <h3>Jannat Toha Vairal Video 🥵</h3>
-    <p>জান্নাত তোহার ভাইরাল ভিডিও লিংক 😍</p>
-    <div class="progress"><div class="progress-inner" id="p1"></div></div>
-    <button class="watch" id="b1" onclick="watchAd('p1','b1','https://t.me/+JQdsBNK6nE1kNTg1')">Watch Ads (0/10)</button>
+    <!-- Card 1 -->
+    <div class="card" data-id="p1">
+      <img class="thumb" src="https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_193741_659.jpg" alt="Jannat Toha">
+      <div class="title">Jannat Toha Vairal Video 🥵</div>
+      <p class="desc">জান্নাত তোহার ভাইরাল ভিডিও লিংক 😍</p>
+      <div class="progress"><div class="bar" id="p1_bar"></div></div>
+      <div class="row">
+        <button class="btn watch" id="p1_watch">Watch Ads (0/10)</button>
+        <button class="btn join" id="p1_join" disabled>Join Channel</button>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card" data-id="p2">
+      <img class="thumb" src="https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_194758_066.jpg" alt="Ridhii">
+      <div class="title">Ridhii TikTok 💗</div>
+      <p class="desc">রিধী মনি ভাইরাল ভিডিও লিংক 🥵</p>
+      <div class="progress"><div class="bar" id="p2_bar"></div></div>
+      <div class="row">
+        <button class="btn watch" id="p2_watch">Watch Ads (0/10)</button>
+        <button class="btn join" id="p2_join" disabled>Join Channel</button>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card" data-id="p3">
+      <img class="thumb" src="https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251016_155725_290.jpg" alt="Era Moni">
+      <div class="title">Era Moni TikTok 💗</div>
+      <p class="desc">ইরা মনি ভাইরাল ভিডিও লিংক 😍💦</p>
+      <div class="progress"><div class="bar" id="p3_bar"></div></div>
+      <div class="row">
+        <button class="btn watch" id="p3_watch">Watch Ads (0/10)</button>
+        <button class="btn join" id="p3_join" disabled>Join Channel</button>
+      </div>
+    </div>
   </div>
 
-  <!-- Post 2 -->
-  <div class="card">
-    <img class="thumb" src="https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_194758_066.jpg" alt="Ridhii" />
-    <h3>Ridhii TikTok 💗</h3>
-    <p>রিধী মনি ভাইরাল ভিডিও লিংক 🥵</p>
-    <div class="progress"><div class="progress-inner" id="p2"></div></div>
-    <button class="watch" id="b2" onclick="watchAd('p2','b2','https://t.me/+JQdsBNK6nE1kNTg1')">Watch Ads (0/10)</button>
+  <!-- Interstitial Modal -->
+  <div class="modal" id="adModal">
+    <div class="sheet">
+      <div class="sheethd">
+        <b>Sponsored</b>
+        <button class="close" id="closeModal">✕</button>
+      </div>
+      <div class="sheetbd">
+        <div id="ax-container" style="display:none"></div>
+        <div class="hint">Ad চলাকালীন অ্যাপ ফোকাসে রাখুন • শেষ হতে বাকি: <b id="left">20</b>s</div>
+      </div>
+    </div>
   </div>
 
-  <!-- Post 3 -->
-  <div class="card">
-    <img class="thumb" src="https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251016_155725_290.jpg" alt="Era Moni" />
-    <h3>Era Moni TikTok 💗</h3>
-    <p>ইরা মনি ভাইরাল ভিডিও লিংক 😍💦</p>
-    <div class="progress"><div class="progress-inner" id="p3"></div></div>
-    <button class="watch" id="b3" onclick="watchAd('p3','b3','https://t.me/+JQdsBNK6nE1kNTg1')">Watch Ads (0/10)</button>
-  </div>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>App Community: <a href="https://t.me/VairalVideoInTelegram" data-tglink>t.me/VairalVideoInTelegram</a></div>
+      <div>Made by: <a href="https://t.me/ToxicNexo" data-tglink>t.me/ToxicNexo</a></div>
+    </div>
+  </footer>
 
-  <script>
-    const WID = "feE5b0a3-a507-4b7e-b855-d09f29f46e71";
+<script>
+  // ===== CONFIG =====
+  const WID = "feE5b0a3-a507-4b7e-b855-d09f29f46e71"; // তোমার wid
+  const JOIN_URL = "https://t.me/+JQdsBNK6nE1kNTg1";
+  const REQUIRED = 10;
 
-    function watchAd(progressId, btnId, url) {
-      const adexium = new AdexiumWidget({
-        wid: WID,
-        adFormat: 'interstitial'
-      });
+  const storeKey = (id) => `coins_${id}`;
+  const pct = (v) => Math.min(100, Math.round((v/REQUIRED)*100));
 
-      let count = parseInt(localStorage.getItem(progressId)) || 0;
-      if (count >= 10) {
-        window.open(url, '_blank');
-        return;
+  // Telegram link helper (in-web vs TG webapp)
+  document.querySelectorAll('[data-tglink]').forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      const href = a.getAttribute('href');
+      if (window.Telegram?.WebApp?.openTelegramLink){
+        e.preventDefault();
+        Telegram.WebApp.openTelegramLink(href);
       }
+    });
+  });
 
-      adexium.autoMode();
-      adexium.onAdComplete = () => {
-        count++;
-        localStorage.setItem(progressId, count);
-        const percent = (count / 10) * 100;
-        document.getElementById(progressId).style.width = percent + '%';
-        document.getElementById(btnId).innerText = count >= 10 ? 'Join Channel' : `Watch Ads (${count}/10)`;
-      };
+  // init UI
+  ["p1","p2","p3"].forEach(id=>{
+    const coins = Number(localStorage.getItem(storeKey(id))||"0");
+    document.getElementById(`${id}_bar`).style.width = pct(coins) + "%";
+    const w = document.getElementById(`${id}_watch`);
+    const j = document.getElementById(`${id}_join`);
+    w.textContent = `Watch Ads (${Math.min(coins,REQUIRED)}/${REQUIRED})`;
+    if(coins>=REQUIRED){ w.classList.add("disabled"); w.disabled=true; j.classList.add("ready"); j.disabled=false; }
+  });
+
+  // clicks
+  ["p1","p2","p3"].forEach(id=>{
+    document.getElementById(`${id}_watch`).onclick = ()=> openAd(id);
+    document.getElementById(`${id}_join`).onclick = ()=>{
+      const c = Number(localStorage.getItem(storeKey(id))||"0");
+      if(c>=REQUIRED){
+        if(window.Telegram?.WebApp?.openTelegramLink)
+          Telegram.WebApp.openTelegramLink(JOIN_URL);
+        else window.open(JOIN_URL,"_blank");
+      }
+    };
+  });
+
+  // ===== Interstitial with auto-reward =====
+  const modal = document.getElementById("adModal");
+  const closeModal = document.getElementById("closeModal");
+  const leftEl   = document.getElementById("left");
+  let timer=null,left=20,focused=true,activeCard=null,rewarded=false;
+
+  function openAd(cardId){
+    activeCard = cardId;
+    left = 20; rewarded=false; focused=true;
+    leftEl.textContent = left;
+    modal.style.display = "flex";
+
+    // trigger Axidum interstitial
+    try{
+      if(window.AdexiumWidget){
+        const ax = new AdexiumWidget({ wid: WID, adFormat: "interstitial" });
+        ax.autoMode();
+      }
+    }catch(e){ console.log("Adexium error", e); }
+
+    const onF=()=>focused=true, onB=()=>focused=false;
+    window.addEventListener("focus",onF); window.addEventListener("blur",onB);
+
+    timer = setInterval(()=>{
+      if(focused && left>0){
+        left--; leftEl.textContent = left;
+        if(left<=0 && !rewarded){
+          rewarded = true;
+          addCoin(cardId);      // time up ⇒ auto coin
+          cleanup();
+        }
+      }
+    },1000);
+
+    function cleanup(){
+      clearInterval(timer); timer=null;
+      window.removeEventListener("focus",onF);
+      window.removeEventListener("blur",onB);
+      modal.style.display = "none";
     }
-  </script>
+    closeModal.onclick = cleanup; // আগেই বন্ধ করলে রিওয়ার্ড হবে না
+  }
+
+  function addCoin(cardId){
+    const key = storeKey(cardId);
+    const cur = Number(localStorage.getItem(key)||"0");
+    const next = Math.min(REQUIRED, cur+1);
+    localStorage.setItem(key, next);
+
+    // update UI
+    document.getElementById(`${cardId}_bar`).style.width = pct(next)+"%";
+    const w = document.getElementById(`${cardId}_watch`);
+    const j = document.getElementById(`${cardId}_join`);
+    w.textContent = `Watch Ads (${next}/${REQUIRED})`;
+    if(next>=REQUIRED){ w.classList.add("disabled"); w.disabled=true; j.classList.add("ready"); j.disabled=false; }
+  }
+</script>
 </body>
-</html>
+  </html>
