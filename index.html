@@ -12,60 +12,52 @@
 
   <style>
     :root{
-      --bg1:#0f172a;      /* dark slate */
-      --bg2:#111827;      /* near black */
-      --card:#0b1220;     /* deep card */
-      --card-border:#1f2a44;
-      --text:#e5e7eb;     /* light text */
-      --muted:#9aa4b2;    /* muted text */
-      --ok:#22c55e;       /* green */
-      --brand:#111;
-      --accent:#60a5fa;   /* blue accent */
+      --bg1:#0f172a; --bg2:#111827;
+      --card:#0b1220; --card-border:#1f2a44;
+      --text:#e5e7eb; --muted:#9aa4b2;
+      --ok:#22c55e; --accent:#60a5fa;
+      --primary:#2563eb; --soft:#334155;
+      --like:#f43f5e;
     }
     *{box-sizing:border-box}
     body{
-      margin:0;
-      color:var(--text);
+      margin:0;color:var(--text);
       font:14px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
       background: radial-gradient(1200px 600px at 20% -10%, #1e293b 0%, transparent 60%),
                   radial-gradient(1000px 500px at 100% 10%, #0b3b61 0%, transparent 55%),
                   linear-gradient(180deg, var(--bg1), var(--bg2));
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
+      min-height:100vh; display:flex; flex-direction:column;
+      padding-bottom:76px; /* space for bottom nav */
     }
     .wrap{max-width:960px;margin:0 auto;padding:18px 16px;flex:1}
-    h2{
-      margin:8px 0 18px;
-      font-weight:800; letter-spacing:.2px;
-      font-size:22px;
-      display:flex;align-items:center;gap:10px;
-    }
-    .badge{
-      font-size:11px;color:#0f172a;background:#93c5fd;border-radius:999px;
-      padding:4px 8px;font-weight:800;
-    }
+    h2{margin:8px 0 18px;font-weight:800;letter-spacing:.2px;font-size:22px;display:flex;align-items:center;gap:10px}
+    .badge{font-size:11px;color:#0f172a;background:#93c5fd;border-radius:999px;padding:4px 8px;font-weight:800}
 
-    .card{
-      background:linear-gradient(180deg, #0e1629, #0a1220);
-      border:1px solid var(--card-border);
-      border-radius:18px;padding:14px;margin-bottom:16px;
-      box-shadow:0 10px 25px rgba(2,6,23,.35), inset 0 1px 0 rgba(255,255,255,.03);
-    }
+    .card{position:relative;background:linear-gradient(180deg,#0e1629,#0a1220);border:1px solid var(--card-border);
+      border-radius:18px;padding:14px;margin-bottom:16px;box-shadow:0 10px 25px rgba(2,6,23,.35), inset 0 1px 0 rgba(255,255,255,.03)}
     .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;background:#1f2937}
     .title{font-weight:800;margin:12px 0 6px;font-size:16px}
     .desc{color:var(--muted);margin:0 0 12px}
     .progress{height:8px;background:#101826;border:1px solid #1f2a44;border-radius:999px;overflow:hidden;margin-bottom:12px}
     .bar{height:100%;width:0;background:linear-gradient(90deg,#22c55e,#a3e635);transition:width .3s}
     .row{display:flex;gap:10px}
-    .btn{
-      flex:1;padding:11px 12px;border:none;border-radius:12px;font-weight:800;
-      letter-spacing:.2px; cursor:pointer;
-    }
-    .watch{background:#2563eb;color:#fff;box-shadow:0 6px 16px rgba(37,99,235,.35)}
-    .watch.disabled{background:#334155;color:#94a3b8;cursor:not-allowed;box-shadow:none}
-    .join{background:#334155;color:#cbd5e1}
+    .btn{flex:1;padding:11px 12px;border:none;border-radius:12px;font-weight:800;letter-spacing:.2px;cursor:pointer}
+    .watch{background:var(--primary);color:#fff;box-shadow:0 6px 16px rgba(37,99,235,.35)}
+    .watch.disabled{background:var(--soft);color:#94a3b8;cursor:not-allowed;box-shadow:none}
+    .join{background:var(--soft);color:#cbd5e1}
     .join.ready{background:var(--ok);color:#0b1321;box-shadow:0 6px 16px rgba(34,197,94,.35)}
+    .like{
+      position:absolute;top:12px;right:12px;background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.15);backdrop-filter: blur(2px);
+      width:40px;height:40px;border-radius:12px;display:grid;place-items:center;cursor:pointer
+    }
+    .like svg{width:22px;height:22px;fill:none;stroke:#e5e7eb;stroke-width:2}
+    .like.active{background:rgba(244,63,94,.2);border-color:rgba(244,63,94,.35)}
+    .like.active svg{fill:var(--like);stroke:var(--like)}
+
+    /* views */
+    .view{display:none}
+    .view.active{display:block}
 
     /* modal */
     .modal{position:fixed;inset:0;background:rgba(2,6,23,.7);backdrop-filter:blur(2px);
@@ -78,60 +70,63 @@
     .close{border:none;background:transparent;font-size:18px;color:#cbd5e1;cursor:pointer}
     .hint{font-size:12px;color:var(--muted);margin-top:6px}
 
-    /* footer */
-    .footer{
-      width:100%;
-      border-top:1px solid rgba(255,255,255,.08);
-      background:rgba(15,23,42,.4);
+    /* bottom nav */
+    .bottom{
+      position:fixed;left:0;right:0;bottom:0;z-index:999;
+      display:flex;justify-content:space-around;gap:12px;padding:10px 12px 14px;
+      background:rgba(10,18,32,.75);backdrop-filter:blur(6px);border-top:1px solid rgba(255,255,255,.08)
     }
-    .footer-inner{
-      max-width:960px;margin:0 auto;padding:14px 16px;
-      display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;
-      color:#cbd5e1;font-size:13px;
+    .tab{
+      flex:1;max-width:25%;display:flex;flex-direction:column;align-items:center;gap:6px;
+      padding:10px 0;border-radius:16px;color:#cbd5e1;text-decoration:none;cursor:pointer
     }
-    .footer a{
-      color:#93c5fd;text-decoration:none;font-weight:800;
-    }
-    .footer a:hover{ text-decoration:underline }
+    .tab svg{width:22px;height:22px;stroke:#cbd5e1;fill:none;stroke-width:2}
+    .tab.active{color:#7dd3fc}
+    .tab.active svg{stroke:#7dd3fc}
+    .tablabel{font-weight:800}
+    /* footer (page bottom info) */
+    .footer{width:100%;border-top:1px solid rgba(255,255,255,.08);background:rgba(15,23,42,.4)}
+    .footer-inner{max-width:960px;margin:0 auto;padding:14px 16px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;color:#cbd5e1;font-size:13px}
+    .footer a{color:#93c5fd;text-decoration:none;font-weight:800}
+    .footer a:hover{text-decoration:underline}
   </style>
 </head>
 <body>
   <div class="wrap">
     <h2>Telegram Mini App — Ads Unlock <span class="badge">PRO</span></h2>
 
-    <!-- Card 1 -->
-    <div class="card" data-id="p1">
-      <img class="thumb" src="https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_193741_659.jpg" alt="Jannat Toha">
-      <div class="title">Jannat Toha Vairal Video 🥵</div>
-      <p class="desc">জান্নাত তোহার ভাইরাল ভিডিও লিংক 😍</p>
-      <div class="progress"><div class="bar" id="p1_bar"></div></div>
-      <div class="row">
-        <button class="btn watch" id="p1_watch">Watch Ads (0/10)</button>
-        <button class="btn join" id="p1_join" disabled>Join Channel</button>
+    <!-- HOME -->
+    <div id="view-home" class="view active"></div>
+
+    <!-- LIKED -->
+    <div id="view-liked" class="view">
+      <div id="liked-container"></div>
+      <p style="color:var(--muted);margin-top:8px">আপনি যে পোস্টগুলো ❤️ করেছেন, সেগুলো এখানে থাকবে।</p>
+    </div>
+
+    <!-- TUTORIAL -->
+    <div id="view-tutorial" class="view">
+      <div class="card">
+        <div class="title">How to Unlock & Earn</div>
+        <ol class="desc" style="margin-left:18px">
+          <li>যেকোনো পোস্টে <b>Watch Ads</b> চাপুন।</li>
+          <li>Ad চলাকালীন অ্যাপ ফোকাসে রাখুন; <b>২০ সেকেন্ড</b> শেষে অটো ১ কয়েন যোগ হবে।</li>
+          <li>১০/১০ হলে <b>Join Channel</b> সবুজ হবে — তাতেই কনটেন্ট আনলক।</li>
+          <li>রিয়্যাল অ্যাড হলে আর্নিং Axidum ড্যাশবোর্ডে যোগ হয়।</li>
+        </ol>
+        <p class="desc">সমস্যা? <a href="https://t.me/VairalVideoInTelegram" data-tglink style="color:#93c5fd;text-decoration:none;font-weight:800">Community</a> তে জানাও।</p>
       </div>
     </div>
 
-    <!-- Card 2 -->
-    <div class="card" data-id="p2">
-      <img class="thumb" src="https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_194758_066.jpg" alt="Ridhii">
-      <div class="title">Ridhii TikTok 💗</div>
-      <p class="desc">রিধী মনি ভাইরাল ভিডিও লিংক 🥵</p>
-      <div class="progress"><div class="bar" id="p2_bar"></div></div>
-      <div class="row">
-        <button class="btn watch" id="p2_watch">Watch Ads (0/10)</button>
-        <button class="btn join" id="p2_join" disabled>Join Channel</button>
-      </div>
-    </div>
-
-    <!-- Card 3 -->
-    <div class="card" data-id="p3">
-      <img class="thumb" src="https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251016_155725_290.jpg" alt="Era Moni">
-      <div class="title">Era Moni TikTok 💗</div>
-      <p class="desc">ইরা মনি ভাইরাল ভিডিও লিংক 😍💦</p>
-      <div class="progress"><div class="bar" id="p3_bar"></div></div>
-      <div class="row">
-        <button class="btn watch" id="p3_watch">Watch Ads (0/10)</button>
-        <button class="btn join" id="p3_join" disabled>Join Channel</button>
+    <!-- LINKS -->
+    <div id="view-links" class="view">
+      <div class="card">
+        <div class="title">Quick Links</div>
+        <ul class="desc" style="margin-left:18px">
+          <li>App Community: <a href="https://t.me/VairalVideoInTelegram" data-tglink style="color:#93c5fd;text-decoration:none;font-weight:800">t.me/VairalVideoInTelegram</a></li>
+          <li>Made by: <a href="https://t.me/ToxicNexo" data-tglink style="color:#93c5fd;text-decoration:none;font-weight:800">t.me/ToxicNexo</a></li>
+          <li>Mini App Bot: <a href="https://t.me/VairalVideoLinkxnx_BOT" data-tglink style="color:#93c5fd;text-decoration:none;font-weight:800">@VairalVideoLinkxnx_BOT</a></li>
+        </ul>
       </div>
     </div>
   </div>
@@ -158,53 +153,149 @@
     </div>
   </footer>
 
+  <!-- Bottom Navigation -->
+  <nav class="bottom">
+    <a class="tab active" data-tab="home">
+      <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9z"/></svg>
+      <span class="tablabel">Home</span>
+    </a>
+    <a class="tab" data-tab="liked">
+      <svg viewBox="0 0 24 24"><path d="M12 21s-6-3.33-9-7.5C1 10 2.5 6.5 6 6.5c2 0 3.5 1.5 4 2s2-2 4-2c3.5 0 5 3.5 3 7.5C18 17.67 12 21 12 21z"/></svg>
+      <span class="tablabel">Liked</span>
+    </a>
+    <a class="tab" data-tab="tutorial">
+      <svg viewBox="0 0 24 24"><path d="M4 5h12a3 3 0 0 1 3 3v11H7a3 3 0 0 1-3-3V5z"/><path d="M7 5v11a3 3 0 0 0 3 3h9"/></svg>
+      <span class="tablabel">Tutorial</span>
+    </a>
+    <a class="tab" data-tab="links">
+      <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 20"/></svg>
+      <span class="tablabel">Links</span>
+    </a>
+  </nav>
+
 <script>
   // ===== CONFIG =====
-  const WID = "feE5b0a3-a507-4b7e-b855-d09f29f46e71"; // তোমার wid
+  const WID = "feE5b0a3-a507-4b7e-b855-d09f29f46e71"; // Axidum wid
   const JOIN_URL = "https://t.me/+JQdsBNK6nE1kNTg1";
   const REQUIRED = 10;
 
-  const storeKey = (id) => `coins_${id}`;
-  const pct = (v) => Math.min(100, Math.round((v/REQUIRED)*100));
+  // Posts data (id অনন্য হতে হবে)
+  const POSTS = [
+    {
+      id:"p1",
+      title:"Jannat Toha Vairal Video 🥵",
+      desc:"জান্নাত তোহার ভাইরাল ভিডিও লিংক 😍",
+      img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_193741_659.jpg",
+      join:JOIN_URL
+    },
+    {
+      id:"p2",
+      title:"Ridhii TikTok 💗",
+      desc:"রিধী মনি ভাইরাল ভিডিও লিংক 🥵",
+      img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_194758_066.jpg",
+      join:JOIN_URL
+    },
+    {
+      id:"p3",
+      title:"Era Moni TikTok 💗",
+      desc:"ইরা মনি ভাইরাল ভিডিও লিংক 😍💦",
+      img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251016_155725_290.jpg",
+      join:JOIN_URL
+    }
+  ];
 
-  // Telegram link helper (in-web vs TG webapp)
-  document.querySelectorAll('[data-tglink]').forEach(a=>{
+  // Helpers
+  const qs  = (s,p=document)=>p.querySelector(s);
+  const qsa = (s,p=document)=>[...p.querySelectorAll(s)];
+  const storeKey = (id)=>`coins_${id}`;
+  const likeKey  = (id)=>`liked_${id}`;
+  const pct = (v)=>Math.min(100, Math.round((v/REQUIRED)*100));
+
+  // Telegram link open helper
+  qsa('[data-tglink]').forEach(a=>{
     a.addEventListener('click', (e)=>{
       const href = a.getAttribute('href');
       if (window.Telegram?.WebApp?.openTelegramLink){
-        e.preventDefault();
-        Telegram.WebApp.openTelegramLink(href);
+        e.preventDefault(); Telegram.WebApp.openTelegramLink(href);
       }
     });
   });
 
-  // init UI
-  ["p1","p2","p3"].forEach(id=>{
-    const coins = Number(localStorage.getItem(storeKey(id))||"0");
-    document.getElementById(`${id}_bar`).style.width = pct(coins) + "%";
-    const w = document.getElementById(`${id}_watch`);
-    const j = document.getElementById(`${id}_join`);
-    w.textContent = `Watch Ads (${Math.min(coins,REQUIRED)}/${REQUIRED})`;
-    if(coins>=REQUIRED){ w.classList.add("disabled"); w.disabled=true; j.classList.add("ready"); j.disabled=false; }
-  });
+  // Render a single card
+  function renderCard(post){
+    const coins = Number(localStorage.getItem(storeKey(post.id))||"0");
+    const liked = localStorage.getItem(likeKey(post.id)) === "1";
 
-  // clicks
-  ["p1","p2","p3"].forEach(id=>{
-    document.getElementById(`${id}_watch`).onclick = ()=> openAd(id);
-    document.getElementById(`${id}_join`).onclick = ()=>{
-      const c = Number(localStorage.getItem(storeKey(id))||"0");
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.setAttribute('data-id', post.id);
+    card.innerHTML = `
+      <button class="like ${liked?'active':''}" data-like="${post.id}" aria-label="like">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-6-3.33-9-7.5C1 10 2.5 6.5 6 6.5c2 0 3.5 1.5 4 2s2-2 4-2c3.5 0 5 3.5 3 7.5C18 17.67 12 21 12 21z"/></svg>
+      </button>
+      <img class="thumb" src="${post.img}" alt="">
+      <div class="title">${post.title}</div>
+      <p class="desc">${post.desc}</p>
+      <div class="progress"><div class="bar" id="${post.id}_bar" style="width:${pct(coins)}%"></div></div>
+      <div class="row">
+        <button class="btn watch ${coins>=REQUIRED?'disabled':''}" id="${post.id}_watch" ${coins>=REQUIRED?'disabled':''}>
+          Watch Ads (${Math.min(coins,REQUIRED)}/${REQUIRED})
+        </button>
+        <button class="btn join ${coins>=REQUIRED?'ready':''}" id="${post.id}_join" ${coins>=REQUIRED?'':'disabled'}>
+          Join Channel
+        </button>
+      </div>
+    `;
+    // handlers
+    card.querySelector(`#${post.id}_watch`).onclick = ()=> openAd(post.id);
+    card.querySelector(`#${post.id}_join`).onclick = ()=>{
+      const c = Number(localStorage.getItem(storeKey(post.id))||"0");
       if(c>=REQUIRED){
-        if(window.Telegram?.WebApp?.openTelegramLink)
-          Telegram.WebApp.openTelegramLink(JOIN_URL);
-        else window.open(JOIN_URL,"_blank");
+        if(window.Telegram?.WebApp?.openTelegramLink) Telegram.WebApp.openTelegramLink(post.join);
+        else window.open(post.join,'_blank');
       }
+    };
+    card.querySelector('[data-like]').onclick = (e)=>{
+      const active = card.querySelector('.like').classList.toggle('active');
+      localStorage.setItem(likeKey(post.id), active?'1':'0');
+      refreshLiked();
+    };
+    return card;
+  }
+
+  // Render views
+  function renderHome(){
+    const box = qs('#view-home');
+    box.innerHTML = '';
+    POSTS.forEach(p => box.appendChild(renderCard(p)));
+  }
+  function refreshLiked(){
+    const likedBox = qs('#liked-container');
+    likedBox.innerHTML = '';
+    POSTS.filter(p=>localStorage.getItem(likeKey(p.id))==='1')
+         .forEach(p=>likedBox.appendChild(renderCard(p)));
+    if(likedBox.innerHTML===''){
+      likedBox.innerHTML = '<div class="card"><div class="desc">এখনো কিছু ❤️ করা হয়নি। Home থেকে হার্ট চাপুন।</div></div>';
+    }
+  }
+
+  // Bottom nav switch
+  qsa('.tab').forEach(t=>{
+    t.onclick = ()=>{
+      qsa('.tab').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      const name = t.getAttribute('data-tab');
+      qsa('.view').forEach(v=>v.classList.remove('active'));
+      qs('#view-'+name).classList.add('active');
+      if(name==='liked') refreshLiked();
+      if(name==='home')  renderHome();
     };
   });
 
   // ===== Interstitial with auto-reward =====
-  const modal = document.getElementById("adModal");
-  const closeModal = document.getElementById("closeModal");
-  const leftEl   = document.getElementById("left");
+  const modal = qs('#adModal');
+  const closeModal = qs('#closeModal');
+  const leftEl   = qs('#left');
   let timer=null,left=20,focused=true,activeCard=null,rewarded=false;
 
   function openAd(cardId){
@@ -213,7 +304,6 @@
     leftEl.textContent = left;
     modal.style.display = "flex";
 
-    // trigger Axidum interstitial
     try{
       if(window.AdexiumWidget){
         const ax = new AdexiumWidget({ wid: WID, adFormat: "interstitial" });
@@ -222,26 +312,25 @@
     }catch(e){ console.log("Adexium error", e); }
 
     const onF=()=>focused=true, onB=()=>focused=false;
-    window.addEventListener("focus",onF); window.addEventListener("blur",onB);
+    window.addEventListener('focus',onF); window.addEventListener('blur',onB);
 
     timer = setInterval(()=>{
       if(focused && left>0){
         left--; leftEl.textContent = left;
         if(left<=0 && !rewarded){
           rewarded = true;
-          addCoin(cardId);      // time up ⇒ auto coin
-          cleanup();
+          addCoin(cardId); cleanup();
         }
       }
     },1000);
 
     function cleanup(){
       clearInterval(timer); timer=null;
-      window.removeEventListener("focus",onF);
-      window.removeEventListener("blur",onB);
-      modal.style.display = "none";
+      window.removeEventListener('focus',onF);
+      window.removeEventListener('blur',onB);
+      modal.style.display = 'none';
     }
-    closeModal.onclick = cleanup; // আগেই বন্ধ করলে রিওয়ার্ড হবে না
+    closeModal.onclick = cleanup; // আগে বন্ধ করলে রিওয়ার্ড হবে না
   }
 
   function addCoin(cardId){
@@ -250,13 +339,15 @@
     const next = Math.min(REQUIRED, cur+1);
     localStorage.setItem(key, next);
 
-    // update UI
-    document.getElementById(`${cardId}_bar`).style.width = pct(next)+"%";
-    const w = document.getElementById(`${cardId}_watch`);
-    const j = document.getElementById(`${cardId}_join`);
-    w.textContent = `Watch Ads (${next}/${REQUIRED})`;
-    if(next>=REQUIRED){ w.classList.add("disabled"); w.disabled=true; j.classList.add("ready"); j.disabled=false; }
+    // update UI in both views
+    const bar = qs(`#${cardId}_bar`); if(bar) bar.style.width = pct(next)+'%';
+    const w = qs(`#${cardId}_watch`); const j = qs(`#${cardId}_join`);
+    if(w){ w.textContent = `Watch Ads (${next}/${REQUIRED})`; if(next>=REQUIRED){ w.classList.add('disabled'); w.disabled=true; } }
+    if(j && next>=REQUIRED){ j.classList.add('ready'); j.disabled=false; }
   }
+
+  // Initial render
+  renderHome();
 </script>
 </body>
-  </html>
+      </html>
