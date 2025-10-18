@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Unlimited Vairal Video – Ads Unlock 🔓</title>
 
-<!-- Telegram SDK -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<!-- Axidum / Adexium SDK -->
 <script src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
 
 <style>
@@ -51,6 +49,11 @@
   .desc{color:var(--muted);margin:0 0 12px}
   .progress{height:8px;background:#0c1322;border:1px solid #1f2a44;border-radius:999px;overflow:hidden;margin-bottom:12px}
   .bar{height:100%;width:0;background:linear-gradient(90deg,var(--glow2),#a3e635);transition:width .3s}
+  .bar.pulse{animation:pulse 0.9s ease-out 1}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}
+    100%{box-shadow:0 0 0 12px rgba(34,197,94,0)}
+  }
   .row{display:flex;gap:10px}
   .btn{flex:1;padding:12px;border:none;border-radius:12px;font-weight:900;letter-spacing:.2px;cursor:pointer}
   .watch{background:linear-gradient(180deg,var(--primary),var(--primary-d));color:#012031;box-shadow:0 6px 18px rgba(14,165,233,.35)}
@@ -109,6 +112,23 @@
   .tgicon svg{width:20px;height:20px;stroke:#93c5fd}
   .openbtn{padding:10px 16px;border:none;border-radius:12px;font-weight:900;color:#001b30;
     background:linear-gradient(180deg,#7dd3fc,#60a5fa);box-shadow:0 6px 18px rgba(96,165,250,.35);cursor:pointer}
+
+  /* Invite Friend block (Links) */
+  .invite{margin-top:10px;background:linear-gradient(180deg,#0f182c,#0b1324);
+    border:1px solid var(--card-bd);border-radius:18px;padding:14px 16px}
+  .invite h4{margin:0 0 10px;font-size:18px}
+  .inv-row{display:flex;gap:10px}
+  .inv-row input{flex:1;background:#0b1220;border:1px solid #223054;color:#cfe0ff;
+    border-radius:12px;padding:10px 12px;font-weight:800}
+  .copybtn{white-space:nowrap;padding:10px 14px;border:none;border-radius:12px;font-weight:900;color:#001b30;
+    background:linear-gradient(180deg,#7dd3fc,#60a5fa);box-shadow:0 6px 18px rgba(96,165,250,.35);cursor:pointer}
+
+  /* Toast */
+  .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:95px;z-index:1000;
+    background:rgba(5,150,105,.95);color:#062012;border:1px solid rgba(34,197,94,.6);
+    padding:10px 14px;border-radius:10px;font-weight:900;display:none}
+  .toast.show{display:block;animation:fade 2s ease-out 1}
+  @keyframes fade{0%{opacity:0;transform:translate(-50%,10px)}10%{opacity:1;transform:translate(-50%,0)}80%{opacity:1}100%{opacity:0}}
 </style>
 </head>
 <body>
@@ -182,7 +202,17 @@
         <button class="openbtn" data-go="http://t.me/VairalVideoInTelegramBOT">Open</button>
       </div>
 
-      <div class="footnote">Community: <a href="https://t.me/VairalVideoInTelegram" data-tglink>t.me/VairalVideoInTelegram</a></div>
+      <!-- Invite Friend (the empty space you marked) -->
+      <div class="invite">
+        <h4>Invite friend</h4>
+        <div class="inv-row">
+          <input id="inviteLink" type="text" value="https://parvezparttoy.github.io/miniapp/" readonly>
+          <button class="copybtn" data-copy="#inviteLink">Copy</button>
+        </div>
+        <div class="desc" style="margin-top:6px">উপরে থাকা লিংক কপি করে বন্ধুদের পাঠাও।</div>
+      </div>
+
+      <div class="footnote" style="margin-top:14px">Community: <a href="https://t.me/VairalVideoInTelegram" data-tglink>t.me/VairalVideoInTelegram</a></div>
     </div>
   </div>
 
@@ -200,6 +230,9 @@
     </div>
   </div>
 
+  <!-- Toast -->
+  <div id="toast" class="toast">+1 coin added!</div>
+
   <!-- Bottom dock -->
   <div class="dock">
     <div class="nav">
@@ -208,7 +241,7 @@
         <span class="tablabel">Home</span>
       </a>
       <a class="tab" data-tab="liked">
-        <svg viewBox="0 0 24 24"><path d="M12.1 21.35 10 19.28C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.59 4.81 14.26 4 16 4 18.5 4 20.5 6 20.5 8.5c0 3.78-3.4 6.86-8 10.78l-2.4 2.07z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12.1 21.35 10 19.28C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4 8.24 4 9.91 4.81 11 6.09 12.59 4.81 14.26 4 16 4 18.5 4 20.5 6 20.5 8.5c0 3.78-3.4 6.86-8 10.78l-2.4 2.07z"/></svg>
         <span class="tablabel">Liked</span>
       </a>
       <a class="tab" data-tab="tutorial">
@@ -223,12 +256,10 @@
   </div>
 
 <script>
-  // ===== CONFIG =====
   const WID = "feE5b0a3-a507-4b7e-b855-d09f29f46e71";
   const JOIN_URL = "https://t.me/+JQdsBNK6nE1kNTg1";
   const REQUIRED = 10;
 
-  // Posts with names & keywords
   let POSTS = [
     { id:"p1",
       title:"Jannat Toha Vairal Video 🥵",
@@ -256,7 +287,6 @@
     }
   ];
 
-  // Helpers
   const qs  = (s,p=document)=>p.querySelector(s);
   const qsa = (s,p=document)=>[...p.querySelectorAll(s)];
   const storeKey = (id)=>`coins_${id}`;
@@ -264,7 +294,6 @@
   const doneKey  = (id)=>`done_${id}`;
   const pct = (v)=>Math.min(100, Math.round((v/REQUIRED)*100));
 
-  // Telegram link opener + normal buttons in Links view
   function hookLinks(){
     document.querySelectorAll('[data-tglink], .openbtn').forEach(el=>{
       el.onclick = (e)=>{
@@ -275,13 +304,21 @@
         }
       };
     });
+    // Copy buttons
+    document.querySelectorAll('[data-copy]').forEach(btn=>{
+      btn.onclick = ()=>{
+        const sel = btn.getAttribute('data-copy');
+        const input = document.querySelector(sel);
+        if(!input) return;
+        input.select(); input.setSelectionRange(0,9999);
+        navigator.clipboard?.writeText(input.value).then(()=> toast("Link copied ✅"));
+      };
+    });
   }
   hookLinks();
 
-  // Build search index
   const searchIndex = (p)=> (p.title + " " + p.desc + " " + (p.keywords||"") + " " + (p.names||[]).join(" ")).toLowerCase();
 
-  // Render one card
   function renderCard(post){
     const coins = Number(localStorage.getItem(storeKey(post.id))||"0");
     const liked = localStorage.getItem(likeKey(post.id)) === "1";
@@ -325,7 +362,6 @@
     return card;
   }
 
-  // Render Home (filter + completed at bottom)
   function renderHome(filterText=''){
     const box = qs('#view-home'); box.innerHTML = '';
     const tokens = (filterText||'').trim().toLowerCase().split(/\s+/).filter(Boolean);
@@ -352,10 +388,8 @@
     hookLinks();
   }
 
-  // Search typing (Home only)
   qs('#searchInput').addEventListener('input', (e)=> renderHome(e.target.value));
 
-  // Bottom nav switch + show/hide search & notes
   qsa('.tab').forEach(t=>{
     t.onclick = ()=>{
       qsa('.tab').forEach(x=>x.classList.remove('active'));
@@ -373,11 +407,19 @@
     };
   });
 
-  // ===== Interstitial with auto-reward =====
+  // ===== Interstitial with auto-reward + toast =====
   const modal = qs('#adModal');
   const closeModal = qs('#closeModal');
   const leftEl   = qs('#left');
+  const toastEl  = qs('#toast');
   let timer=null,left=20,focused=true,activeCard=null,rewarded=false;
+
+  function toast(msg){
+    toastEl.textContent = msg || "+1 coin added!";
+    toastEl.classList.remove('show'); void toastEl.offsetWidth;
+    toastEl.classList.add('show');
+    setTimeout(()=>toastEl.classList.remove('show'), 1800);
+  }
 
   function openAd(cardId){
     activeCard = cardId;
@@ -411,30 +453,10 @@
       window.removeEventListener('blur',onB);
       modal.style.display = 'none';
     }
-    closeModal.onclick = cleanup; // আগেই বন্ধ করলে রিওয়ার্ড হবে না
+    closeModal.onclick = cleanup; // আগে বন্ধ করলে রিওয়ার্ড হবে না
   }
 
   function addCoin(cardId){
     const key = storeKey(cardId);
     const cur = Number(localStorage.getItem(key)||"0");
-    const next = Math.min(REQUIRED, cur+1);
-    localStorage.setItem(key, next);
-
-    // Update visible
-    const bar = qs(`#${cardId}_bar`); if(bar) bar.style.width = pct(next)+'%';
-    const w = qs(`#${cardId}_watch`); const j = qs(`#${cardId}_join`);
-    if(w){ w.textContent = `Watch Ads (${next}/${REQUIRED})`; if(next>=REQUIRED){ w.classList.add('disabled'); w.disabled=true; } }
-    if(j && next>=REQUIRED){ j.classList.add('ready'); j.disabled=false; }
-
-    // completed => mark & push to very bottom
-    if(next>=REQUIRED){
-      localStorage.setItem(doneKey(cardId),'1');
-      renderHome(qs('#searchInput').value);
-    }
-  }
-
-  // initial render
-  renderHome();
-</script>
-</body>
-  </html>
+    const next = Math.min(REQUIRED
