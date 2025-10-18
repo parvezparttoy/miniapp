@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Telegram Mini App — Ads Unlock (Per-Card)</title>
+  <title>Telegram Mini App — Ads Unlock (Final)</title>
 
   <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -52,7 +52,7 @@
 
     <div id="cards" class="grid"></div>
 
-    <div class="foot">Adexium integrated • Coins are per-card</div>
+    <div class="foot">Axidum Connected • 1 Ad = 1 Coin • 10 Coin = Unlock 🔓</div>
   </div>
 
   <!-- Interstitial Modal -->
@@ -63,7 +63,6 @@
         <button class="close" id="closeModal">✕</button>
       </div>
       <div class="sheetbd">
-        <!-- Adexium interstitial auto-overlays; container kept for inline formats -->
         <div id="ax-reward-container" style="display:none"></div>
         <button id="claimBtn" class="btn act" disabled>Close & Claim (+1 coin)</button>
         <div class="hint">Ad চলার সময় অ্যাপ ফোকাসে রাখুন • শেষ হতে বাকি: <b id="left">20</b>s</div>
@@ -72,185 +71,128 @@
   </div>
 
 <script>
-  // ========= CONFIG =========
   const REQUIRED_COINS = 10;
   const JOIN_URL = "https://t.me/+JQdsBNK6nE1kNTg1";
   const ADEXIUM_WID = "a44bfe22-11d8-4be8-8E23-ec913119bcca";
-  const API_BASE = ""; // optional server, keep "" for local-only
+  const tg = window.Telegram?.WebApp || null;
+  try { tg?.expand?.(); tg?.ready?.(); tg?.MainButton?.hide?.(); } catch(e){}
+  const userId = tg?.initDataUnsafe?.user?.id ? String(tg.initDataUnsafe.user.id) : "anon";
 
-  // Posts data (তোমার আগের ৩টা)
+  // পোস্ট ডাটা (তোমার ছবি সহ)
   const POSTS = [
     {
       id: "card1",
-      photoPage: "https://t.me/all_api_bot/30",
+      photoSrc: "https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_193741_659.jpg",
       title: "Jannat Toha Vairal Video 🥵",
       desc: "জান্নাত তোহার ভাইরাল ভিডিও লিংক 😍",
       badge: "Today Top • 🔥"
     },
     {
       id: "card2",
-      photoPage: "https://t.me/all_api_bot/33",
+      photoSrc: "https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_194758_066.jpg",
       title: "Ridhii TikTok 💗",
       desc: "রিধী মনি ভাইরাল ভিডিও লিংক 🥵",
       badge: "Recent"
     },
     {
       id: "card3",
-      photoPage: "https://t.me/all_api_bot/34",
+      photoSrc: "https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251016_155725_290.jpg",
       title: "Era Moni TikTok 💗",
       desc: "ইরা মনি ভাইয়ের ভিডিও লিংক 😍💦",
       badge: "Recent"
     }
   ];
 
-  // ========= TELEGRAM =========
-  const tg = window.Telegram?.WebApp || null;
-  try { tg?.expand?.(); tg?.ready?.(); tg?.MainButton?.hide?.(); } catch(e){}
-  const userId = tg?.initDataUnsafe?.user?.id ? String(tg.initDataUnsafe.user.id) : "anon";
-
-  // ========= IMAGE RESOLVER (loads og:image via CORS-safe proxy) =========
-  async function resolveOgImage(url){
-    try{
-      const proxyUrl = "https://r.jina.ai/http://" + url.replace(/^https?:\/\//,'');
-      const html = await fetch(proxyUrl).then(r=>r.text());
-      const m = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i);
-      if(m && m[1]) return m[1];
-    }catch(e){}
-    return ""; // fallback: blank (gray box)
-  }
-
-  // ========= RENDER CARDS =========
   const elCards = document.getElementById("cards");
-  function pct(v){ return Math.min(100, Math.round((v / REQUIRED_COINS) * 100)); }
+  const storeKey = (id) => `tma_coin_${userId}_${id}`;
+  const pct = (v) => Math.min(100, Math.round((v / REQUIRED_COINS) * 100));
 
-  function getStoreKey(cardId){ return `tma_coins_${userId}_${cardId}`; }
+  POSTS.forEach((p) => renderCard(p));
 
-  function renderCard(post){
-    const coins = Number(localStorage.getItem(getStoreKey(post.id) ) || "0");
+  function renderCard(p){
+    const coins = Number(localStorage.getItem(storeKey(p.id)) || "0");
     const unlocked = coins >= REQUIRED_COINS;
 
     const div = document.createElement("div");
     div.className = "card";
     div.innerHTML = `
-      <div class="media">
-        <img id="${post.id}_img" alt="${post.title}">
-        <span class="pill">${post.badge}</span>
-      </div>
-      <div class="h">${post.title}</div>
-      <div class="desc">${post.desc}</div>
-      <div class="progress"><div class="bar" id="${post.id}_bar" style="width:${pct(coins)}%"></div></div>
+      <div class="media"><img src="${p.photoSrc}" alt="${p.title}"><span class="pill">${p.badge}</span></div>
+      <div class="h">${p.title}</div>
+      <div class="desc">${p.desc}</div>
+      <div class="progress"><div class="bar" id="${p.id}_bar" style="width:${pct(coins)}%"></div></div>
       <div class="row">
-        <button id="${post.id}_watch" class="btn watch ${unlocked?'disabled':''}" ${unlocked?'disabled':''}>
-          Watch Ads (${Math.min(coins,REQUIRED_COINS)}/${REQUIRED_COINS})
+        <button id="${p.id}_watch" class="btn watch ${unlocked?'disabled':''}" ${unlocked?'disabled':''}>
+          Watch Ads (${coins}/${REQUIRED_COINS})
         </button>
-        <button id="${post.id}_join" class="btn join ${unlocked?'ready':''}" ${unlocked?'':'disabled'}>
+        <button id="${p.id}_join" class="btn join ${unlocked?'ready':''}" ${unlocked?'':'disabled'}>
           Join Channel
         </button>
       </div>
     `;
     elCards.appendChild(div);
 
-    // load image via og:image
-    resolveOgImage(post.photoPage).then(src=>{
-      const img = document.getElementById(`${post.id}_img`);
-      if(src){ img.src = src; } else { img.style.display = "none"; }
-    });
+    const bar = div.querySelector(`#${p.id}_bar`);
+    const watch = div.querySelector(`#${p.id}_watch`);
+    const join = div.querySelector(`#${p.id}_join`);
 
-    // handlers
-    const bar = document.getElementById(`${post.id}_bar`);
-    const watchBtn = document.getElementById(`${post.id}_watch`);
-    const joinBtn  = document.getElementById(`${post.id}_join`);
-
-    watchBtn.onclick = () => openInterstitial(post.id, bar, watchBtn, joinBtn);
-    joinBtn.onclick = () => {
-      const cur = Number(localStorage.getItem(getStoreKey(post.id)) || "0");
-      if (cur < REQUIRED_COINS) return;
-      if (tg?.openTelegramLink) tg.openTelegramLink(JOIN_URL);
-      else window.open(JOIN_URL, "_blank");
+    watch.onclick = ()=> openAd(p.id, bar, watch, join);
+    join.onclick = ()=> {
+      const c = Number(localStorage.getItem(storeKey(p.id)) || "0");
+      if(c >= REQUIRED_COINS){
+        if(tg?.openTelegramLink) tg.openTelegramLink(JOIN_URL);
+        else window.open(JOIN_URL, "_blank");
+      }
     };
   }
 
-  POSTS.forEach(renderCard);
-
-  // ========= INTERSTITIAL / REWARD (per-card) =========
-  const modal  = document.getElementById("adModal");
+  // ==== Modal & Reward Logic ====
+  const modal = document.getElementById("adModal");
   const closeModal = document.getElementById("closeModal");
   const claimBtn = document.getElementById("claimBtn");
   const leftEl = document.getElementById("left");
 
-  let timer = null, left = 20, focused = true;
-  let active = { cardId: null, bar:null, watchBtn:null, joinBtn:null };
-
-  function updateUI(cardId, barEl, watchEl, joinEl){
-    const coins = Number(localStorage.getItem(getStoreKey(cardId)) || "0");
-    barEl.style.width = pct(coins) + "%";
-    watchEl.textContent = `Watch Ads (${Math.min(coins,REQUIRED_COINS)}/${REQUIRED_COINS})`;
-    const unlocked = coins >= REQUIRED_COINS;
-    watchEl.classList.toggle("disabled", unlocked);
-    watchEl.disabled = unlocked;
-    joinEl.classList.toggle("ready", unlocked);
-    joinEl.disabled = !unlocked;
+  let timer=null,left=20,focused=true,active=null;
+  function updateUI(card,bar,watch,join){
+    const coins = Number(localStorage.getItem(storeKey(card))||"0");
+    bar.style.width=pct(coins)+"%";
+    watch.textContent=`Watch Ads (${coins}/${REQUIRED_COINS})`;
+    const unlocked = coins>=REQUIRED_COINS;
+    watch.classList.toggle("disabled",unlocked);
+    watch.disabled=unlocked;
+    join.classList.toggle("ready",unlocked);
+    join.disabled=!unlocked;
   }
-
-  async function rewardServerFallback(cardId){
-    // server optional; local fallback always works
-    if (!API_BASE) {
-      const key = getStoreKey(cardId);
-      const cur = Number(localStorage.getItem(key) || "0");
-      const next = Math.min(REQUIRED_COINS, cur + 1);
-      localStorage.setItem(key, next);
-      updateUI(cardId, active.bar, active.watchBtn, active.joinBtn);
-      return;
-    }
-    try{
-      const r = await fetch(API_BASE + "/api/reward", {
-        method:"POST", headers:{ "Content-Type":"application/json" },
-        body: JSON.stringify({ initData: tg?.initData })
-      });
-      await r.json();
-    }catch(e){}
-    const key = getStoreKey(cardId);
-    const cur = Number(localStorage.getItem(key) || "0");
-    const next = Math.min(REQUIRED_COINS, cur + 1);
-    localStorage.setItem(key, next);
-    updateUI(cardId, active.bar, active.watchBtn, active.joinBtn);
+  function reward(card,bar,watch,join){
+    const key=storeKey(card);
+    const c=Number(localStorage.getItem(key)||"0");
+    const n=Math.min(REQUIRED_COINS,c+1);
+    localStorage.setItem(key,n);
+    updateUI(card,bar,watch,join);
   }
-
-  function openInterstitial(cardId, barEl, watchEl, joinEl){
-    active = { cardId, bar:barEl, watchBtn:watchEl, joinBtn:joinEl };
-    left = 20; focused = true;
-    leftEl.textContent = left;
-    claimBtn.disabled = true;
-    modal.style.display = "flex";
-
-    const onFocus = () => focused = true;
-    const onBlur  = () => focused = false;
-    window.addEventListener("focus", onFocus);
-    window.addEventListener("blur", onBlur);
-
+  function openAd(card,bar,watch,join){
+    active={card,bar,watch,join};
+    left=20;focused=true;
+    leftEl.textContent=left;claimBtn.disabled=true;
+    modal.style.display="flex";
+    const onF=()=>focused=true,onB=()=>focused=false;
+    window.addEventListener("focus",onF);window.addEventListener("blur",onB);
     try{
-      if (window.AdexiumWidget) {
-        const ax = new window.AdexiumWidget({ wid: ADEXIUM_WID, adFormat: "interstitial" });
+      if(window.AdexiumWidget){
+        const ax=new window.AdexiumWidget({wid:ADEXIUM_WID,adFormat:"interstitial"});
         ax.autoMode();
       }
-    }catch(e){ console.log("Adexium init error", e); }
-
-    timer = setInterval(()=>{
-      if (left > 0 && focused) {
-        left -= 1; leftEl.textContent = left;
-        if (left <= 0) { claimBtn.disabled = false; }
-      }
-    }, 1000);
-
-    const cleanup = ()=>{
-      clearInterval(timer); timer = null;
-      window.removeEventListener("focus", onFocus);
-      window.removeEventListener("blur", onBlur);
-      modal.style.display = "none";
+    }catch(e){}
+    timer=setInterval(()=>{
+      if(left>0&&focused){left--;leftEl.textContent=left;if(left<=0)claimBtn.disabled=false;}
+    },1000);
+    const end=()=>{
+      clearInterval(timer);timer=null;
+      window.removeEventListener("focus",onF);
+      window.removeEventListener("blur",onB);
+      modal.style.display="none";
     };
-
-    closeModal.onclick = cleanup;
-    claimBtn.onclick = async ()=>{ await rewardServerFallback(cardId); cleanup(); };
+    closeModal.onclick=end;
+    claimBtn.onclick=()=>{reward(card,bar,watch,join);end();};
   }
 </script>
 </body>
