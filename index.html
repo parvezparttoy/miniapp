@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Telegram Mini App — Ads Unlock</title>
+  <title>Unlimited Vairal Video – Ads Unlock 🔓</title>
 
   <!-- Telegram SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -30,12 +30,20 @@
       padding-bottom:76px; /* space for bottom nav */
     }
     .wrap{max-width:960px;margin:0 auto;padding:18px 16px;flex:1}
-    h2{margin:8px 0 18px;font-weight:800;letter-spacing:.2px;font-size:22px;display:flex;align-items:center;gap:10px}
-    .badge{font-size:11px;color:#0f172a;background:#93c5fd;border-radius:999px;padding:4px 8px;font-weight:800}
+    h2{margin:8px 0 12px;font-weight:900;letter-spacing:.2px;font-size:22px}
+    /* search */
+    .search{
+      position:sticky; top:0; z-index:10; margin:8px 0 16px;
+      background:rgba(11,18,32,.55); backdrop-filter:blur(6px);
+      border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:10px 12px; display:flex; gap:8px; align-items:center;
+    }
+    .search svg{width:18px;height:18px;stroke:#93c5fd;fill:none}
+    .search input{flex:1;background:transparent;border:none;outline:none;color:#e5e7eb;font-weight:700}
+    .search input::placeholder{color:#9aa4b2}
 
     .card{position:relative;background:linear-gradient(180deg,#0e1629,#0a1220);border:1px solid var(--card-border);
       border-radius:18px;padding:14px;margin-bottom:16px;box-shadow:0 10px 25px rgba(2,6,23,.35), inset 0 1px 0 rgba(255,255,255,.03)}
-    .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;background:#1f2937}
+    .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;background:#1f2937}
     .title{font-weight:800;margin:12px 0 6px;font-size:16px}
     .desc{color:var(--muted);margin:0 0 12px}
     .progress{height:8px;background:#101826;border:1px solid #1f2a44;border-radius:999px;overflow:hidden;margin-bottom:12px}
@@ -46,13 +54,15 @@
     .watch.disabled{background:var(--soft);color:#94a3b8;cursor:not-allowed;box-shadow:none}
     .join{background:var(--soft);color:#cbd5e1}
     .join.ready{background:var(--ok);color:#0b1321;box-shadow:0 6px 16px rgba(34,197,94,.35)}
+    /* big like button right-top */
     .like{
-      position:absolute;top:12px;right:12px;background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.15);backdrop-filter: blur(2px);
-      width:40px;height:40px;border-radius:12px;display:grid;place-items:center;cursor:pointer
+      position:absolute;top:10px;right:10px;background:rgba(255,255,255,.09);
+      border:1px solid rgba(255,255,255,.18);backdrop-filter: blur(3px);
+      width:48px;height:48px;border-radius:14px;display:grid;place-items:center;cursor:pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,.35);
     }
-    .like svg{width:22px;height:22px;fill:none;stroke:#e5e7eb;stroke-width:2}
-    .like.active{background:rgba(244,63,94,.2);border-color:rgba(244,63,94,.35)}
+    .like svg{width:26px;height:26px;fill:none;stroke:#e5e7eb;stroke-width:2}
+    .like.active{background:rgba(244,63,94,.22);border-color:rgba(244,63,94,.45)}
     .like.active svg{fill:var(--like);stroke:var(--like)}
 
     /* views */
@@ -76,24 +86,35 @@
       display:flex;justify-content:space-around;gap:12px;padding:10px 12px 14px;
       background:rgba(10,18,32,.75);backdrop-filter:blur(6px);border-top:1px solid rgba(255,255,255,.08)
     }
-    .tab{
-      flex:1;max-width:25%;display:flex;flex-direction:column;align-items:center;gap:6px;
-      padding:10px 0;border-radius:16px;color:#cbd5e1;text-decoration:none;cursor:pointer
-    }
+    .tab{flex:1;max-width:25%;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 0;border-radius:16px;color:#cbd5e1;text-decoration:none;cursor:pointer}
     .tab svg{width:22px;height:22px;stroke:#cbd5e1;fill:none;stroke-width:2}
     .tab.active{color:#7dd3fc}
     .tab.active svg{stroke:#7dd3fc}
     .tablabel{font-weight:800}
-    /* footer (page bottom info) */
+
+    /* footer */
     .footer{width:100%;border-top:1px solid rgba(255,255,255,.08);background:rgba(15,23,42,.4)}
     .footer-inner{max-width:960px;margin:0 auto;padding:14px 16px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;color:#cbd5e1;font-size:13px}
     .footer a{color:#93c5fd;text-decoration:none;font-weight:800}
     .footer a:hover{text-decoration:underline}
+
+    /* link buttons */
+    .linkbtn{
+      display:block;width:100%;text-align:center;border:1px solid var(--card-border);
+      background:#0e1629;color:#cfe0ff;padding:12px;border-radius:12px;font-weight:900;text-decoration:none;margin:8px 0;
+      box-shadow:0 8px 24px rgba(2,6,23,.35)
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <h2>Telegram Mini App — Ads Unlock <span class="badge">PRO</span></h2>
+    <h2>Unlimited Vairal Video – Ads Unlock 🔓</h2>
+
+    <!-- SEARCH -->
+    <div class="search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="searchInput" type="text" placeholder="Search posts (e.g. era, ridhii, toha)"/>
+    </div>
 
     <!-- HOME -->
     <div id="view-home" class="view active"></div>
@@ -121,13 +142,11 @@
     <!-- LINKS -->
     <div id="view-links" class="view">
       <div class="card">
-        <div class="title">Quick Links</div>
-        <ul class="desc" style="margin-left:18px">
-          <li>App Community: <a href="https://t.me/VairalVideoInTelegram" data-tglink style="color:#93c5fd;text-decoration:none;font-weight:800">t.me/VairalVideoInTelegram</a></li>
-          <li>Made by: <a href="https://t.me/ToxicNexo" data-tglink style="color:#93c5fd;text-decoration:none;font-weight:800">t.me/ToxicNexo</a></li>
-          <li>Mini App Bot: <a href="https://t.me/VairalVideoLinkxnx_BOT" data-tglink style="color:#93c5fd;text-decoration:none;font-weight:800">@VairalVideoLinkxnx_BOT</a></li>
-        </ul>
+        <div class="title">Stats</div>
+        <p class="desc">Total users (demo, this device): <b id="userCount">1</b></p>
       </div>
+      <a class="linkbtn" href="https://t.me/VairalVideoInTelegram" data-tglink>Community</a>
+      <a class="linkbtn" href="https://github.com/parvezparttoy/miniapp" target="_blank" rel="noopener">Invite Friend</a>
     </div>
   </div>
 
@@ -179,29 +198,14 @@
   const JOIN_URL = "https://t.me/+JQdsBNK6nE1kNTg1";
   const REQUIRED = 10;
 
-  // Posts data (id অনন্য হতে হবে)
-  const POSTS = [
-    {
-      id:"p1",
-      title:"Jannat Toha Vairal Video 🥵",
-      desc:"জান্নাত তোহার ভাইরাল ভিডিও লিংক 😍",
-      img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_193741_659.jpg",
-      join:JOIN_URL
-    },
-    {
-      id:"p2",
-      title:"Ridhii TikTok 💗",
-      desc:"রিধী মনি ভাইরাল ভিডিও লিংক 🥵",
-      img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_194758_066.jpg",
-      join:JOIN_URL
-    },
-    {
-      id:"p3",
-      title:"Era Moni TikTok 💗",
-      desc:"ইরা মনি ভাইরাল ভিডিও লিংক 😍💦",
-      img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251016_155725_290.jpg",
-      join:JOIN_URL
-    }
+  // Posts data
+  let POSTS = [
+    { id:"p1", title:"Jannat Toha Vairal Video 🥵", desc:"জান্নাত তোহার ভাইরাল ভিডিও লিংক 😍",
+      img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_193741_659.jpg", join:JOIN_URL },
+    { id:"p2", title:"Ridhii TikTok 💗", desc:"রিধী মনি ভাইরাল ভিডিও লিংক 🥵",
+      img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_194758_066.jpg", join:JOIN_URL },
+    { id:"p3", title:"Era Moni TikTok 💗", desc:"ইরা মনি ভাইরাল ভিডিও লিংক 😍💦",
+      img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251016_155725_290.jpg", join:JOIN_URL }
   ];
 
   // Helpers
@@ -209,15 +213,25 @@
   const qsa = (s,p=document)=>[...p.querySelectorAll(s)];
   const storeKey = (id)=>`coins_${id}`;
   const likeKey  = (id)=>`liked_${id}`;
+  const doneKey  = (id)=>`done_${id}`;
   const pct = (v)=>Math.min(100, Math.round((v/REQUIRED)*100));
+
+  // Demo user counter (local, device-scoped)
+  (function(){
+    const k='__local_user_count__';
+    let n=Number(localStorage.getItem(k)||'0');
+    if(!localStorage.getItem('__this_device_marked__')){
+      n++; localStorage.setItem(k,String(n));
+      localStorage.setItem('__this_device_marked__','1');
+    }
+    const el=qs('#userCount'); if(el) el.textContent=n;
+  })();
 
   // Telegram link open helper
   qsa('[data-tglink]').forEach(a=>{
     a.addEventListener('click', (e)=>{
       const href = a.getAttribute('href');
-      if (window.Telegram?.WebApp?.openTelegramLink){
-        e.preventDefault(); Telegram.WebApp.openTelegramLink(href);
-      }
+      if (window.Telegram?.WebApp?.openTelegramLink){ e.preventDefault(); Telegram.WebApp.openTelegramLink(href); }
     });
   });
 
@@ -225,6 +239,7 @@
   function renderCard(post){
     const coins = Number(localStorage.getItem(storeKey(post.id))||"0");
     const liked = localStorage.getItem(likeKey(post.id)) === "1";
+    const done  = localStorage.getItem(doneKey(post.id)) === "1";
 
     const card = document.createElement('div');
     card.className = 'card';
@@ -255,29 +270,49 @@
         else window.open(post.join,'_blank');
       }
     };
-    card.querySelector('[data-like]').onclick = (e)=>{
-      const active = card.querySelector('.like').classList.toggle('active');
+    card.querySelector('[data-like]').onclick = ()=>{
+      const btn = card.querySelector('.like');
+      const active = btn.classList.toggle('active');
       localStorage.setItem(likeKey(post.id), active?'1':'0');
       refreshLiked();
     };
+    // grey out if done
+    if(done){ card.style.opacity = .92; }
     return card;
   }
 
-  // Render views
-  function renderHome(){
-    const box = qs('#view-home');
-    box.innerHTML = '';
-    POSTS.forEach(p => box.appendChild(renderCard(p)));
+  // Render Home with optional filter & push completed posts to bottom
+  function renderHome(filterText=''){
+    const box = qs('#view-home'); box.innerHTML = '';
+    const text = filterText.trim().toLowerCase();
+    // split done / not-done
+    const notDone = []; const done = [];
+    POSTS.forEach(p=>{
+      const isDone = localStorage.getItem(doneKey(p.id))==='1';
+      (isDone?done:notDone).push(p);
+    });
+    const ordered = [...notDone, ...done]; // completed move to bottom
+
+    ordered
+      .filter(p => !text || p.title.toLowerCase().includes(text))
+      .forEach(p => box.appendChild(renderCard(p)));
   }
+
   function refreshLiked(){
     const likedBox = qs('#liked-container');
     likedBox.innerHTML = '';
-    POSTS.filter(p=>localStorage.getItem(likeKey(p.id))==='1')
-         .forEach(p=>likedBox.appendChild(renderCard(p)));
-    if(likedBox.innerHTML===''){
+    const likedPosts = POSTS.filter(p=>localStorage.getItem(likeKey(p.id))==='1');
+    if(!likedPosts.length){
       likedBox.innerHTML = '<div class="card"><div class="desc">এখনো কিছু ❤️ করা হয়নি। Home থেকে হার্ট চাপুন।</div></div>';
+      return;
     }
+    likedPosts.forEach(p=>likedBox.appendChild(renderCard(p)));
   }
+
+  // Search typing
+  qs('#searchInput').addEventListener('input', (e)=>{
+    renderHome(e.target.value);
+  });
 
   // Bottom nav switch
   qsa('.tab').forEach(t=>{
@@ -287,8 +322,8 @@
       const name = t.getAttribute('data-tab');
       qsa('.view').forEach(v=>v.classList.remove('active'));
       qs('#view-'+name).classList.add('active');
-      if(name==='liked') refreshLiked();
-      if(name==='home')  renderHome();
+      if(name==='liked')  refreshLiked();
+      if(name==='home')   renderHome(qs('#searchInput').value);
     };
   });
 
@@ -330,7 +365,7 @@
       window.removeEventListener('blur',onB);
       modal.style.display = 'none';
     }
-    closeModal.onclick = cleanup; // আগে বন্ধ করলে রিওয়ার্ড হবে না
+    closeModal.onclick = cleanup; // আগেই বন্ধ করলে রিওয়ার্ড হবে না
   }
 
   function addCoin(cardId){
@@ -339,15 +374,21 @@
     const next = Math.min(REQUIRED, cur+1);
     localStorage.setItem(key, next);
 
-    // update UI in both views
+    // update UI in current DOM
     const bar = qs(`#${cardId}_bar`); if(bar) bar.style.width = pct(next)+'%';
     const w = qs(`#${cardId}_watch`); const j = qs(`#${cardId}_join`);
     if(w){ w.textContent = `Watch Ads (${next}/${REQUIRED})`; if(next>=REQUIRED){ w.classList.add('disabled'); w.disabled=true; } }
     if(j && next>=REQUIRED){ j.classList.add('ready'); j.disabled=false; }
+
+    // if completed → mark done & re-render with completed at bottom
+    if(next>=REQUIRED){
+      localStorage.setItem(doneKey(cardId),'1');
+      renderHome(qs('#searchInput').value);
+    }
   }
 
   // Initial render
   renderHome();
 </script>
 </body>
-      </html>
+                                 </html>
