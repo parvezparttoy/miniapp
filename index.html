@@ -15,9 +15,7 @@
       --bg1:#0f172a; --bg2:#111827;
       --card:#0b1220; --card-border:#1f2a44;
       --text:#e5e7eb; --muted:#9aa4b2;
-      --ok:#22c55e; --accent:#60a5fa;
-      --primary:#2563eb; --soft:#334155;
-      --like:#f43f5e;
+      --ok:#22c55e; --primary:#2563eb; --soft:#334155; --like:#f43f5e;
     }
     *{box-sizing:border-box}
     body{
@@ -27,19 +25,19 @@
                   radial-gradient(1000px 500px at 100% 10%, #0b3b61 0%, transparent 55%),
                   linear-gradient(180deg, var(--bg1), var(--bg2));
       min-height:100vh; display:flex; flex-direction:column;
-      padding-bottom:76px; /* space for bottom nav */
+      padding-bottom:76px;
     }
     .wrap{max-width:960px;margin:0 auto;padding:18px 16px;flex:1}
     h2{margin:8px 0 12px;font-weight:900;letter-spacing:.2px;font-size:22px}
-    /* search */
-    .search{
-      position:sticky; top:0; z-index:10; margin:8px 0 16px;
+
+    /* search (only on Home) */
+    .search{position:sticky; top:0; z-index:10; margin:8px 0 16px;
       background:rgba(11,18,32,.55); backdrop-filter:blur(6px);
-      border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:10px 12px; display:flex; gap:8px; align-items:center;
-    }
+      border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:10px 12px; display:flex; gap:8px; align-items:center}
     .search svg{width:18px;height:18px;stroke:#93c5fd;fill:none}
     .search input{flex:1;background:transparent;border:none;outline:none;color:#e5e7eb;font-weight:700}
     .search input::placeholder{color:#9aa4b2}
+    .hide{display:none}
 
     .card{position:relative;background:linear-gradient(180deg,#0e1629,#0a1220);border:1px solid var(--card-border);
       border-radius:18px;padding:14px;margin-bottom:16px;box-shadow:0 10px 25px rgba(2,6,23,.35), inset 0 1px 0 rgba(255,255,255,.03)}
@@ -54,18 +52,18 @@
     .watch.disabled{background:var(--soft);color:#94a3b8;cursor:not-allowed;box-shadow:none}
     .join{background:var(--soft);color:#cbd5e1}
     .join.ready{background:var(--ok);color:#0b1321;box-shadow:0 6px 16px rgba(34,197,94,.35)}
-    /* big like button right-top */
+
+    /* BIG like button */
     .like{
       position:absolute;top:10px;right:10px;background:rgba(255,255,255,.09);
       border:1px solid rgba(255,255,255,.18);backdrop-filter: blur(3px);
       width:48px;height:48px;border-radius:14px;display:grid;place-items:center;cursor:pointer;
-      box-shadow: 0 6px 18px rgba(0,0,0,.35);
+      box-shadow: 0 6px 18px rgba(0,0,0,.35)
     }
     .like svg{width:26px;height:26px;fill:none;stroke:#e5e7eb;stroke-width:2}
     .like.active{background:rgba(244,63,94,.22);border-color:rgba(244,63,94,.45)}
     .like.active svg{fill:var(--like);stroke:var(--like)}
 
-    /* views */
     .view{display:none}
     .view.active{display:block}
 
@@ -81,43 +79,37 @@
     .hint{font-size:12px;color:var(--muted);margin-top:6px}
 
     /* bottom nav */
-    .bottom{
-      position:fixed;left:0;right:0;bottom:0;z-index:999;
-      display:flex;justify-content:space-around;gap:12px;padding:10px 12px 14px;
-      background:rgba(10,18,32,.75);backdrop-filter:blur(6px);border-top:1px solid rgba(255,255,255,.08)
-    }
+    .bottom{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;justify-content:space-around;gap:12px;padding:10px 12px 14px;
+      background:rgba(10,18,32,.75);backdrop-filter:blur(6px);border-top:1px solid rgba(255,255,255,.08)}
     .tab{flex:1;max-width:25%;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 0;border-radius:16px;color:#cbd5e1;text-decoration:none;cursor:pointer}
     .tab svg{width:22px;height:22px;stroke:#cbd5e1;fill:none;stroke-width:2}
     .tab.active{color:#7dd3fc}
     .tab.active svg{stroke:#7dd3fc}
     .tablabel{font-weight:800}
 
-    /* footer */
-    .footer{width:100%;border-top:1px solid rgba(255,255,255,.08);background:rgba(15,23,42,.4)}
-    .footer-inner{max-width:960px;margin:0 auto;padding:14px 16px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;color:#cbd5e1;font-size:13px}
-    .footer a{color:#93c5fd;text-decoration:none;font-weight:800}
-    .footer a:hover{text-decoration:underline}
-
-    /* link buttons */
-    .linkbtn{
-      display:block;width:100%;text-align:center;border:1px solid var(--card-border);
-      background:#0e1629;color:#cfe0ff;padding:12px;border-radius:12px;font-weight:900;text-decoration:none;margin:8px 0;
-      box-shadow:0 8px 24px rgba(2,6,23,.35)
-    }
+    /* small foot notes */
+    .footnote{font-size:12px;color:#9aa4b2;margin:14px 2px 6px}
+    .footnote a{color:#93c5fd;text-decoration:none;font-weight:800}
+    .footnote a:hover{text-decoration:underline}
   </style>
 </head>
 <body>
   <div class="wrap">
     <h2>Unlimited Vairal Video – Ads Unlock 🔓</h2>
 
-    <!-- SEARCH -->
-    <div class="search">
+    <!-- SEARCH (Home only) -->
+    <div id="searchWrap" class="search">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input id="searchInput" type="text" placeholder="Search posts (e.g. era, ridhii, toha)"/>
+      <input id="searchInput" type="text" placeholder="Search posts (e.g. era, era video, ridhii)"/>
     </div>
 
     <!-- HOME -->
     <div id="view-home" class="view active"></div>
+    <!-- Home bottom notes -->
+    <div id="home-notes" class="footnote">
+      Invite friend: <a href="https://parvezparttoy.github.io/miniapp/" target="_blank" rel="noopener">https://parvezparttoy.github.io/miniapp/</a><br/>
+      App Community: <a href="https://t.me/VairalVideoInTelegram" data-tglink>t.me/VairalVideoInTelegram</a>
+    </div>
 
     <!-- LIKED -->
     <div id="view-liked" class="view">
@@ -135,18 +127,17 @@
           <li>১০/১০ হলে <b>Join Channel</b> সবুজ হবে — তাতেই কনটেন্ট আনলক।</li>
           <li>রিয়্যাল অ্যাড হলে আর্নিং Axidum ড্যাশবোর্ডে যোগ হয়।</li>
         </ol>
-        <p class="desc">সমস্যা? <a href="https://t.me/VairalVideoInTelegram" data-tglink style="color:#93c5fd;text-decoration:none;font-weight:800">Community</a> তে জানাও।</p>
       </div>
     </div>
 
     <!-- LINKS -->
     <div id="view-links" class="view">
       <div class="card">
-        <div class="title">Stats</div>
-        <p class="desc">Total users (demo, this device): <b id="userCount">1</b></p>
+        <div class="title">Community</div>
+        <p class="desc">Join our community for updates & support:</p>
+        <p class="desc"><a href="https://t.me/VairalVideoInTelegram" data-tglink style="color:#93c5fd;text-decoration:none;font-weight:800">t.me/VairalVideoInTelegram</a></p>
       </div>
-      <a class="linkbtn" href="https://t.me/VairalVideoInTelegram" data-tglink>Community</a>
-      <a class="linkbtn" href="https://github.com/parvezparttoy/miniapp" target="_blank" rel="noopener">Invite Friend</a>
+      <div class="footnote">Community: <a href="https://t.me/VairalVideoInTelegram" data-tglink>t.me/VairalVideoInTelegram</a></div>
     </div>
   </div>
 
@@ -163,14 +154,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <div>App Community: <a href="https://t.me/VairalVideoInTelegram" data-tglink>t.me/VairalVideoInTelegram</a></div>
-      <div>Made by: <a href="https://t.me/ToxicNexo" data-tglink>t.me/ToxicNexo</a></div>
-    </div>
-  </footer>
 
   <!-- Bottom Navigation -->
   <nav class="bottom">
@@ -194,18 +177,33 @@
 
 <script>
   // ===== CONFIG =====
-  const WID = "feE5b0a3-a507-4b7e-b855-d09f29f46e71"; // Axidum wid
+  const WID = "feE5b0a3-a507-4b7e-b855-d09f29f46e71";
   const JOIN_URL = "https://t.me/+JQdsBNK6nE1kNTg1";
   const REQUIRED = 10;
 
-  // Posts data
+  // Posts with keywords for flexible search
   let POSTS = [
-    { id:"p1", title:"Jannat Toha Vairal Video 🥵", desc:"জান্নাত তোহার ভাইরাল ভিডিও লিংক 😍",
-      img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_193741_659.jpg", join:JOIN_URL },
-    { id:"p2", title:"Ridhii TikTok 💗", desc:"রিধী মনি ভাইরাল ভিডিও লিংক 🥵",
-      img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_194758_066.jpg", join:JOIN_URL },
-    { id:"p3", title:"Era Moni TikTok 💗", desc:"ইরা মনি ভাইরাল ভিডিও লিংক 😍💦",
-      img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251016_155725_290.jpg", join:JOIN_URL }
+    { id:"p1",
+      title:"Jannat Toha Vairal Video 🥵",
+      desc:"জান্নাত তোহার ভাইরাল ভিডিও লিংক 😍",
+      img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_193741_659.jpg",
+      join:JOIN_URL,
+      keywords:"jannat toha toha video viral tiktok"
+    },
+    { id:"p2",
+      title:"Ridhii TikTok 💗",
+      desc:"রিধী মনি ভাইরাল ভিডিও লিংক 🥵",
+      img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_194758_066.jpg",
+      join:JOIN_URL,
+      keywords:"ridhii ridhi video viral tiktok moni"
+    },
+    { id:"p3",
+      title:"Era Moni TikTok 💗",
+      desc:"ইরা মনি ভাইরাল ভিডিও লিংক 😍💦",
+      img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251016_155725_290.jpg",
+      join:JOIN_URL,
+      keywords:"era moni ira video viral tiktok"
+    }
   ];
 
   // Helpers
@@ -216,24 +214,19 @@
   const doneKey  = (id)=>`done_${id}`;
   const pct = (v)=>Math.min(100, Math.round((v/REQUIRED)*100));
 
-  // Demo user counter (local, device-scoped)
-  (function(){
-    const k='__local_user_count__';
-    let n=Number(localStorage.getItem(k)||'0');
-    if(!localStorage.getItem('__this_device_marked__')){
-      n++; localStorage.setItem(k,String(n));
-      localStorage.setItem('__this_device_marked__','1');
-    }
-    const el=qs('#userCount'); if(el) el.textContent=n;
-  })();
-
-  // Telegram link open helper
-  qsa('[data-tglink]').forEach(a=>{
-    a.addEventListener('click', (e)=>{
-      const href = a.getAttribute('href');
-      if (window.Telegram?.WebApp?.openTelegramLink){ e.preventDefault(); Telegram.WebApp.openTelegramLink(href); }
+  // Telegram link opener
+  function hookTelegramLinks(root=document){
+    root.querySelectorAll('[data-tglink]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const href = a.getAttribute('href');
+        if (window.Telegram?.WebApp?.openTelegramLink){ e.preventDefault(); Telegram.WebApp.openTelegramLink(href); }
+      });
     });
-  });
+  }
+  hookTelegramLinks();
+
+  // Build a combined search index
+  function searchIndex(p){ return (p.title + " " + p.desc + " " + (p.keywords||"")).toLowerCase(); }
 
   // Render a single card
   function renderCard(post){
@@ -276,26 +269,29 @@
       localStorage.setItem(likeKey(post.id), active?'1':'0');
       refreshLiked();
     };
-    // grey out if done
-    if(done){ card.style.opacity = .92; }
+    if(done){ card.style.opacity=.92; }
     return card;
   }
 
-  // Render Home with optional filter & push completed posts to bottom
+  // Render Home with filter; completed move to bottom
   function renderHome(filterText=''){
     const box = qs('#view-home'); box.innerHTML = '';
-    const text = filterText.trim().toLowerCase();
-    // split done / not-done
-    const notDone = []; const done = [];
-    POSTS.forEach(p=>{
-      const isDone = localStorage.getItem(doneKey(p.id))==='1';
-      (isDone?done:notDone).push(p);
-    });
-    const ordered = [...notDone, ...done]; // completed move to bottom
+    const text = (filterText||'').trim().toLowerCase();
+    const tokens = text.split(/\s+/).filter(Boolean);
 
-    ordered
-      .filter(p => !text || p.title.toLowerCase().includes(text))
-      .forEach(p => box.appendChild(renderCard(p)));
+    const notDone = [], done = [];
+    POSTS.forEach(p=>(localStorage.getItem(doneKey(p.id))==='1'?done:notDone).push(p));
+    const list = [...notDone, ...done];
+
+    const matches = (p)=>{
+      if(!tokens.length) return true;
+      const idx = searchIndex(p);
+      // token-wise ANY match (era video -> era token match হলেই OK)
+      return tokens.some(t => idx.includes(t));
+    };
+
+    list.filter(matches).forEach(p=> box.appendChild(renderCard(p)));
+    hookTelegramLinks(box);
   }
 
   function refreshLiked(){
@@ -307,14 +303,13 @@
       return;
     }
     likedPosts.forEach(p=>likedBox.appendChild(renderCard(p)));
+    hookTelegramLinks(likedBox);
   }
 
-  // Search typing
-  qs('#searchInput').addEventListener('input', (e)=>{
-    renderHome(e.target.value);
-  });
+  // Search typing (Home only)
+  qs('#searchInput').addEventListener('input', (e)=> renderHome(e.target.value));
 
-  // Bottom nav switch
+  // Bottom nav switch + show/hide search & home notes
   qsa('.tab').forEach(t=>{
     t.onclick = ()=>{
       qsa('.tab').forEach(x=>x.classList.remove('active'));
@@ -322,6 +317,11 @@
       const name = t.getAttribute('data-tab');
       qsa('.view').forEach(v=>v.classList.remove('active'));
       qs('#view-'+name).classList.add('active');
+
+      const showHomeUI = (name==='home');
+      qs('#searchWrap').classList.toggle('hide', !showHomeUI);
+      qs('#home-notes').classList.toggle('hide', !showHomeUI);
+
       if(name==='liked')  refreshLiked();
       if(name==='home')   renderHome(qs('#searchInput').value);
     };
@@ -374,13 +374,13 @@
     const next = Math.min(REQUIRED, cur+1);
     localStorage.setItem(key, next);
 
-    // update UI in current DOM
+    // Update visible
     const bar = qs(`#${cardId}_bar`); if(bar) bar.style.width = pct(next)+'%';
     const w = qs(`#${cardId}_watch`); const j = qs(`#${cardId}_join`);
     if(w){ w.textContent = `Watch Ads (${next}/${REQUIRED})`; if(next>=REQUIRED){ w.classList.add('disabled'); w.disabled=true; } }
     if(j && next>=REQUIRED){ j.classList.add('ready'); j.disabled=false; }
 
-    // if completed → mark done & re-render with completed at bottom
+    // completed => mark & push to bottom
     if(next>=REQUIRED){
       localStorage.setItem(doneKey(cardId),'1');
       renderHome(qs('#searchInput').value);
@@ -391,4 +391,4 @@
   renderHome();
 </script>
 </body>
-                                 </html>
+  </html>
