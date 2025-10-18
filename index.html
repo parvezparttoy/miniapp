@@ -5,9 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Unlimited Vairal Video – Ads Unlock 🔓</title>
 
-<!-- Telegram SDK & Axidum -->
+<!-- Telegram SDK -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
+<!-- ✅ Adexora SDK -->
+<script src="https://adexora.com/cdn/ads.js?id=650"></script>
+
 <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
 
 <style>
@@ -49,12 +51,7 @@
   .foot{font-size:12px;color:#9aa4b2;margin:10px 2px}
   .foot a{color:#93c5fd;font-weight:800;text-decoration:none}
 
-  .modal{position:fixed;inset:0;background:rgba(2,6,23,.7);display:none;align-items:center;justify-content:center;padding:16px;z-index:9999}
-  .sheet{width:100%;max-width:420px;background:#0b1220;border:1px solid #1f2a44;border-radius:16px;overflow:hidden}
-  .sheethd{padding:12px 14px;border-bottom:1px solid #1f2a44;display:flex;justify-content:space-between;align-items:center}
-  .sheethd b{color:#93c5fd}.sheetbd{padding:14px}.close{border:0;background:transparent;color:#cbd5e1;font-size:18px}
-  .hint{font-size:12px;color:#9aa4b2}
-
+  /* Toast */
   .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:95px;background:rgba(34,197,94,.95);color:#062012;border:1px solid rgba(34,197,94,.6);
          padding:10px 14px;border-radius:10px;font-weight:900;display:none}
   .toast.show{display:block;animation:fade 1.8s ease-out 1}
@@ -83,8 +80,8 @@
     <div id="view-tutorial" class="view">
       <div class="card"><div class="title">How to Unlock & Earn</div>
         <ol class="desc" style="margin-left:18px">
-          <li>“Watch Ads” চাপলে interstitial দেখাবে</li>
-          <li>২০ সেকেন্ড শেষে ১ কয়েন অটো যোগ হবে</li>
+          <li>“Watch Ads” চাপলে Adexora ইন্টারস্টিশিয়াল দেখাবে</li>
+          <li>Ad সম্পন্ন হলেই ১ কয়েন অটো যোগ হবে</li>
           <li>১০/১০ হলে “Join Channel” সবুজ হবে</li>
           <li>**Join চাপলেই** পোস্টটা নিচে যাবে এবং 0/10 থেকে আবার শুরু হবে</li>
         </ol>
@@ -118,16 +115,7 @@
     </div>
   </div>
 
-  <!-- Interstitial Modal -->
-  <div class="modal" id="adModal">
-    <div class="sheet">
-      <div class="sheethd"><b>Sponsored</b><button class="close" id="closeModal">✕</button></div>
-      <div class="sheetbd">
-        <div id="ax-container" style="display:none"></div>
-        <div class="hint">Ad চলাকালীন অ্যাপ ফোকাসে রাখুন • শেষ হতে বাকি: <b id="left">20</b>s</div>
-      </div>
-    </div>
-  </div>
+  <!-- (Modal আগের মতোই থাকবে, তবে এখন ব্যবহার করছি না) -->
   <div id="toast" class="toast">+1 coin added!</div>
 
   <!-- Bottom Nav -->
@@ -153,7 +141,6 @@ window.addEventListener('DOMContentLoaded', function(){
   // ===== CONFIG =====
   var JOIN_URL = "https://t.me/+JQdsBNK6nE1kNTg1";
   var REQUIRED = 10;
-  var WID = "feE5b0a3-a507-4b7e-b855-d09f29f46e71";
 
   // ===== DATA =====
   var POSTS = [
@@ -190,6 +177,7 @@ window.addEventListener('DOMContentLoaded', function(){
     if (w){ w.classList.remove("disabled"); w.disabled=false; w.textContent="Watch Ads (0/10)"; }
     if (j){ j.classList.remove("ready"); j.disabled=true; }
   }
+  function showToast(msg){ var t=qs('#toast'); t.textContent=msg||"+1 coin added!"; t.classList.remove('show'); void t.offsetWidth; t.classList.add('show'); setTimeout(function(){t.classList.remove('show')},1600); }
 
   // ===== RENDER =====
   function renderCard(p){
@@ -212,7 +200,7 @@ window.addEventListener('DOMContentLoaded', function(){
         '<button class="btn join'+(coins>=REQUIRED?' ready':'')+'" id="'+p.id+'_join" '+(coins>=REQUIRED?'':'disabled')+'>Join Channel</button>'+
       '</div>';
 
-    // watch
+    // watch -> Adexora
     qs('#'+p.id+'_watch', el).onclick = function(){ openAd(p.id); };
 
     // join – only then move & reset
@@ -291,25 +279,18 @@ window.addEventListener('DOMContentLoaded', function(){
     if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(v).then(function(){ showToast("Link copied"); }); }
   };
 
-  // ===== ADS + Reward (auto after 20s) =====
-  var modal = qs('#adModal'), closeBtn = qs('#closeModal'), leftEl = qs('#left'), toastEl = qs('#toast');
-  var timer=null, left=20, focused=true, activeId=null, rewarded=false;
-
-  function showToast(msg){ toastEl.textContent = msg || "+1 coin added!"; toastEl.classList.remove('show'); void toastEl.offsetWidth; toastEl.classList.add('show'); setTimeout(function(){toastEl.classList.remove('show')}, 1600); }
-
+  // ===== ADS (Adexora) =====
   window.openAd = function(id){
-    activeId=id; left=20; rewarded=false; focused=true; leftEl.textContent=left; modal.style.display='flex';
-    try{ if(window.AdexiumWidget){ var ax = new AdexiumWidget({wid: WID, adFormat:'interstitial'}); ax.autoMode(); } }catch(e){}
-    function onF(){focused=true} function onB(){focused=false}
-    window.addEventListener('focus',onF); window.addEventListener('blur',onB);
-    timer = setInterval(function(){
-      if(focused && left>0){
-        left--; leftEl.textContent=left;
-        if(left<=0 && !rewarded){ rewarded=true; addCoin(activeId); cleanup(); }
-      }
-    },1000);
-    function cleanup(){ clearInterval(timer); timer=null; window.removeEventListener('focus',onF); window.removeEventListener('blur',onB); modal.style.display='none'; }
-    closeBtn.onclick = cleanup;
+    // Adexora promise resolves when ad is completed / rewarded
+    window.showAdexora()
+      .then(function(){
+        addCoin(id);
+        showToast("+1 coin added ✅");
+      })
+      .catch(function(e){
+        console.log("Adexora error:", e);
+        showToast("⚠️ Ad failed to load");
+      });
   };
 
   function addCoin(id){
@@ -320,9 +301,6 @@ window.addEventListener('DOMContentLoaded', function(){
     var w = document.getElementById(id+'_watch'), j = document.getElementById(id+'_join');
     if(w){ w.textContent='Watch Ads ('+next+'/'+REQUIRED+')'; if(next>=REQUIRED){ w.classList.add('disabled'); w.disabled=true; } }
     if(j && next>=REQUIRED){ j.classList.add('ready'); j.disabled=false; }
-    showToast("+1 coin added ✅");
-
-    // ❌ এখানে আর নিচে নামানো বা রিসেট নেই — সেটা Join-এ হবে
   }
 
   // First render
@@ -330,4 +308,4 @@ window.addEventListener('DOMContentLoaded', function(){
 });
 </script>
 </body>
-      </html>
+  </html>
