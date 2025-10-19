@@ -6,15 +6,12 @@
   <title>Unlimited Vairal Video – Ads Unlock 🔓</title>
 
   <!-- Telegram SDK -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
   <!-- Adexora SDK (App ID 650) -->
-  <script src="https://adexora.com/cdn/ads.js?id=650"></script>
+  <script src="https://adexora.com/cdn/ads.js?id=650" defer></script>
 
   <style>
-    :root{
-      --bg:#0b1220;--bg2:#0a1422;--card:#0d1426;--bd:#1f2a44;
-      --txt:#e5e7eb;--mut:#a1a8b4;--ok:#22c55e;--pri:#22d3ee;--prid:#0ea5e9
-    }
+    :root{--bg:#0b1220;--bg2:#0a1422;--card:#0d1426;--bd:#1f2a44;--txt:#e5e7eb;--mut:#a1a8b4;--ok:#22c55e;--pri:#22d3ee;--prid:#0ea5e9}
     *{box-sizing:border-box}
     body{margin:0;background:
       radial-gradient(1200px 600px at 10% -10%,#0f1f3e 0%,transparent 60%),
@@ -24,11 +21,9 @@
     h2{margin:6px 0 12px;font-size:22px;font-weight:900}
     .view{display:none}.view.active{display:block}
 
-    /* search (Home only) */
     .search{display:flex;gap:8px;align-items:center;background:#0d1426;border:1px solid #1f2a44;border-radius:14px;padding:10px 12px;margin:10px 0 14px}
     .search input{flex:1;background:transparent;border:0;outline:0;color:#e5e7eb;font-weight:800}
 
-    /* cards */
     .card{position:relative;background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:14px;margin-bottom:14px}
     .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;background:#1f2937}
     .title{font-weight:900;margin:10px 0 4px}
@@ -43,14 +38,12 @@
     .join{background:#253244;color:#cbd5e1}
     .join.ready{background:var(--ok);color:#062012}
 
-    /* like */
     .like{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);
           width:48px;height:48px;border-radius:14px;display:grid;place-items:center;cursor:pointer}
     .like svg{width:26px;height:26px;fill:none;stroke:#e5e7eb;stroke-width:2}
     .like.active{background:rgba(244,63,94,.18);border-color:rgba(244,63,94,.4)}
     .like.active svg{fill:#f43f5e;stroke:#f43f5e}
 
-    /* bottom dock */
     .dock{position:fixed;left:12px;right:12px;bottom:12px;background:#0c1322;border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:12px 8px}
     .nav{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
     .tab{display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 0;color:#cbd5e1;text-decoration:none;cursor:pointer}
@@ -61,7 +54,6 @@
     .foot{font-size:12px;color:#9aa4b2;margin:10px 2px}
     .foot a{color:#93c5fd;font-weight:800;text-decoration:none}
 
-    /* toast */
     .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:95px;background:rgba(34,197,94,.95);color:#062012;border:1px solid rgba(34,197,94,.6);
            padding:10px 14px;border-radius:10px;font-weight:900;display:none}
     .toast.show{display:block;animation:fade 1.8s ease-out 1}
@@ -72,13 +64,11 @@
   <div class="wrap">
     <h2>Unlimited Vairal Video – Ads Unlock 🔓</h2>
 
-    <!-- Search (Home only) -->
     <div id="searchWrap" class="search">
       <span style="color:#93c5fd;font-weight:900">🔎</span>
       <input id="searchInput" type="text" placeholder="Search posts (e.g. era, era video, ridhii)">
     </div>
 
-    <!-- Views -->
     <div id="view-home" class="view active"></div>
     <div id="home-notes" class="foot">
       Invite friend: <a href="https://parvezparttoy.github.io/miniapp/" target="_blank" rel="noopener">https://parvezparttoy.github.io/miniapp/</a><br>
@@ -91,7 +81,7 @@
       <div class="card"><div class="title">How to Unlock & Earn</div>
         <ol class="desc" style="margin-left:18px">
           <li>“Watch Ads” চাপলে Interstitial বিজ্ঞাপন খুলবে</li>
-          <li>বিজ্ঞাপন **শেষ হলে** (Adexora resolve) অটো +1 coin</li>
+          <li>বিজ্ঞাপন <b>শেষ হলে</b> অটো +1 coin (min 12s watch)</li>
           <li>১০/১০ হলে “Join Channel” সবুজ হবে</li>
           <li>Join চাপলে পোস্টটা নিচে যাবে এবং 0/10 থেকে আবার শুরু হবে</li>
         </ol>
@@ -127,10 +117,8 @@
     </div>
   </div>
 
-  <!-- Toast -->
   <div id="toast" class="toast">+1 coin added!</div>
 
-  <!-- Bottom Nav -->
   <div class="dock">
     <div class="nav">
       <a class="tab active" data-tab="home">
@@ -180,7 +168,6 @@ const lk=id=>`liked_${id}`;
 const dk=id=>`done_${id}`;
 const pct=v=>Math.min(100,Math.round((v/REQUIRED)*100));
 const idx=p=>(p.title+" "+p.desc+" "+(p.kw||" ")+" "+(p.names||[]).join(" ")).toLowerCase();
-
 function showToast(msg){const t=qs('#toast');t.textContent=msg||'+1 coin added!';t.classList.remove('show');void t.offsetWidth;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600);}
 
 /* ========= RENDER ========= */
@@ -204,24 +191,21 @@ function renderCard(p){
       <button class="btn join ${coins>=REQUIRED?'ready':''}" id="${p.id}_join" ${coins>=REQUIRED?'':'disabled'}>Join Channel</button>
     </div>`;
 
-  // like toggle
   qs('[data-like]',el).onclick=()=>{
     const b=qs('.like',el); const on=b.classList.toggle('active');
     localStorage.setItem(lk(p.id),on?'1':'0'); refreshLiked();
   };
 
-  // watch ad
   qs('#'+p.id+'_watch',el).onclick=()=>openAd(p.id);
 
-  // join -> move to bottom + reset
   qs('#'+p.id+'_join',el).onclick=()=>{
     const c=Number(localStorage.getItem(sk(p.id))||"0");
     if(c>=REQUIRED){
       if(window.Telegram?.WebApp?.openTelegramLink){ Telegram.WebApp.openTelegramLink(p.join); }
       else { window.open(p.join,'_blank'); }
-      localStorage.setItem(dk(p.id),'1');            // mark done (to bottom)
-      localStorage.removeItem(sk(p.id));             // reset coins
-      renderHome(qs('#searchInput').value);          // rerender
+      localStorage.setItem(dk(p.id),'1');
+      localStorage.removeItem(sk(p.id));
+      renderHome(qs('#searchInput').value);
     }
   };
 
@@ -233,12 +217,7 @@ function renderHome(filter){
   const tokens=(filter||"").trim().toLowerCase().split(/\s+/).filter(Boolean);
   const notDone=[], done=[];
   POSTS.forEach(p => (localStorage.getItem(dk(p.id))==='1'?done:notDone).push(p));
-
-  const match = p=>{
-    if(!tokens.length) return true;
-    const s=idx(p); return tokens.some(t=>s.includes(t));
-  };
-
+  const match = p=>{ if(!tokens.length) return true; const s=idx(p); return tokens.some(t=>s.includes(t)); };
   notDone.filter(match).forEach(p=>box.appendChild(renderCard(p)));
   done.filter(match).forEach(p=>box.appendChild(renderCard(p)));
 }
@@ -252,7 +231,6 @@ function refreshLiked(){
 
 /* ========= SEARCH & NAV ========= */
 qs('#searchInput').addEventListener('input', e=>renderHome(e.target.value));
-
 qsa('.tab').forEach(t=>{
   t.onclick=()=>{
     qsa('.tab').forEach(x=>x.classList.remove('active')); t.classList.add('active');
@@ -265,8 +243,6 @@ qsa('.tab').forEach(t=>{
     if(name==='home') renderHome(qs('#searchInput').value);
   };
 });
-
-/* ========= Links actions ========= */
 qsa('[data-go]').forEach(btn=>{
   btn.onclick=()=>{
     const url=btn.getAttribute('data-go');
@@ -274,46 +250,62 @@ qsa('[data-go]').forEach(btn=>{
     else { window.open(url,'_blank'); }
   };
 });
-qs('#copyBtn').onclick=()=>{
-  const v=qs('#inviteLink').value;
-  if(navigator.clipboard?.writeText) navigator.clipboard.writeText(v).then(()=>showToast('Link copied'));
-};
+qs('#copyBtn').onclick=()=>{ const v=qs('#inviteLink').value; if(navigator.clipboard?.writeText) navigator.clipboard.writeText(v).then(()=>showToast('Link copied')); };
 
-/* ========= ADS FLOW (reward only after ad finished) ========= */
-let adBusy=false; // prevent double taps
+/* ========= ADS FLOW (fixed) ========= */
+let adBusy=false;
+const MIN_WATCH_MS = 12000;   // কমপক্ষে 12s দেখা
+const MAX_WAIT_MS  = 25000;   // 25s এর মধ্যে শেষ না হলে ফেল
 
-function waitSDK(max=4000){
-  return new Promise((resolve,reject)=>{
-    if(window.showAdexora) return resolve();
-    let t=0; const i=setInterval(()=>{
-      if(window.showAdexora){clearInterval(i);resolve();}
-      t+=100; if(t>=max){clearInterval(i);reject('SDK not ready');}
-    },100);
+function waitSDK(max=8000){
+  const start=Date.now();
+  return new Promise((res,rej)=>{
+    (function loop(){
+      if(window.showAdexora) return res();
+      if(Date.now()-start>max) return rej(new Error('SDK not ready'));
+      setTimeout(loop,120);
+    })();
   });
+}
+function withTimeout(p, ms){
+  return Promise.race([p, new Promise((_,rej)=>setTimeout(()=>rej(new Error('ad timeout')), ms))]);
 }
 
 async function openAd(cardId){
   if(adBusy) return;
   adBusy=true;
+
+  const btn = qs('#'+cardId+'_watch');
+  const old = btn ? btn.textContent : '';
+  if(btn){ btn.disabled=true; btn.textContent='Loading Ad...'; }
+
   try{
-    await waitSDK();                 // ensure SDK loaded
-    await window.showAdexora();      // ⬅️ ad shows; resolves ONLY when finished
+    await waitSDK();
 
-    // ✅ reward now
-    const key=sk(cardId);
-    const cur=Number(localStorage.getItem(key)||"0");
-    const next=Math.min(REQUIRED,cur+1);
-    localStorage.setItem(key,next);
+    const started = Date.now();
+    await withTimeout(window.showAdexora(), MAX_WAIT_MS);   // resolves when ad finished
 
-    // UI update
-    const bar=qs('#'+cardId+'_bar'); if(bar) bar.style.width=pct(next)+'%';
-    const w=qs('#'+cardId+'_watch'), j=qs('#'+cardId+'_join');
-    if(w){ w.textContent=`Watch Ads (${next}/${REQUIRED})`; if(next>=REQUIRED){ w.classList.add('disabled'); w.disabled=true; } }
-    if(j && next>=REQUIRED){ j.classList.add('ready'); j.disabled=false; }
-    showToast('+1 coin added ✅');
+    // guard: must watch long enough
+    if (Date.now() - started < MIN_WATCH_MS) {
+      showToast('Ad too short — try again');
+    } else {
+      // reward
+      const key=sk(cardId);
+      const cur=Number(localStorage.getItem(key)||"0");
+      const next=Math.min(REQUIRED,cur+1);
+      localStorage.setItem(key,next);
+
+      const bar=qs('#'+cardId+'_bar'); if(bar) bar.style.width=pct(next)+'%';
+      const w=qs('#'+cardId+'_watch'), j=qs('#'+cardId+'_join');
+      if(w){ w.textContent=`Watch Ads (${next}/${REQUIRED})`; if(next>=REQUIRED){ w.classList.add('disabled'); w.disabled=true; } }
+      if(j && next>=REQUIRED){ j.classList.add('ready'); j.disabled=false; }
+      showToast('+1 coin added ✅');
+    }
   }catch(e){
-    showToast('Ad failed, try again');
+    console.log('ad error:', e);
+    showToast('Ad failed — try again');
   }finally{
+    if(btn){ btn.disabled=false; btn.textContent=old; }
     adBusy=false;
   }
 }
@@ -322,4 +314,4 @@ async function openAd(cardId){
 renderHome("");
 </script>
 </body>
-          </html>
+  </html>
