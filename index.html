@@ -7,219 +7,319 @@
 
   <!-- Telegram SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <!-- Adexora SDK -->
+  <!-- Adexora SDK (App ID 650) -->
   <script src="https://adexora.com/cdn/ads.js?id=650"></script>
 
   <style>
     :root{
-      --bg:#0b1220;--card:#111a2a;--bd:#1f2a44;--txt:#fff;--mut:#a1a8b4;
-      --pri1:#22d3ee;--pri2:#0ea5e9;--ok:#22c55e;
+      --bg:#0b1220;--bg2:#0a1422;--card:#0d1426;--bd:#1f2a44;
+      --txt:#e5e7eb;--mut:#a1a8b4;--ok:#22c55e;--pri:#22d3ee;--prid:#0ea5e9
     }
     *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--txt);font-family:sans-serif}
-    .wrap{max-width:960px;margin:auto;padding:16px 12px 100px}
-    h2{text-align:center;color:#7dd3fc;margin:10px 0 18px}
+    body{margin:0;background:
+      radial-gradient(1200px 600px at 10% -10%,#0f1f3e 0%,transparent 60%),
+      radial-gradient(900px 420px at 95% -15%,#052b36 0%,transparent 60%),
+      var(--bg2);color:var(--txt);font:14px/1.5 ui-sans-serif,system-ui}
+    .wrap{max-width:960px;margin:0 auto;padding:18px 14px 110px}
+    h2{margin:6px 0 12px;font-size:22px;font-weight:900}
+    .view{display:none}.view.active{display:block}
 
-    /* search */
-    .search{display:flex;align-items:center;background:#0d1426;border:1px solid var(--bd);border-radius:12px;padding:10px;margin-bottom:14px}
-    .search input{flex:1;background:transparent;border:0;color:#fff;font-weight:700;outline:0}
+    /* search (Home only) */
+    .search{display:flex;gap:8px;align-items:center;background:#0d1426;border:1px solid #1f2a44;border-radius:14px;padding:10px 12px;margin:10px 0 14px}
+    .search input{flex:1;background:transparent;border:0;outline:0;color:#e5e7eb;font-weight:800}
 
-    /* card */
-    .card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:14px;position:relative}
-    .thumb{width:100%;border-radius:12px;aspect-ratio:16/9;object-fit:cover}
-    .title{font-weight:800;margin:10px 0 4px}
-    .desc{color:var(--mut);margin-bottom:10px}
-    .progress{height:8px;background:#1e293b;border-radius:999px;overflow:hidden;margin-bottom:8px}
-    .bar{height:100%;background:linear-gradient(90deg,#22c55e,#84cc16);width:0%;transition:width .25s}
-    .row{display:flex;gap:8px}
-    .btn{flex:1;padding:10px;border:0;border-radius:10px;font-weight:800;cursor:pointer}
-    .watch{background:linear-gradient(180deg,var(--pri1),var(--pri2));color:#001b30}
+    /* cards */
+    .card{position:relative;background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:14px;margin-bottom:14px}
+    .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;background:#1f2937}
+    .title{font-weight:900;margin:10px 0 4px}
+    .names{font-size:12px;color:#a8b2c1;margin-bottom:8px}
+    .desc{color:var(--mut);margin:0 0 10px}
+    .progress{height:8px;background:#0c1322;border:1px solid var(--bd);border-radius:999px;overflow:hidden;margin-bottom:12px}
+    .bar{height:100%;width:0;background:linear-gradient(90deg,#22c55e,#a3e635);transition:width .25s}
+    .row{display:flex;gap:10px}
+    .btn{flex:1;padding:12px;border:0;border-radius:12px;font-weight:900;cursor:pointer}
+    .watch{background:linear-gradient(180deg,var(--pri),var(--prid));color:#001b30}
     .watch.disabled{background:#253244;color:#93a3b5;cursor:not-allowed}
     .join{background:#253244;color:#cbd5e1}
     .join.ready{background:var(--ok);color:#062012}
 
     /* like */
-    .like{position:absolute;top:10px;right:10px;width:44px;height:44px;background:rgba(255,255,255,.05);
-          border:1px solid rgba(255,255,255,.1);border-radius:12px;display:grid;place-items:center;cursor:pointer}
-    .like svg{width:24px;height:24px;stroke:#e5e7eb;fill:none;stroke-width:2}
+    .like{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);
+          width:48px;height:48px;border-radius:14px;display:grid;place-items:center;cursor:pointer}
+    .like svg{width:26px;height:26px;fill:none;stroke:#e5e7eb;stroke-width:2}
+    .like.active{background:rgba(244,63,94,.18);border-color:rgba(244,63,94,.4)}
     .like.active svg{fill:#f43f5e;stroke:#f43f5e}
 
-    /* tabs */
-    .dock{position:fixed;bottom:12px;left:12px;right:12px;background:#0c1322;border:1px solid rgba(255,255,255,.08);
-          border-radius:20px;padding:10px}
-    .nav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-    .tab{display:flex;flex-direction:column;align-items:center;gap:4px;color:#cbd5e1;text-decoration:none;font-weight:700;cursor:pointer}
+    /* bottom dock */
+    .dock{position:fixed;left:12px;right:12px;bottom:12px;background:#0c1322;border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:12px 8px}
+    .nav{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+    .tab{display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 0;color:#cbd5e1;text-decoration:none;cursor:pointer}
     .tab svg{width:22px;height:22px;stroke:#cbd5e1;fill:none;stroke-width:2}
     .tab.active{color:#7dd3fc}.tab.active svg{stroke:#7dd3fc}
+    .tablabel{font-weight:900}
 
-    .foot{font-size:12px;color:#a1a8b4;margin:8px 0;text-align:center}
-    .foot a{color:#7dd3fc;text-decoration:none;font-weight:700}
+    .foot{font-size:12px;color:#9aa4b2;margin:10px 2px}
+    .foot a{color:#93c5fd;font-weight:800;text-decoration:none}
 
     /* toast */
-    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:#22c55e;color:#062012;
-           border-radius:10px;padding:10px 16px;font-weight:800;display:none}
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:95px;background:rgba(34,197,94,.95);color:#062012;border:1px solid rgba(34,197,94,.6);
+           padding:10px 14px;border-radius:10px;font-weight:900;display:none}
     .toast.show{display:block;animation:fade 1.8s ease-out 1}
-    @keyframes fade{0%{opacity:0;transform:translate(-50%,6px)}10%{opacity:1}80%{opacity:1}100%{opacity:0}}
+    @keyframes fade{0%{opacity:0;transform:translate(-50%,8px)}10%{opacity:1}80%{opacity:1}100%{opacity:0}}
   </style>
 </head>
 <body>
   <div class="wrap">
     <h2>Unlimited Vairal Video – Ads Unlock 🔓</h2>
 
+    <!-- Search (Home only) -->
     <div id="searchWrap" class="search">
-      <span style="margin-right:6px">🔍</span>
-      <input id="searchInput" placeholder="Search posts (e.g. era, ridhi, toha)">
+      <span style="color:#93c5fd;font-weight:900">🔎</span>
+      <input id="searchInput" type="text" placeholder="Search posts (e.g. era, era video, ridhii)">
     </div>
 
+    <!-- Views -->
     <div id="view-home" class="view active"></div>
-    <div id="view-liked" class="view" style="display:none"><div id="liked-container"></div></div>
-    <div id="view-tutorial" class="view" style="display:none">
-      <div class="card"><div class="title">How to use:</div>
-        <ul class="desc" style="margin-left:18px">
-          <li>প্রতি পোস্টে Watch Ads (10/10) সম্পূর্ণ করুন।</li>
-          <li>বিজ্ঞাপন শেষ হলে +1 Coin Added ✅ হবে।</li>
-          <li>10 হলে Join Channel সবুজ হয়ে যাবে।</li>
-          <li>Join করলে পোস্ট নিচে চলে যাবে।</li>
-        </ul>
-      </div>
+    <div id="home-notes" class="foot">
+      Invite friend: <a href="https://parvezparttoy.github.io/miniapp/" target="_blank" rel="noopener">https://parvezparttoy.github.io/miniapp/</a><br>
+      App Community: <a href="http://t.me/VairalVideoInTelegramBOT">t.me/VairalVideoInTelegramBOT</a>
     </div>
-    <div id="view-links" class="view" style="display:none">
-      <div class="card"><div class="title">Community</div>
-        <div class="desc">t.me/VairalVideoInTelegram</div>
-        <button class="btn watch" onclick="window.open('https://t.me/VairalVideoInTelegram','_blank')">Open</button>
+
+    <div id="view-liked" class="view"><div id="liked-container"></div></div>
+
+    <div id="view-tutorial" class="view">
+      <div class="card"><div class="title">How to Unlock & Earn</div>
+        <ol class="desc" style="margin-left:18px">
+          <li>“Watch Ads” চাপলে Interstitial বিজ্ঞাপন খুলবে</li>
+          <li>বিজ্ঞাপন **শেষ হলে** (Adexora resolve) অটো +1 coin</li>
+          <li>১০/১০ হলে “Join Channel” সবুজ হবে</li>
+          <li>Join চাপলে পোস্টটা নিচে যাবে এবং 0/10 থেকে আবার শুরু হবে</li>
+        </ol>
       </div>
     </div>
 
-    <div class="foot">
-      App Community: <a href="https://t.me/VairalVideoInTelegram">t.me/VairalVideoInTelegram</a><br>
-      Made by <a href="https://t.me/ToxicNexo">@ToxicNexo</a>
+    <div id="view-links" class="view">
+      <div class="card" style="display:flex;justify-content:space-between;gap:12px;align-items:center">
+        <div>
+          <div class="title">Community</div>
+          <div class="desc">t.me/VairalVideoInTelegram</div>
+        </div>
+        <button class="btn watch" data-go="https://t.me/VairalVideoInTelegram">Open</button>
+      </div>
+      <div class="card" style="display:flex;justify-content:space-between;gap:12px;align-items:center">
+        <div>
+          <div class="title">Demo Bot</div>
+          <div class="desc">t.me/VairalVideoInTelegramBOT</div>
+        </div>
+        <button class="btn watch" data-go="http://t.me/VairalVideoInTelegramBOT">Open</button>
+      </div>
+
+      <div class="card">
+        <div class="title" style="margin-bottom:10px">Invite friend</div>
+        <div style="display:flex;gap:10px">
+          <input id="inviteLink" value="https://parvezparttoy.github.io/miniapp/" readonly
+                 style="flex:1;background:#0b1220;border:1px solid #1f2a44;color:#cfe0ff;border-radius:12px;padding:10px 12px;font-weight:800">
+          <button class="btn watch" id="copyBtn" style="flex:0 0 auto">Copy</button>
+        </div>
+      </div>
+
+      <div class="foot" style="text-align:center">Community: <a href="https://t.me/VairalVideoInTelegram">t.me/VairalVideoInTelegram</a></div>
     </div>
   </div>
 
-  <div id="toast" class="toast">+1 coin added ✅</div>
+  <!-- Toast -->
+  <div id="toast" class="toast">+1 coin added!</div>
 
+  <!-- Bottom Nav -->
   <div class="dock">
     <div class="nav">
       <a class="tab active" data-tab="home">
-        <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5v9H4z"/></svg><span>Home</span>
+        <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5v9H4z"/></svg><span class="tablabel">Home</span>
       </a>
       <a class="tab" data-tab="liked">
-        <svg viewBox="0 0 24 24"><path d="M12 21C8 18 3 14 3 9.5A4.5 4.5 0 0 1 11 8a4.5 4.5 0 0 1 8 1.5C19 14 14 18 12 21Z"/></svg><span>Liked</span>
+        <svg viewBox="0 0 24 24"><path d="M12 21C8 18 3 14 3 9.5A4.5 4.5 0 0 1 11 8a4.5 4.5 0 0 1 8 1.5C19 14 14 18 12 21Z"/></svg><span class="tablabel">Liked</span>
       </a>
       <a class="tab" data-tab="tutorial">
-        <svg viewBox="0 0 24 24"><path d="M4 5h12a3 3 0 0 1 3 3v11H7a3 3 0 0 1-3-3z"/><path d="M7 5v11a3 3 0 0 0 3 3h9"/></svg><span>Tutorial</span>
+        <svg viewBox="0 0 24 24"><path d="M4 5h12a3 3 0 0 1 3 3v11H7a3 3 0 0 1-3-3z"/><path d="M7 5v11a3 3 0 0 0 3 3h9"/></svg><span class="tablabel">Tutorial</span>
       </a>
       <a class="tab" data-tab="links">
-        <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7L11 5"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l2-2"/></svg><span>Links</span>
+        <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7L11 5"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l2-2"/></svg><span class="tablabel">Links</span>
       </a>
     </div>
   </div>
 
 <script>
-/* Config */
-const JOIN_URL="https://t.me/+JQdsBNK6nE1kNTg1";
-const REQUIRED=10;
-const POSTS=[
-  {id:"p1",title:"Jannat Toha Vairal Video 🥵",desc:"জান্নাত তোহার ভাইরাল ভিডিও লিংক 😍",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_193741_659.jpg"},
-  {id:"p2",title:"Era Moni TikTok 💗",desc:"ইরা মনি ভাইরাল ভিডিও 💦",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251016_155725_290.jpg"},
-  {id:"p3",title:"Ridhii Moni 💗",desc:"রিধী মনি ভাইরাল ভিডিও 🔥",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_194758_066.jpg"},
+/* ========= CONFIG ========= */
+const JOIN_URL = "https://t.me/+JQdsBNK6nE1kNTg1";
+const REQUIRED = 10;
+
+/* ========= DATA ========= */
+const POSTS = [
+  { id:"p1", title:"Jannat Toha Vairal Video 🥵", names:["Jannat Toha","জান্নাত তোহা"],
+    desc:"জান্নাত তোহার ভাইরাল ভিডিও লিংক 😍",
+    img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_193741_659.jpg", join:JOIN_URL,
+    kw:"jannat toha জান্নাত তোহা video viral"
+  },
+  { id:"p2", title:"Ridhii TikTok 💗", names:["Ridhii Moni","রিধী মনি"],
+    desc:"রিধী মনি ভাইরাল ভিডিও লিংক 🥵",
+    img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_194758_066.jpg", join:JOIN_URL,
+    kw:"ridhii ridhi moni রিধী video viral"
+  },
+  { id:"p3", title:"Era Moni TikTok 💗", names:["Era Moni","ইরা মনি"],
+    desc:"ইরা মনি ভাইরাল ভিডিও লিংক 😍💦",
+    img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251016_155725_290.jpg", join:JOIN_URL,
+    kw:"era moni ira ইরা মনি video viral"
+  }
 ];
 
-/* Helper */
+/* ========= HELPERS ========= */
 const qs=(s,p)=> (p||document).querySelector(s);
 const qsa=(s,p)=> Array.from((p||document).querySelectorAll(s));
-function pct(v){return Math.min(100,Math.round((v/REQUIRED)*100));}
-function toast(t){const e=qs('#toast');e.textContent=t;e.classList.remove('show');void e.offsetWidth;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1600);}
+const sk=id=>`coins_${id}`;
+const lk=id=>`liked_${id}`;
+const dk=id=>`done_${id}`;
+const pct=v=>Math.min(100,Math.round((v/REQUIRED)*100));
+const idx=p=>(p.title+" "+p.desc+" "+(p.kw||" ")+" "+(p.names||[]).join(" ")).toLowerCase();
 
-/* Preload Adexora */
-let adReady=false;
-async function preloadAdexora(){
-  let tries=0;
-  while(!window.showAdexora && tries<25){await new Promise(r=>setTimeout(r,200));tries++;}
-  if(window.showAdexora) adReady=true;
-}
-preloadAdexora();
+function showToast(msg){const t=qs('#toast');t.textContent=msg||'+1 coin added!';t.classList.remove('show');void t.offsetWidth;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600);}
 
-/* Render cards */
-function renderHome(){
-  const home=qs('#view-home');home.innerHTML="";
-  POSTS.forEach(p=>{
-    const coins=+localStorage.getItem('coins_'+p.id)||0;
-    const liked=localStorage.getItem('like_'+p.id)==='1';
-    const c=document.createElement('div');c.className='card';
-    c.innerHTML=`
-      <button class="like ${liked?'active':''}" data-like="${p.id}">
-        <svg viewBox="0 0 24 24"><path d="M12 21C8 18 3 14 3 9.5A4.5 4.5 0 0 1 11 8a4.5 4.5 0 0 1 8 1.5C19 14 14 18 12 21Z"/></svg>
-      </button>
-      <img class="thumb" src="${p.img}">
-      <div class="title">${p.title}</div>
-      <div class="desc">${p.desc}</div>
-      <div class="progress"><div class="bar" id="${p.id}_bar" style="width:${pct(coins)}%"></div></div>
-      <div class="row">
-        <button class="btn watch" id="${p.id}_watch" ${coins>=REQUIRED?'disabled':''}>Watch Ads (${coins}/${REQUIRED})</button>
-        <button class="btn join ${coins>=REQUIRED?'ready':''}" id="${p.id}_join" ${coins>=REQUIRED?'':'disabled'}>Join Channel</button>
-      </div>`;
-    home.appendChild(c);
+/* ========= RENDER ========= */
+function renderCard(p){
+  const coins=Number(localStorage.getItem(sk(p.id))||"0");
+  const liked=localStorage.getItem(lk(p.id))==="1";
 
-    qs('[data-like]',c).onclick=()=>{const s=qs('.like',c);s.classList.toggle('active');localStorage.setItem('like_'+p.id,s.classList.contains('active')?'1':'0');};
-    qs('#'+p.id+'_watch',c).onclick=()=>openAd(p.id);
-    qs('#'+p.id+'_join',c).onclick=()=>{
-      if(window.Telegram?.WebApp?.openTelegramLink) Telegram.WebApp.openTelegramLink(JOIN_URL);
-      else window.open(JOIN_URL,'_blank');
-      localStorage.removeItem('coins_'+p.id);
-      renderHome();
-    };
-  });
-}
+  const el=document.createElement('div');
+  el.className='card'; el.dataset.id=p.id;
+  el.innerHTML = `
+    <button class="like ${liked?'active':''}" data-like="${p.id}">
+      <svg viewBox="0 0 24 24"><path d="M12 21C8 18 3 14 3 9.5A4.5 4.5 0 0 1 11 8a4.5 4.5 0 0 1 8 1.5C19 14 14 18 12 21Z"/></svg>
+    </button>
+    <img class="thumb" src="${p.img}" alt="">
+    <div class="title">${p.title}</div>
+    <div class="names">${(p.names||[]).join(' / ')}</div>
+    <p class="desc">${p.desc}</p>
+    <div class="progress"><div class="bar" id="${p.id}_bar" style="width:${pct(coins)}%"></div></div>
+    <div class="row">
+      <button class="btn watch ${coins>=REQUIRED?'disabled':''}" id="${p.id}_watch" ${coins>=REQUIRED?'disabled':''}>Watch Ads (${Math.min(coins,REQUIRED)}/${REQUIRED})</button>
+      <button class="btn join ${coins>=REQUIRED?'ready':''}" id="${p.id}_join" ${coins>=REQUIRED?'':'disabled'}>Join Channel</button>
+    </div>`;
 
-/* Ads Logic */
-let busy=false;
-async function openAd(id){
-  if(busy)return;busy=true;
-  const w=qs('#'+id+'_watch');
-  w.textContent='Loading Ad...';
-  try{
-    if(!adReady) await preloadAdexora();
-    if(!window.showAdexora) throw Error('SDK not ready');
-    await window.showAdexora(); // ad finishes
-    const cur=+localStorage.getItem('coins_'+id)||0;
-    const next=Math.min(REQUIRED,cur+1);
-    localStorage.setItem('coins_'+id,next);
-    toast('+1 coin added ✅');
-    renderHome();
-  }catch(e){toast('Ad failed, try again');}
-  busy=false;
+  // like toggle
+  qs('[data-like]',el).onclick=()=>{
+    const b=qs('.like',el); const on=b.classList.toggle('active');
+    localStorage.setItem(lk(p.id),on?'1':'0'); refreshLiked();
+  };
+
+  // watch ad
+  qs('#'+p.id+'_watch',el).onclick=()=>openAd(p.id);
+
+  // join -> move to bottom + reset
+  qs('#'+p.id+'_join',el).onclick=()=>{
+    const c=Number(localStorage.getItem(sk(p.id))||"0");
+    if(c>=REQUIRED){
+      if(window.Telegram?.WebApp?.openTelegramLink){ Telegram.WebApp.openTelegramLink(p.join); }
+      else { window.open(p.join,'_blank'); }
+      localStorage.setItem(dk(p.id),'1');            // mark done (to bottom)
+      localStorage.removeItem(sk(p.id));             // reset coins
+      renderHome(qs('#searchInput').value);          // rerender
+    }
+  };
+
+  return el;
 }
 
-/* Tabs */
+function renderHome(filter){
+  const box=qs('#view-home'); box.innerHTML="";
+  const tokens=(filter||"").trim().toLowerCase().split(/\s+/).filter(Boolean);
+  const notDone=[], done=[];
+  POSTS.forEach(p => (localStorage.getItem(dk(p.id))==='1'?done:notDone).push(p));
+
+  const match = p=>{
+    if(!tokens.length) return true;
+    const s=idx(p); return tokens.some(t=>s.includes(t));
+  };
+
+  notDone.filter(match).forEach(p=>box.appendChild(renderCard(p)));
+  done.filter(match).forEach(p=>box.appendChild(renderCard(p)));
+}
+
+function refreshLiked(){
+  const c=qs('#liked-container'); c.innerHTML="";
+  const lp=POSTS.filter(p=>localStorage.getItem(lk(p.id))==='1');
+  if(!lp.length){ c.innerHTML='<div class="card"><div class="desc">এখনো কিছু ❤️ করা হয়নি। Home থেকে হার্ট চাপুন।</div></div>'; return; }
+  lp.forEach(p=>c.appendChild(renderCard(p)));
+}
+
+/* ========= SEARCH & NAV ========= */
+qs('#searchInput').addEventListener('input', e=>renderHome(e.target.value));
+
 qsa('.tab').forEach(t=>{
   t.onclick=()=>{
-    qsa('.tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');
+    qsa('.tab').forEach(x=>x.classList.remove('active')); t.classList.add('active');
     const name=t.dataset.tab;
-    ['home','liked','tutorial','links'].forEach(v=>qs('#view-'+v).style.display=(v===name)?'block':'none');
-    if(name==='liked') renderLiked();
-    if(name==='home') renderHome();
+    qsa('.view').forEach(v=>v.classList.remove('active'));
+    qs('#view-'+name).classList.add('active');
+    qs('#searchWrap').style.display = (name==='home')?'flex':'none';
+    qs('#home-notes').style.display  = (name==='home')?'block':'none';
+    if(name==='liked') refreshLiked();
+    if(name==='home') renderHome(qs('#searchInput').value);
   };
 });
 
-/* Liked */
-function renderLiked(){
-  const c=qs('#liked-container');c.innerHTML="";
-  const liked=POSTS.filter(p=>localStorage.getItem('like_'+p.id)==='1');
-  if(!liked.length){c.innerHTML='<div class="card"><div class="desc">❤️ কোনো পছন্দ নেই।</div></div>';return;}
-  liked.forEach(p=>{
-    const coins=+localStorage.getItem('coins_'+p.id)||0;
-    const el=document.createElement('div');
-    el.className='card';
-    el.innerHTML=`<img class="thumb" src="${p.img}"><div class="title">${p.title}</div>
-    <div class="desc">${p.desc}</div>
-    <div class="progress"><div class="bar" style="width:${pct(coins)}%"></div></div>`;
-    c.appendChild(el);
+/* ========= Links actions ========= */
+qsa('[data-go]').forEach(btn=>{
+  btn.onclick=()=>{
+    const url=btn.getAttribute('data-go');
+    if(window.Telegram?.WebApp?.openTelegramLink){ Telegram.WebApp.openTelegramLink(url); }
+    else { window.open(url,'_blank'); }
+  };
+});
+qs('#copyBtn').onclick=()=>{
+  const v=qs('#inviteLink').value;
+  if(navigator.clipboard?.writeText) navigator.clipboard.writeText(v).then(()=>showToast('Link copied'));
+};
+
+/* ========= ADS FLOW (reward only after ad finished) ========= */
+let adBusy=false; // prevent double taps
+
+function waitSDK(max=4000){
+  return new Promise((resolve,reject)=>{
+    if(window.showAdexora) return resolve();
+    let t=0; const i=setInterval(()=>{
+      if(window.showAdexora){clearInterval(i);resolve();}
+      t+=100; if(t>=max){clearInterval(i);reject('SDK not ready');}
+    },100);
   });
 }
 
-/* Init */
-renderHome();
+async function openAd(cardId){
+  if(adBusy) return;
+  adBusy=true;
+  try{
+    await waitSDK();                 // ensure SDK loaded
+    await window.showAdexora();      // ⬅️ ad shows; resolves ONLY when finished
+
+    // ✅ reward now
+    const key=sk(cardId);
+    const cur=Number(localStorage.getItem(key)||"0");
+    const next=Math.min(REQUIRED,cur+1);
+    localStorage.setItem(key,next);
+
+    // UI update
+    const bar=qs('#'+cardId+'_bar'); if(bar) bar.style.width=pct(next)+'%';
+    const w=qs('#'+cardId+'_watch'), j=qs('#'+cardId+'_join');
+    if(w){ w.textContent=`Watch Ads (${next}/${REQUIRED})`; if(next>=REQUIRED){ w.classList.add('disabled'); w.disabled=true; } }
+    if(j && next>=REQUIRED){ j.classList.add('ready'); j.disabled=false; }
+    showToast('+1 coin added ✅');
+  }catch(e){
+    showToast('Ad failed, try again');
+  }finally{
+    adBusy=false;
+  }
+}
+
+/* ========= First render ========= */
+renderHome("");
 </script>
 </body>
-                                                                                                                           </html>
+          </html>
