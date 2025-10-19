@@ -13,29 +13,17 @@
   <script src="https://adexora.com/cdn/ads.js?id=650" defer></script>
 
   <style>
-    :root{
-      --bg:#0b1220;--bg2:#0a1422;--card:#0d1426;--bd:#1f2a44;
-      --txt:#e5e7eb;--mut:#a1a8b4;--ok:#22c55e;--pri:#22d3ee;--prid:#0ea5e9
-    }
+    :root{--bg:#0b1220;--bg2:#0a1422;--card:#0d1426;--bd:#1f2a44;--txt:#e5e7eb;--mut:#a1a8b4;--ok:#22c55e;--pri:#22d3ee;--prid:#0ea5e9}
     *{box-sizing:border-box}
-    body{
-      margin:0;
-      background:
-        radial-gradient(1200px 600px at 10% -10%,#0f1f3e 0%,transparent 60%),
-        radial-gradient(900px 420px at 95% -15%,#052b36 0%,transparent 60%),
-        var(--bg2);
-      color:var(--txt);
-      font:14px/1.5 ui-sans-serif,system-ui
-    }
+    body{margin:0;background:
+      radial-gradient(1200px 600px at 10% -10%,#0f1f3e 0%,transparent 60%),
+      radial-gradient(900px 420px at 95% -15%,#052b36 0%,transparent 60%),
+      var(--bg2);color:var(--txt);font:14px/1.5 ui-sans-serif,system-ui}
     .wrap{max-width:960px;margin:0 auto;padding:18px 14px 110px}
     h2{margin:6px 0 12px;font-size:22px;font-weight:900}
     .view{display:none}.view.active{display:block}
-
-    /* Search (Home only) */
     .search{display:flex;gap:8px;align-items:center;background:#0d1426;border:1px solid #1f2a44;border-radius:14px;padding:10px 12px;margin:10px 0 14px}
     .search input{flex:1;background:transparent;border:0;outline:0;color:#e5e7eb;font-weight:800}
-
-    /* Cards */
     .card{position:relative;background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:14px;margin-bottom:14px}
     .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;background:#1f2937}
     .title{font-weight:900;margin:10px 0 4px}
@@ -49,26 +37,19 @@
     .watch.disabled{background:#253244;color:#93a3b5;cursor:not-allowed}
     .join{background:#253244;color:#cbd5e1}
     .join.ready{background:var(--ok);color:#062012}
-
-    /* Like */
     .like{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);
           width:48px;height:48px;border-radius:14px;display:grid;place-items:center;cursor:pointer}
     .like svg{width:26px;height:26px;fill:none;stroke:#e5e7eb;stroke-width:2}
     .like.active{background:rgba(244,63,94,.18);border-color:rgba(244,63,94,.4)}
     .like.active svg{fill:#f43f5e;stroke:#f43f5e}
-
-    /* Bottom dock */
     .dock{position:fixed;left:12px;right:12px;bottom:12px;background:#0c1322;border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:12px 8px}
     .nav{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
     .tab{display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 0;color:#cbd5e1;text-decoration:none;cursor:pointer}
     .tab svg{width:22px;height:22px;stroke:#cbd5e1;fill:none;stroke-width:2}
     .tab.active{color:#7dd3fc}.tab.active svg{stroke:#7dd3fc}
     .tablabel{font-weight:900}
-
     .foot{font-size:12px;color:#9aa4b2;margin:10px 2px}
     .foot a{color:#93c5fd;font-weight:800;text-decoration:none}
-
-    /* Toast */
     .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:95px;background:rgba(34,197,94,.95);color:#062012;border:1px solid rgba(34,197,94,.6);
            padding:10px 14px;border-radius:10px;font-weight:900;display:none}
     .toast.show{display:block;animation:fade 1.8s ease-out 1}
@@ -79,13 +60,11 @@
   <div class="wrap">
     <h2>Unlimited Vairal Video – Ads Unlock 🔓</h2>
 
-    <!-- Search (Home only) -->
     <div id="searchWrap" class="search">
       <span style="color:#93c5fd;font-weight:900">🔎</span>
       <input id="searchInput" type="text" placeholder="Search posts (e.g. era, era video, ridhii)">
     </div>
 
-    <!-- Views -->
     <div id="view-home" class="view active"></div>
     <div id="home-notes" class="foot">
       Invite friend: <a href="https://parvezparttoy.github.io/miniapp/" target="_blank" rel="noopener">https://parvezparttoy.github.io/miniapp/</a><br>
@@ -97,30 +76,22 @@
     <div id="view-tutorial" class="view">
       <div class="card"><div class="title">How to Unlock & Earn</div>
         <ol class="desc" style="margin-left:18px">
-          <li>“Watch Ads” চাপলে Interstitial বিজ্ঞাপন খুলবে</li>
-          <li>বিজ্ঞাপন <b>শেষ হলে</b> অটো +1 coin</li>
-          <li>১০/১০ হলে “Join Channel” সবুজ হবে</li>
-          <li>Join চাপলে পোস্টটা নিচে যাবে এবং 0/10 থেকে আবার শুরু হবে</li>
+          <li>Watch Ads চাপলেই সঙ্গে সঙ্গে অ্যাড খুলবে</li>
+          <li>অ্যাড <b>শেষ হলে</b> অটো +1 coin</li>
+          <li>১০/১০ হলে Join সবুজ হবে; Join দিলে পোস্ট নিচে যাবে, কাউন্টার রিসেট</li>
         </ol>
       </div>
     </div>
 
     <div id="view-links" class="view">
       <div class="card" style="display:flex;justify-content:space-between;gap:12px;align-items:center">
-        <div>
-          <div class="title">Community</div>
-          <div class="desc">t.me/VairalVideoInTelegram</div>
-        </div>
+        <div><div class="title">Community</div><div class="desc">t.me/VairalVideoInTelegram</div></div>
         <button class="btn watch" data-go="https://t.me/VairalVideoInTelegram">Open</button>
       </div>
       <div class="card" style="display:flex;justify-content:space-between;gap:12px;align-items:center">
-        <div>
-          <div class="title">Demo Bot</div>
-          <div class="desc">t.me/VairalVideoInTelegramBOT</div>
-        </div>
+        <div><div class="title">Demo Bot</div><div class="desc">t.me/VairalVideoInTelegramBOT</div></div>
         <button class="btn watch" data-go="http://t.me/VairalVideoInTelegramBOT">Open</button>
       </div>
-
       <div class="card">
         <div class="title" style="margin-bottom:10px">Invite friend</div>
         <div style="display:flex;gap:10px">
@@ -129,15 +100,12 @@
           <button class="btn watch" id="copyBtn" style="flex:0 0 auto">Copy</button>
         </div>
       </div>
-
       <div class="foot" style="text-align:center">Community: <a href="https://t.me/VairalVideoInTelegram">t.me/VairalVideoInTelegram</a></div>
     </div>
   </div>
 
-  <!-- Toast -->
   <div id="toast" class="toast">+1 coin added!</div>
 
-  <!-- Bottom Nav -->
   <div class="dock">
     <div class="nav">
       <a class="tab active" data-tab="home">
@@ -156,51 +124,36 @@
   </div>
 
 <script>
-/* ========= CONFIG ========= */
+/* ===== CONFIG ===== */
 const JOIN_URL = "https://t.me/+JQdsBNK6nE1kNTg1";
 const REQUIRED = 10;
 
-/* ========= DATA ========= */
+/* ===== DATA ===== */
 const POSTS = [
-  { id:"p1", title:"Jannat Toha Vairal Video 🥵", names:["Jannat Toha","জান্নাত তোহা"],
-    desc:"জান্নাত তোহার ভাইরাল ভিডিও লিংক 😍",
+  { id:"p1", title:"Jannat Toha Vairal Video 🥵", names:["Jannat Toha","জান্নাত তোহা"], desc:"জান্নাত তোহার ভাইরাল ভিডিও লিংক 😍",
     img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_193741_659.jpg", join:JOIN_URL,
-    kw:"jannat toha জান্নাত তোহা video viral"
-  },
-  { id:"p2", title:"Ridhii TikTok 💗", names:["Ridhii Moni","রিধী মনি"],
-    desc:"রিধী মনি ভাইরাল ভিডিও লিংক 🥵",
+    kw:"jannat toha জান্নাত তোহা video viral" },
+  { id:"p2", title:"Ridhii TikTok 💗", names:["Ridhii Moni","রিধী মনি"], desc:"রিধী মনি ভাইরাল ভিডিও লিংক 🥵",
     img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_194758_066.jpg", join:JOIN_URL,
-    kw:"ridhii ridhi moni রিধী video viral"
-  },
-  { id:"p3", title:"Era Moni TikTok 💗", names:["Era Moni","ইরা মনি"],
-    desc:"ইরা মনি ভাইরাল ভিডিও লিংক 😍💦",
+    kw:"ridhii ridhi moni রিধী video viral" },
+  { id:"p3", title:"Era Moni TikTok 💗", names:["Era Moni","ইরা মনি"], desc:"ইরা মনি ভাইরাল ভিডিও লিংক 😍💦",
     img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251016_155725_290.jpg", join:JOIN_URL,
-    kw:"era moni ira ইরা মনি video viral"
-  }
+    kw:"era moni ira ইরা মনি video viral" }
 ];
 
-/* ========= HELPERS ========= */
+/* ===== HELPERS ===== */
 const qs=(s,p)=> (p||document).querySelector(s);
 const qsa=(s,p)=> Array.from((p||document).querySelectorAll(s));
-const sk=id=>`coins_${id}`;
-const lk=id=>`liked_${id}`;
-const dk=id=>`done_${id}`;
+const sk=id=>`coins_${id}`, lk=id=>`liked_${id}`, dk=id=>`done_${id}`;
 const pct=v=>Math.min(100,Math.round((v/REQUIRED)*100));
 const idx=p=>(p.title+" "+p.desc+" "+(p.kw||" ")+" "+(p.names||[]).join(" ")).toLowerCase();
+function showToast(msg){const t=qs('#toast');t.textContent=msg||'+1 coin added!';t.classList.remove('show');void t.offsetWidth;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600);}
 
-function showToast(msg){
-  const t=qs('#toast'); t.textContent=msg||'+1 coin added!';
-  t.classList.remove('show'); void t.offsetWidth; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),1600);
-}
-
-/* ========= RENDER ========= */
+/* ===== RENDER ===== */
 function renderCard(p){
   const coins=Number(localStorage.getItem(sk(p.id))||"0");
   const liked=localStorage.getItem(lk(p.id))==="1";
-
-  const el=document.createElement('div');
-  el.className='card'; el.dataset.id=p.id;
+  const el=document.createElement('div'); el.className='card'; el.dataset.id=p.id;
   el.innerHTML = `
     <button class="like ${liked?'active':''}" data-like="${p.id}">
       <svg viewBox="0 0 24 24"><path d="M12 21C8 18 3 14 3 9.5A4.5 4.5 0 0 1 11 8a4.5 4.5 0 0 1 8 1.5C19 14 14 18 12 21Z"/></svg>
@@ -214,156 +167,97 @@ function renderCard(p){
       <button class="btn watch ${coins>=REQUIRED?'disabled':''}" id="${p.id}_watch" ${coins>=REQUIRED?'disabled':''}>Watch Ads (${Math.min(coins,REQUIRED)}/${REQUIRED})</button>
       <button class="btn join ${coins>=REQUIRED?'ready':''}" id="${p.id}_join" ${coins>=REQUIRED?'':'disabled'}>Join Channel</button>
     </div>`;
-
-  // like toggle
-  qs('[data-like]',el).onclick=()=>{
-    const b=qs('.like',el); const on=b.classList.toggle('active');
-    localStorage.setItem(lk(p.id),on?'1':'0'); refreshLiked();
-  };
-
-  // watch ad
+  qs('[data-like]',el).onclick=()=>{const b=qs('.like',el);const on=b.classList.toggle('active');localStorage.setItem(lk(p.id),on?'1':'0');refreshLiked();};
   qs('#'+p.id+'_watch',el).onclick=()=>openAd(p.id);
-
-  // join -> move to bottom + reset
   qs('#'+p.id+'_join',el).onclick=()=>{
     const c=Number(localStorage.getItem(sk(p.id))||"0");
     if(c>=REQUIRED){
-      if(window.Telegram?.WebApp?.openTelegramLink){
-        Telegram.WebApp.openTelegramLink(p.join);
-      } else { window.open(p.join,'_blank'); }
-      localStorage.setItem(dk(p.id),'1');    // mark done (to bottom)
-      localStorage.removeItem(sk(p.id));     // reset coins
-      renderHome(qs('#searchInput').value);  // rerender
+      if(window.Telegram?.WebApp?.openTelegramLink){Telegram.WebApp.openTelegramLink(p.join);} else {window.open(p.join,'_blank');}
+      localStorage.setItem(dk(p.id),'1'); localStorage.removeItem(sk(p.id)); renderHome(qs('#searchInput').value);
     }
   };
-
   return el;
 }
-
 function renderHome(filter){
   const box=qs('#view-home'); box.innerHTML="";
   const tokens=(filter||"").trim().toLowerCase().split(/\s+/).filter(Boolean);
-  const notDone=[], done=[];
-  POSTS.forEach(p => (localStorage.getItem(dk(p.id))==='1'?done:notDone).push(p));
-
-  const match = p=>{
-    if(!tokens.length) return true;
-    const s=idx(p); return tokens.some(t=>s.includes(t));
-  };
-
+  const notDone=[], done=[]; POSTS.forEach(p => (localStorage.getItem(dk(p.id))==='1'?done:notDone).push(p));
+  const match=p=>!tokens.length || tokens.some(t=>idx(p).includes(t));
   notDone.filter(match).forEach(p=>box.appendChild(renderCard(p)));
   done.filter(match).forEach(p=>box.appendChild(renderCard(p)));
 }
-
 function refreshLiked(){
   const c=qs('#liked-container'); c.innerHTML="";
   const lp=POSTS.filter(p=>localStorage.getItem(lk(p.id))==='1');
-  if(!lp.length){
-    c.innerHTML='<div class="card"><div class="desc">এখনো কিছু ❤️ করা হয়নি। Home থেকে হার্ট চাপুন।</div></div>';
-    return;
-  }
+  if(!lp.length){c.innerHTML='<div class="card"><div class="desc">এখনো কিছু ❤️ করা হয়নি। Home থেকে হার্ট চাপুন।</div></div>';return;}
   lp.forEach(p=>c.appendChild(renderCard(p)));
 }
 
-/* ========= SEARCH & NAV ========= */
+/* ===== NAV & LINKS ===== */
 qs('#searchInput').addEventListener('input', e=>renderHome(e.target.value));
 qsa('.tab').forEach(t=>{
   t.onclick=()=>{
     qsa('.tab').forEach(x=>x.classList.remove('active')); t.classList.add('active');
-    const name=t.dataset.tab;
-    qsa('.view').forEach(v=>v.classList.remove('active'));
-    qs('#view-'+name).classList.add('active');
+    const name=t.dataset.tab; qsa('.view').forEach(v=>v.classList.remove('active')); qs('#view-'+name).classList.add('active');
     qs('#searchWrap').style.display = (name==='home')?'flex':'none';
     qs('#home-notes').style.display  = (name==='home')?'block':'none';
-    if(name==='liked') refreshLiked();
-    if(name==='home') renderHome(qs('#searchInput').value);
+    if(name==='liked') refreshLiked(); if(name==='home') renderHome(qs('#searchInput').value);
   };
 });
-
-/* ========= Links actions ========= */
 qsa('[data-go]').forEach(btn=>{
-  btn.onclick=()=>{
-    const url=btn.getAttribute('data-go');
-    if(window.Telegram?.WebApp?.openTelegramLink){ Telegram.WebApp.openTelegramLink(url); }
-    else { window.open(url,'_blank'); }
-  };
+  btn.onclick=()=>{const url=btn.getAttribute('data-go'); if(window.Telegram?.WebApp?.openTelegramLink){Telegram.WebApp.openTelegramLink(url);} else {window.open(url,'_blank');}};
 });
-qs('#copyBtn').onclick=()=>{
-  const v=qs('#inviteLink').value;
-  if(navigator.clipboard?.writeText) navigator.clipboard.writeText(v).then(()=>showToast('Link copied'));
-};
+qs('#copyBtn').onclick=()=>{const v=qs('#inviteLink').value; if(navigator.clipboard?.writeText) navigator.clipboard.writeText(v).then(()=>showToast('Link copied'));};
 
-/* ========= ADS FLOW (Adexora only; reward after finish) ========= */
-let adBusy = false;
-let sdkReady = false;
-
-/* SDK Ready Checker */
-function waitSDK(max = 5000){
-  return new Promise((resolve, reject)=>{
-    if (window.showAdexora){ sdkReady = true; return resolve(); }
-    let t=0;
-    const iv=setInterval(()=>{
-      if (window.showAdexora){ clearInterval(iv); sdkReady = true; resolve(); }
-      t+=100;
-      if (t>=max){ clearInterval(iv); reject(new Error('SDK not ready')); }
-    },100);
-  });
-}
-
-/* Pre-warm once after page load (reduce first-load delay) */
-window.addEventListener('DOMContentLoaded', ()=>{ waitSDK().catch(()=>{}); });
+/* ===== ADS: Tap => show immediately; reward only on success ===== */
+let adBusy=false;
 
 async function openAd(cardId){
-  if (adBusy) return;
-  adBusy = true;
+  if(adBusy) return;
+  adBusy=true;
 
-  // UI: show loading on button
-  const watchBtn = document.getElementById(cardId + '_watch');
+  const watchBtn=document.getElementById(cardId+'_watch');
   const oldLabel = watchBtn ? watchBtn.textContent : '';
-  if (watchBtn){ watchBtn.textContent = 'Loading Ad...'; watchBtn.disabled = true; }
+  if(watchBtn){ watchBtn.textContent='Loading Ad...'; watchBtn.disabled=true; }
 
   try{
-    await waitSDK();                       // ensure SDK
+    if(typeof window.showAdexora!=='function'){
+      throw new Error('SDK not ready');
+    }
+
+    // call immediately on user gesture; no pre-wait
     await Promise.race([
-      window.showAdexora(),                // resolves when ad finished
-      new Promise((_,rej)=>setTimeout(()=>rej(new Error('Ad timeout')),20000))
+      window.showAdexora(),                 // resolves ONLY when ad is finished
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),25000)) // fail (no reward)
     ]);
 
-    // reward
-    addCoinSafe(cardId);
+    addCoin(cardId);                         // success ⇒ reward
 
-  }catch(e){
+  }catch(err){
+    // no reward on error/timeout/not-ready
     showToast('Ad failed — try again');
   }finally{
-    if (watchBtn){
-      const coins = Number(localStorage.getItem(sk(cardId))||'0');
+    if(watchBtn){
+      const coins=Number(localStorage.getItem(sk(cardId))||'0');
       watchBtn.textContent = oldLabel || 'Watch Ads';
-      if (coins < REQUIRED) watchBtn.disabled = false;
+      if(coins<REQUIRED) watchBtn.disabled=false;
     }
-    adBusy = false;
+    adBusy=false;
   }
 }
 
-function addCoinSafe(id){
-  const key = sk(id);
-  const cur = Number(localStorage.getItem(key) || '0');
-  const next = Math.min(REQUIRED, cur + 1);
-  localStorage.setItem(key, next);
-
-  const bar = document.getElementById(id + '_bar');
-  if (bar) bar.style.width = pct(next) + '%';
-  const w = document.getElementById(id + '_watch');
-  const j = document.getElementById(id + '_join');
-  if (w){
-    w.textContent = `Watch Ads (${next}/${REQUIRED})`;
-    if (next >= REQUIRED){ w.classList.add('disabled'); w.disabled = true; }
-  }
-  if (j && next >= REQUIRED){ j.classList.add('ready'); j.disabled = false; }
+function addCoin(id){
+  const key=sk(id), cur=Number(localStorage.getItem(key)||"0"), next=Math.min(REQUIRED,cur+1);
+  localStorage.setItem(key,next);
+  const bar=document.getElementById(id+'_bar'); if(bar) bar.style.width=pct(next)+'%';
+  const w=document.getElementById(id+'_watch'), j=document.getElementById(id+'_join');
+  if(w){ w.textContent=`Watch Ads (${next}/${REQUIRED})`; if(next>=REQUIRED){ w.classList.add('disabled'); w.disabled=true; } }
+  if(j && next>=REQUIRED){ j.classList.add('ready'); j.disabled=false; }
   showToast('+1 coin added ✅');
 }
 
-/* ========= First render ========= */
+/* First render */
 renderHome("");
 </script>
 </body>
-      </html>
+          </html>
