@@ -2,12 +2,11 @@
 <html lang="bn">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Unlimited Vairal Video – Ads Unlock 🔓</title>
 
-  <!-- Telegram WebApp SDK -->
+  <!-- Telegram SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
   <!-- Adexora SDK (App ID: 650) -->
   <script src="https://adexora.com/cdn/ads.js?id=650"></script>
 
@@ -23,14 +22,13 @@
       var(--bg2);color:var(--txt);font:14px/1.5 ui-sans-serif,system-ui}
     .wrap{max-width:960px;margin:0 auto;padding:18px 14px 110px}
     h2{margin:6px 0 12px;font-size:22px;font-weight:900}
-
     .view{display:none}.view.active{display:block}
 
     /* search (Home only) */
     .search{display:flex;gap:8px;align-items:center;background:#0d1426;border:1px solid #1f2a44;border-radius:14px;padding:10px 12px;margin:10px 0 14px}
     .search input{flex:1;background:transparent;border:0;outline:0;color:#e5e7eb;font-weight:800}
 
-    /* card */
+    /* cards */
     .card{position:relative;background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:14px;margin-bottom:14px}
     .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;background:#1f2937}
     .title{font-weight:900;margin:10px 0 4px}
@@ -38,7 +36,6 @@
     .desc{color:var(--mut);margin:0 0 10px}
     .progress{height:8px;background:#0c1322;border:1px solid var(--bd);border-radius:999px;overflow:hidden;margin-bottom:12px}
     .bar{height:100%;width:0;background:linear-gradient(90deg,#22c55e,#a3e635);transition:width .25s}
-
     .row{display:flex;gap:10px}
     .btn{flex:1;padding:12px;border:0;border-radius:12px;font-weight:900;cursor:pointer}
     .watch{background:linear-gradient(180deg,var(--pri),var(--prid));color:#001b30}
@@ -46,6 +43,7 @@
     .join{background:#253244;color:#cbd5e1}
     .join.ready{background:var(--ok);color:#062012}
 
+    /* like */
     .like{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);
           width:48px;height:48px;border-radius:14px;display:grid;place-items:center;cursor:pointer}
     .like svg{width:26px;height:26px;fill:none;stroke:#e5e7eb;stroke-width:2}
@@ -63,6 +61,7 @@
     .foot{font-size:12px;color:#9aa4b2;margin:10px 2px}
     .foot a{color:#93c5fd;font-weight:800;text-decoration:none}
 
+    /* toast */
     .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:95px;background:rgba(34,197,94,.95);color:#062012;border:1px solid rgba(34,197,94,.6);
            padding:10px 14px;border-radius:10px;font-weight:900;display:none}
     .toast.show{display:block;animation:fade 1.8s ease-out 1}
@@ -76,14 +75,13 @@
     <!-- Search (Home only) -->
     <div id="searchWrap" class="search">
       <span style="color:#93c5fd;font-weight:900">🔎</span>
-      <input id="searchInput" type="text" placeholder="Search posts (e.g. era, era video, ridhii)">
+      <input id="searchInput" type="text" placeholder="Search posts (e.g. era, era video, ridhi)">
     </div>
 
     <!-- Views -->
     <div id="view-home" class="view active"></div>
     <div id="home-notes" class="foot">
-      Invite friend:
-      <a href="https://parvezparttoy.github.io/miniapp/" target="_blank" rel="noopener">https://parvezparttoy.github.io/miniapp/</a><br>
+      Invite friend: <a href="https://parvezparttoy.github.io/miniapp/" target="_blank" rel="noopener">https://parvezparttoy.github.io/miniapp/</a><br>
       App Community: <a href="http://t.me/VairalVideoInTelegramBOT">t.me/VairalVideoInTelegramBOT</a>
     </div>
 
@@ -92,10 +90,10 @@
     <div id="view-tutorial" class="view">
       <div class="card"><div class="title">How to Unlock & Earn</div>
         <ol class="desc" style="margin-left:18px">
-          <li>“Watch Ads” চাপলে Interstitial বিজ্ঞাপন খুলবে।</li>
-          <li>বিজ্ঞাপন **শেষ হলে** অটো +1 coin যোগ হবে।</li>
-          <li>১০/১০ হলে “Join Channel” সবুজ হবে।</li>
-          <li>Join চাপলেই পোস্টটা একেবারে নিচে যাবে এবং 0/10 থেকে আবার শুরু হবে।</li>
+          <li>“Watch Ads” চাপলে বিজ্ঞাপন খুলবে</li>
+          <li><b>বিজ্ঞাপন শেষ হলে</b> অটো +1 coin যোগ হবে</li>
+          <li>১০/১০ হলে “Join Channel” সবুজ হবে</li>
+          <li>Join চাপলে পোস্ট নিচে যাবে এবং আবার 0/10 থেকে শুরু</li>
         </ol>
       </div>
     </div>
@@ -125,8 +123,7 @@
         </div>
       </div>
 
-      <div class="foot" style="text-align:center">Community:
-        <a href="https://t.me/VairalVideoInTelegram">t.me/VairalVideoInTelegram</a></div>
+      <div class="foot" style="text-align:center">Community: <a href="https://t.me/VairalVideoInTelegram">t.me/VairalVideoInTelegram</a></div>
     </div>
   </div>
 
@@ -152,11 +149,11 @@
   </div>
 
 <script>
-/* ===== CONFIG ===== */
+/* ========= CONFIG ========= */
 const JOIN_URL = "https://t.me/+JQdsBNK6nE1kNTg1";
 const REQUIRED = 10;
 
-/* ===== DATA ===== */
+/* ========= DATA ========= */
 const POSTS = [
   { id:"p1", title:"Jannat Toha Vairal Video 🥵", names:["Jannat Toha","জান্নাত তোহা"],
     desc:"জান্নাত তোহার ভাইরাল ভিডিও লিংক 😍",
@@ -175,7 +172,7 @@ const POSTS = [
   }
 ];
 
-/* ===== HELPERS ===== */
+/* ========= HELPERS ========= */
 const qs=(s,p)=> (p||document).querySelector(s);
 const qsa=(s,p)=> Array.from((p||document).querySelectorAll(s));
 const sk=id=>`coins_${id}`;
@@ -184,13 +181,9 @@ const dk=id=>`done_${id}`;
 const pct=v=>Math.min(100,Math.round((v/REQUIRED)*100));
 const idx=p=>(p.title+" "+p.desc+" "+(p.kw||" ")+" "+(p.names||[]).join(" ")).toLowerCase();
 
-function showToast(msg){
-  const t=qs('#toast'); t.textContent=msg||'+1 coin added!';
-  t.classList.remove('show'); void t.offsetWidth; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),1600);
-}
+function showToast(msg){const t=qs('#toast');t.textContent=msg||'+1 coin added!';t.classList.remove('show');void t.offsetWidth;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600);}
 
-/* ===== RENDER ===== */
+/* ========= RENDER ========= */
 function renderCard(p){
   const coins=Number(localStorage.getItem(sk(p.id))||"0");
   const liked=localStorage.getItem(lk(p.id))==="1";
@@ -226,9 +219,9 @@ function renderCard(p){
     if(c>=REQUIRED){
       if(window.Telegram?.WebApp?.openTelegramLink){ Telegram.WebApp.openTelegramLink(p.join); }
       else { window.open(p.join,'_blank'); }
-      localStorage.setItem(dk(p.id),'1');   // mark done
-      localStorage.removeItem(sk(p.id));    // reset 0/10
-      renderHome(qs('#searchInput').value);
+      localStorage.setItem(dk(p.id),'1');            // mark done (to bottom)
+      localStorage.removeItem(sk(p.id));             // reset coins
+      renderHome(qs('#searchInput').value);          // rerender
     }
   };
 
@@ -253,14 +246,11 @@ function renderHome(filter){
 function refreshLiked(){
   const c=qs('#liked-container'); c.innerHTML="";
   const lp=POSTS.filter(p=>localStorage.getItem(lk(p.id))==='1');
-  if(!lp.length){
-    c.innerHTML='<div class="card"><div class="desc">এখনো কিছু ❤️ করা হয়নি। Home থেকে হার্ট চাপুন।</div></div>';
-    return;
-  }
+  if(!lp.length){ c.innerHTML='<div class="card"><div class="desc">এখনো কিছু ❤️ করা হয়নি। Home থেকে হার্ট চাপুন।</div></div>'; return; }
   lp.forEach(p=>c.appendChild(renderCard(p)));
 }
 
-/* ===== SEARCH & NAV ===== */
+/* ========= SEARCH & NAV ========= */
 qs('#searchInput').addEventListener('input', e=>renderHome(e.target.value));
 
 qsa('.tab').forEach(t=>{
@@ -276,7 +266,7 @@ qsa('.tab').forEach(t=>{
   };
 });
 
-/* ===== Links actions ===== */
+/* ========= Links actions ========= */
 qsa('[data-go]').forEach(btn=>{
   btn.onclick=()=>{
     const url=btn.getAttribute('data-go');
@@ -289,82 +279,80 @@ qs('#copyBtn').onclick=()=>{
   if(navigator.clipboard?.writeText) navigator.clipboard.writeText(v).then(()=>showToast('Link copied'));
 };
 
-/* ===== ADS (only reward after real finish) ===== */
-let adBusy=false;
+/* ========= ADS FLOW (reward only after real ad) ========= */
+let adBusy=false; // prevent double taps
 
-function waitSDK(max=4000){
-  return new Promise((resolve,reject)=>{
+function waitAdexora(maxMs = 4000){
+  return new Promise((resolve, reject)=>{
     if(window.showAdexora) return resolve();
-    let t=0; const i=setInterval(()=>{
-      if(window.showAdexora){clearInterval(i);resolve();}
-      t+=100; if(t>=max){clearInterval(i);reject(new Error('sdk')); }
-    },100);
+    let elapsed = 0;
+    const iv = setInterval(()=>{
+      if(window.showAdexora){ clearInterval(iv); resolve(); }
+      elapsed += 100;
+      if(elapsed >= maxMs){ clearInterval(iv); reject(new Error("SDK not ready")); }
+    }, 100);
+  });
+}
+
+function withTimeout(promise, ms){
+  return new Promise((resolve, reject)=>{
+    const t = setTimeout(()=>reject(new Error("timeout")), ms);
+    promise.then(v=>{clearTimeout(t); resolve(v);})
+           .catch(e=>{clearTimeout(t); reject(e);});
   });
 }
 
 async function openAd(cardId){
   if(adBusy) return;
-  adBusy = true;
+  adBusy=true;
 
-  const btn = document.getElementById(cardId + "_watch");
-  const oldTxt = btn.textContent;
-  btn.disabled = true;
-  btn.classList.add("disabled");
-  btn.textContent = "Loading Ad...";
+  const watchBtn = document.getElementById(cardId + "_watch");
+  if (watchBtn) { watchBtn.textContent = "Loading Ad..."; watchBtn.disabled = true; }
 
-  let seenOverlay=false;
-  const onVis=()=>{ if(document.hidden) seenOverlay=true; };
-  document.addEventListener('visibilitychange', onVis);
-
-  const t0 = Date.now();
-  const MIN_SECS=12;
-  const MAX_WAIT=15000;
-
-  let outcome="no-fill";
   try{
-    await waitSDK();
-    await Promise.race([
-      window.showAdexora().then(()=>{ outcome="finished"; }),
-      new Promise((_,rej)=>setTimeout(()=>rej(new Error("timeout")),MAX_WAIT))
-    ]);
-  }catch(e){
-    outcome = (e && e.message==="timeout") ? "timeout" : "error";
+    // ensure SDK ready
+    await waitAdexora();
+
+    // try to show ad (12s timeout). If first fails, retry once.
+    try{
+      await withTimeout(window.showAdexora(), 12000);
+    }catch(e){
+      await withTimeout(window.showAdexora(), 12000);
+    }
+
+    // ✅ ad finished → add coin
+    const key  = sk(cardId);
+    const cur  = Number(localStorage.getItem(key) || "0");
+    const next = Math.min(REQUIRED, cur + 1);
+    localStorage.setItem(key, String(next));
+
+    // UI update
+    const bar = document.getElementById(cardId + "_bar");
+    if (bar) bar.style.width = pct(next) + "%";
+    if (watchBtn) {
+      watchBtn.textContent = `Watch Ads (${next}/${REQUIRED})`;
+      watchBtn.disabled = next >= REQUIRED;
+      if(next >= REQUIRED){
+        const j = document.getElementById(cardId + "_join");
+        if (j){ j.classList.add("ready"); j.disabled = false; }
+      }
+    }
+    showToast("+1 coin added ✅");
+  }catch(err){
+    // ❌ No ad → no coin
+    showToast("No ad available now, try again");
   }finally{
-    document.removeEventListener('visibilitychange', onVis);
+    // restore button label if still enabled
+    if (watchBtn){
+      const cur = Number(localStorage.getItem(sk(cardId)) || "0");
+      if(cur < REQUIRED) { watchBtn.textContent = `Watch Ads (${cur}/${REQUIRED})`; watchBtn.disabled = false; }
+    }
+    adBusy=false;
   }
-
-  const elapsed=(Date.now()-t0)/1000;
-
-  if(outcome==="finished" && (elapsed>=MIN_SECS || seenOverlay)){
-    addCoin(cardId);
-  }else{
-    showToast("No ad available. Try again.");
-  }
-
-  // refresh watch button
-  const coins=Number(localStorage.getItem(sk(cardId))||"0");
-  btn.textContent=`Watch Ads (${Math.min(coins,REQUIRED)}/${REQUIRED})`;
-  if(coins>=REQUIRED){ btn.disabled=true; btn.classList.add('disabled'); }
-  else{ btn.disabled=false; btn.classList.remove('disabled'); }
-
-  adBusy=false;
 }
 
-function addCoin(id){
-  const key=sk(id);
-  const cur=Number(localStorage.getItem(key)||"0");
-  const next=Math.min(REQUIRED,cur+1);
-  localStorage.setItem(key,next);
-
-  const bar=qs('#'+id+'_bar'); if(bar) bar.style.width=pct(next)+'%';
-  const w=qs('#'+id+'_watch'), j=qs('#'+id+'_join');
-  if(w){ w.textContent=`Watch Ads (${next}/${REQUIRED})`; if(next>=REQUIRED){ w.classList.add('disabled'); w.disabled=true; } }
-  if(j && next>=REQUIRED){ j.classList.add('ready'); j.disabled=false; }
-  showToast('+1 coin added ✅');
-}
-
-/* ===== First render ===== */
+/* ========= First render ========= */
 renderHome("");
 </script>
 </body>
-  </html>
+        </html>
