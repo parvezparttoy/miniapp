@@ -19,9 +19,9 @@
            font-size:12px;color:#9db2d3}
   .devnote a{color:#7dd3fc;text-decoration:none}
 
-  /* Splash (auto-loading) — CSS-only auto hide + JS fallback */
+  /* Splash (auto) */
   .splash{position:fixed;inset:0;background:radial-gradient(900px 600px at 50% 0%,#111a2e 0%,#0a0f1a 60%,#05080e 100%);
-          display:grid;place-items:center;z-index:50;animation:fadeOut 0.6s ease forwards;animation-delay:2.2s}
+          display:grid;place-items:center;z-index:50;animation:fadeOut .6s ease forwards;animation-delay:2.2s}
   @keyframes fadeOut{to{opacity:0;visibility:hidden}}
   .card-splash{text-align:center}
   .coin{width:140px;height:140px;border-radius:50%;background:#2a0b10;border:3px solid #4a0f18;display:grid;place-items:center;
@@ -30,8 +30,7 @@
   @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
   .loader{margin:14px auto 0;width:72%;height:6px;border-radius:999px;background:#0f1a2a;overflow:hidden}
-  .loader>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#00e5ff,#46f1ff);
-               animation:load 1.6s ease-in-out infinite}
+  .loader>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#00e5ff,#46f1ff);animation:load 1.6s ease-in-out infinite}
   @keyframes load{0%{width:0}55%{width:72%}100%{width:100%}}
 
   .welcome{background:#151e2f;border:1px solid var(--line);padding:10px 12px;border-radius:12px;margin:8px 0}
@@ -64,10 +63,7 @@
 
   /* ------- HASH ROUTING (CSS tabs) ------- */
   .page{display:none}
-  /* show current target */
-  #home:target, #mining:target, #task:target, #wallet:target, #refer:target,
-  #deposit:target, #withdraw:target { display:block }
-  /* default (no hash) = home */
+  #home:target, #mining:target, #task:target, #wallet:target, #refer:target, #deposit:target, #withdraw:target { display:block }
   body:not([data-hash]) #home { display:block }
 
   /* Bottom tab bar */
@@ -86,9 +82,7 @@
 <div id="splash" class="splash" aria-hidden="true">
   <div class="card-splash">
     <div class="coin">
-      <svg viewBox="0 0 24 24" aria-label="TRON (TRX)">
-        <path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Zm-7.91-5.74 6.94 6.94-4.094 1.276-4.67-7.927 1.82-.29h.004ZM12.6 3.17l4.922 8.356-3.59 1.118-4.9-6.76 3.568-2.714ZM6.94 4.22 10.7 9.28l-6.39 1.97 2.63-7.03Zm-4.49 5.57 8.83-2.73 4.71 6.5-3.04 8.25L2.45 9.79Zm12.41 12.41 2.62-7.11 3.35-1.05-5.97 8.16Z"/>
-      </svg>
+      <svg viewBox="0 0 24 24" aria-label="TRON (TRX)"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Zm-7.91-5.74 6.94 6.94-4.094 1.276-4.67-7.927 1.82-.29h.004ZM12.6 3.17l4.922 8.356-3.59 1.118-4.9-6.76 3.568-2.714ZM6.94 4.22 10.7 9.28l-6.39 1.97 2.63-7.03Zm-4.49 5.57 8.83-2.73 4.71 6.5-3.04 8.25L2.45 9.79Zm12.41 12.41 2.62-7.11 3.35-1.05-5.97 8.16Z"/></svg>
     </div>
     <div class="loader"><span></span></div>
   </div>
@@ -103,7 +97,7 @@
     <div class="sub">Use the tabs below to navigate. Buy a plan to enable mining.</div>
   </div>
 
-  <!-- HOME -->
+  <!-- HOME (Home-only content lives here) -->
   <section id="home" class="page">
     <div class="card center">
       <div class="trx-giant" aria-hidden="true">
@@ -118,17 +112,13 @@
     </div>
   </section>
 
-  <!-- MINING -->
+  <!-- MINING (no Home items here) -->
   <section id="mining" class="page">
     <div class="card center">
       <h2>Mining Control</h2>
-      <div class="statrow">
-        <span class="pill">Status: <b id="status2">Stop</b></span>
-        <span class="pill">Session: <b id="time2">00:00</b></span>
-      </div>
       <button id="toggleMining" class="btn accent" style="width:100%">
         <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
-        <span class="label">Start Mining</span>
+        <span class="label">Start / Stop Mining</span>
         <span class="hint">Requires any purchased plan</span>
       </button>
     </div>
@@ -232,7 +222,7 @@
     </div>
   </section>
 
-  <!-- DEPOSIT (sub-page) -->
+  <!-- DEPOSIT -->
   <section id="deposit" class="page">
     <div class="card">
       <a href="#wallet" class="btn" style="margin-bottom:10px">← Back</a>
@@ -254,7 +244,7 @@
     </div>
   </section>
 
-  <!-- WITHDRAW (sub-page) -->
+  <!-- WITHDRAW -->
   <section id="withdraw" class="page">
     <div class="card">
       <a href="#wallet" class="btn" style="margin-bottom:10px">← Back</a>
@@ -281,7 +271,7 @@
   </section>
 </div>
 
-<!-- Bottom Tab Bar (pure links) -->
+<!-- Bottom Tab Bar -->
 <div class="tabbar" id="tabs">
   <a class="tab" data-tab="home"    href="#home">
     <svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>
@@ -307,44 +297,24 @@
 
 <script>
 (function(){
-  // Set default page when no hash
-  function setDefaultHash(){
-    if(!location.hash){ document.body.removeAttribute('data-hash'); }
-    else { document.body.setAttribute('data-hash','1'); }
-  }
-  setDefaultHash();
-  window.addEventListener('hashchange', setDefaultHash);
+  // default hash handling
+  function setDefaultHash(){ if(!location.hash){ document.body.removeAttribute('data-hash'); } else { document.body.setAttribute('data-hash','1'); } }
+  setDefaultHash(); window.addEventListener('hashchange', setDefaultHash);
 
-  // Splash extra safety
+  // splash safety
   function hideSplash(){ var s=document.getElementById('splash'); if(s) s.style.display='none'; }
-  window.addEventListener('load', function(){ setTimeout(hideSplash, 1200); });
-  setTimeout(hideSplash, 3500);
+  window.addEventListener('load', function(){ setTimeout(hideSplash, 1200); }); setTimeout(hideSplash, 3500);
 
-  // Highlight active tab (based on hash)
+  // active tab highlight
   function syncActive(){
-    var h = (location.hash||'#home').replace('#','');
-    var tabs = document.querySelectorAll('.tab');
-    for(var i=0;i<tabs.length;i++){
-      if(tabs[i].getAttribute('data-tab')===h) tabs[i].classList.add('active');
-      else tabs[i].classList.remove('active');
-    }
+    var h=(location.hash||'#home').replace('#',''); var tabs=document.querySelectorAll('.tab');
+    for(var i=0;i<tabs.length;i++){ if(tabs[i].getAttribute('data-tab')===h) tabs[i].classList.add('active'); else tabs[i].classList.remove('active'); }
   }
-  syncActive();
-  window.addEventListener('hashchange', syncActive);
+  syncActive(); window.addEventListener('hashchange', syncActive);
 
   // ===== App State
-  var S = {};
-  try{ S = JSON.parse(localStorage.getItem('mining_state_pages')||'{}'); }catch(_){}
-  var state = Object.assign({
-    balance: 0,
-    mining: false,
-    sessionSec: 0,
-    purchased: { TM1:false, TM2:false, TM3:false },
-    plan: 'None',
-    rate: 0,
-    lastTick: Date.now(),
-    tasks: { t1:false, t2:false, t3:false }
-  }, S);
+  var S={}; try{ S=JSON.parse(localStorage.getItem('mining_state_pages')||'{}'); }catch(_){}
+  var state=Object.assign({balance:0,mining:false,sessionSec:0,purchased:{TM1:false,TM2:false,TM3:false},plan:'None',rate:0,lastTick:Date.now(),tasks:{t1:false,t2:false,t3:false}}, S);
   function save(){ localStorage.setItem('mining_state_pages', JSON.stringify(state)); }
 
   function $(q){ return document.querySelector(q); }
@@ -352,9 +322,9 @@
   function fmtTRX(x){ return (Math.floor(x*1e6)/1e6).toFixed(6); }
   function mmss(s){ var m=(s/60|0), ss=s%60; return (m<10?'0':'')+m+':' + (ss<10?'0':'')+ss; }
 
-  var statusEl=$('#status'), timeEl=$('#time'), status2El=$('#status2'), time2El=$('#time2'),
-      planNameEl=$('#planName'), rateTextEl=$('#rateText'), balanceEl=$('#balance'),
-      toggleBtn=$('#toggleMining');
+  // Home elements only
+  var statusEl=$('#status'), timeEl=$('#time'), planNameEl=$('#planName'), rateTextEl=$('#rateText'), balanceEl=$('#balance');
+  var toggleBtn=$('#toggleMining');
 
   var COSTS={TM1:10,TM2:20,TM3:30};
   var RATES={TM1:0.000100,TM2:0.000300,TM3:0.000700};
@@ -365,18 +335,18 @@
 
   function render(){
     if(statusEl) statusEl.textContent = state.mining?'Start':'Stop';
-    if(status2El) status2El.textContent = state.mining?'Start':'Stop';
-    if(timeEl) timeEl.textContent = mmss(state.sessionSec);
-    if(time2El) time2El.textContent = mmss(state.sessionSec);
+    if(timeEl)   timeEl.textContent   = mmss(state.sessionSec);
     if(planNameEl) planNameEl.textContent = state.plan;
     if(rateTextEl) rateTextEl.textContent = fmtTRX(state.rate)+' TRX/sec';
-    if(balanceEl) balanceEl.textContent = fmtTRX(state.balance)+' TRX';
+    if(balanceEl)  balanceEl.textContent  = fmtTRX(state.balance)+' TRX';
 
+    // tasks UI
     var completes=$all('.complete');
     for(var i=0;i<completes.length;i++){
-      var b=completes[i], id=b.getAttribute('data-id');
-      if(state.tasks[id]){ b.textContent='Completed'; b.disabled=true; }
+      var id=completes[i].getAttribute('data-id');
+      if(state.tasks[id]){ completes[i].textContent='Completed'; completes[i].disabled=true; }
     }
+    // plan buttons
     var plans=$all('.plan');
     for(var j=0;j<plans.length;j++){
       var p=plans[j].getAttribute('data-plan');
@@ -384,7 +354,7 @@
     }
   }
 
-  // Mining toggle
+  // Mining toggle (only button in Mining page; state still reflects on Home)
   if(toggleBtn){
     toggleBtn.addEventListener('click', function(){
       if(!hasAnyPlan()){ alert('Please buy a mining plan first (TM1/TM2/TM3).'); return; }
@@ -406,7 +376,7 @@
     });
   }
 
-  // Tasks (+0.1 TRX each, once)
+  // Tasks
   var completes=$all('.complete');
   for(var t=0;t<completes.length;t++){
     completes[t].addEventListener('click', function(){
@@ -418,4 +388,15 @@
   // Copy deposit address
   var copyBtn=document.getElementById('copyAddr');
   if(copyBtn){
-    copyBtn.addEventListener(
+    copyBtn.addEventListener('click', function(){
+      navigator.clipboard.writeText(DEPOSIT_ADDR).then(function(){ alert('Address copied'); });
+    });
+  }
+
+  // Verify deposit (client-side)
+  function fetchTX(txid){
+    var urls=['https://api.trongrid.io/v1/transactions/'+txid,'https://apilist.tronscanapi.com/api/transaction-info?hash='+txid];
+    return new Promise(function(resolve){
+      var i=0; function next(){
+        if(i>=urls.length) return resolve(null);
+        fetch(urls[i]).then(function(r){ if(!r.ok
