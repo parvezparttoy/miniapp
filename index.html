@@ -62,10 +62,18 @@
   .statrow{display:flex;justify-content:center;gap:8px;margin:8px 0}
   .balance{font-size:22px;font-weight:900}
 
+  /* ------- HASH ROUTING (CSS tabs) ------- */
+  .page{display:none}
+  /* show current target */
+  #home:target, #mining:target, #task:target, #wallet:target, #refer:target,
+  #deposit:target, #withdraw:target { display:block }
+  /* default (no hash) = home */
+  body:not([data-hash]) #home { display:block }
+
   /* Bottom tab bar */
   .tabbar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:6px;justify-content:center;padding:8px 10px 10px;
           background:rgba(10,15,25,.92);border-top:1px solid #0f1a2a;backdrop-filter:blur(6px);z-index:9}
-  .tab{flex:1;max-width:120px;background:transparent;border:0;color:#a9b9d6;font-weight:700;padding:6px 0 4px}
+  .tab{flex:1;max-width:120px;background:transparent;border:0;color:#a9b9d6;font-weight:700;padding:6px 0 4px;text-align:center;text-decoration:none}
   .tab .ico{display:block;margin:0 auto 6px;width:22px;height:22px;opacity:.7}
   .tab.active{color:var(--accent)}
   .tab.active .ico{opacity:1;filter:drop-shadow(0 0 4px rgba(0,229,255,.55))}
@@ -74,11 +82,10 @@
 </head>
 <body>
 
-<!-- Auto Splash / Loading -->
+<!-- Splash -->
 <div id="splash" class="splash" aria-hidden="true">
   <div class="card-splash">
     <div class="coin">
-      <!-- TRX logo (clean path) -->
       <svg viewBox="0 0 24 24" aria-label="TRON (TRX)">
         <path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Zm-7.91-5.74 6.94 6.94-4.094 1.276-4.67-7.927 1.82-.29h.004ZM12.6 3.17l4.922 8.356-3.59 1.118-4.9-6.76 3.568-2.714ZM6.94 4.22 10.7 9.28l-6.39 1.97 2.63-7.03Zm-4.49 5.57 8.83-2.73 4.71 6.5-3.04 8.25L2.45 9.79Zm12.41 12.41 2.62-7.11 3.35-1.05-5.97 8.16Z"/>
       </svg>
@@ -97,7 +104,7 @@
   </div>
 
   <!-- HOME -->
-  <section id="page-home" class="page">
+  <section id="home" class="page">
     <div class="card center">
       <div class="trx-giant" aria-hidden="true">
         <svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Zm-7.91-5.74 6.94 6.94-4.094 1.276-4.67-7.927 1.82-.29h.004ZM12.6 3.17l4.922 8.356-3.59 1.118-4.9-6.76 3.568-2.714ZM6.94 4.22 10.7 9.28l-6.39 1.97 2.63-7.03Zm-4.49 5.57 8.83-2.73 4.71 6.5-3.04 8.25L2.45 9.79Zm12.41 12.41 2.62-7.11 3.35-1.05-5.97 8.16Z"/></svg>
@@ -112,7 +119,7 @@
   </section>
 
   <!-- MINING -->
-  <section id="page-mining" class="page hidden">
+  <section id="mining" class="page">
     <div class="card center">
       <h2>Mining Control</h2>
       <div class="statrow">
@@ -155,7 +162,7 @@
   </section>
 
   <!-- TASK -->
-  <section id="page-task" class="page hidden">
+  <section id="task" class="page">
     <div class="card">
       <h2>Task</h2>
       <div class="col">
@@ -198,8 +205,8 @@
     </div>
   </section>
 
-  <!-- WALLET (main) -->
-  <section id="page-wallet" class="page hidden">
+  <!-- WALLET -->
+  <section id="wallet" class="page">
     <div class="card center">
       <div class="trx-giant" aria-hidden="true">
         <svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg>
@@ -211,14 +218,14 @@
           <div id="balance" class="balance">0.000000 TRX</div>
         </div>
         <div class="row" style="gap:8px">
-          <button id="goDeposit" class="btn">
+          <a href="#deposit" class="btn">
             <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
             <span class="label">Deposit</span>
-          </button>
-          <button id="goWithdraw" class="btn accent">
+          </a>
+          <a href="#withdraw" class="btn accent">
             <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
             <span class="label">Withdraw</span>
-          </button>
+          </a>
         </div>
       </div>
       <div class="sub" style="margin-top:8px">Deposit verifies your Tx on-chain (client-side demo).</div>
@@ -226,9 +233,9 @@
   </section>
 
   <!-- DEPOSIT (sub-page) -->
-  <section id="page-deposit" class="page hidden">
+  <section id="deposit" class="page">
     <div class="card">
-      <button id="backFromDeposit" class="btn" style="margin-bottom:10px">← Back</button>
+      <a href="#wallet" class="btn" style="margin-bottom:10px">← Back</a>
       <h2>Deposit TRX</h2>
       <div class="sub">Send TRX to this address (min 1, max 100), then paste your TxID and Verify.</div>
 
@@ -248,9 +255,9 @@
   </section>
 
   <!-- WITHDRAW (sub-page) -->
-  <section id="page-withdraw" class="page hidden">
+  <section id="withdraw" class="page">
     <div class="card">
-      <button id="backFromWithdraw" class="btn" style="margin-bottom:10px">← Back</button>
+      <a href="#wallet" class="btn" style="margin-bottom:10px">← Back</a>
       <h2>Withdraw TRX</h2>
       <div class="sub">Enter address and amount, then Confirm.</div>
 
@@ -266,7 +273,7 @@
   </section>
 
   <!-- REFER -->
-  <section id="page-refer" class="page hidden">
+  <section id="refer" class="page">
     <div class="card center">
       <h2>Refer</h2>
       <div class="sub">Coming soon</div>
@@ -274,40 +281,61 @@
   </section>
 </div>
 
-<!-- Bottom Tab Bar -->
-<div class="tabbar">
-  <button class="tab active" data-tab="home">
+<!-- Bottom Tab Bar (pure links) -->
+<div class="tabbar" id="tabs">
+  <a class="tab" data-tab="home"    href="#home">
     <svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>
     Home
-  </button>
-  <button class="tab" data-tab="mining">
+  </a>
+  <a class="tab" data-tab="mining"  href="#mining">
     <svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M10 2 8.6 3.4 13.2 8l-1.2 1.2-1.7-1.7L5 12v3l-2 2 2 2 2-2h3l6.5-6.3-1.7-1.7L15 7.2 20.6 12 22 10.6 10 2z"/></svg>
     Mining
-  </button>
-  <button class="tab" data-tab="task">
+  </a>
+  <a class="tab" data-tab="task"    href="#task">
     <svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M7 3h10a2 2 0 0 1 2 2v14l-7-3-7 3V5a2 2 0 0 1 2-2z"/></svg>
     Task
-  </button>
-  <button class="tab" data-tab="wallet">
+  </a>
+  <a class="tab" data-tab="wallet"  href="#wallet">
     <svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M3 7a2 2 0 0 1 2-2h12a3 3 0 0 1 3 3v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7zm14 3h3v4h-3a2 2 0 0 1-2-2 2 2 0 0 1 2-2z"/></svg>
     Wallet
-  </button>
-  <button class="tab" data-tab="refer">
+  </a>
+  <a class="tab" data-tab="refer"   href="#refer">
     <svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M10.59 13.41 9.17 12l6-6 1.41 1.41-6 6zM7 6h4V4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-4h-2v4H7V6z"/></svg>
     Refer
-  </button>
+  </a>
 </div>
 
 <script>
 (function(){
-  // Robust splash hiding (CSS already hides; JS adds extra safety)
-  const hideSplash = ()=>{ const s=document.getElementById('splash'); if(s) s.style.display='none'; };
-  window.addEventListener('load', ()=> setTimeout(hideSplash, 1200));
-  setTimeout(hideSplash, 3500); // hard fallback
+  // Set default page when no hash
+  function setDefaultHash(){
+    if(!location.hash){ document.body.removeAttribute('data-hash'); }
+    else { document.body.setAttribute('data-hash','1'); }
+  }
+  setDefaultHash();
+  window.addEventListener('hashchange', setDefaultHash);
 
-  // ===== State
-  const S = JSON.parse(localStorage.getItem('mining_state_pages')||'{}');
-  const state = Object.assign({
+  // Splash extra safety
+  function hideSplash(){ var s=document.getElementById('splash'); if(s) s.style.display='none'; }
+  window.addEventListener('load', function(){ setTimeout(hideSplash, 1200); });
+  setTimeout(hideSplash, 3500);
+
+  // Highlight active tab (based on hash)
+  function syncActive(){
+    var h = (location.hash||'#home').replace('#','');
+    var tabs = document.querySelectorAll('.tab');
+    for(var i=0;i<tabs.length;i++){
+      if(tabs[i].getAttribute('data-tab')===h) tabs[i].classList.add('active');
+      else tabs[i].classList.remove('active');
+    }
+  }
+  syncActive();
+  window.addEventListener('hashchange', syncActive);
+
+  // ===== App State
+  var S = {};
+  try{ S = JSON.parse(localStorage.getItem('mining_state_pages')||'{}'); }catch(_){}
+  var state = Object.assign({
     balance: 0,
     mining: false,
     sessionSec: 0,
@@ -317,99 +345,77 @@
     lastTick: Date.now(),
     tasks: { t1:false, t2:false, t3:false }
   }, S);
-  const save = ()=>localStorage.setItem('mining_state_pages', JSON.stringify(state));
+  function save(){ localStorage.setItem('mining_state_pages', JSON.stringify(state)); }
 
-  const $  = q=>document.querySelector(q);
-  const $$ = q=>document.querySelectorAll(q);
-  const fmtTRX = x => (Math.floor(x*1e6)/1e6).toFixed(6);
-  const mmss   = s => { const m=(s/60|0), ss=s%60; return `${String(m).padStart(2,'0')}:${String(ss).padStart(2,'0')}`; };
+  function $(q){ return document.querySelector(q); }
+  function $all(q){ return document.querySelectorAll(q); }
+  function fmtTRX(x){ return (Math.floor(x*1e6)/1e6).toFixed(6); }
+  function mmss(s){ var m=(s/60|0), ss=s%60; return (m<10?'0':'')+m+':' + (ss<10?'0':'')+ss; }
 
-  const statusEl=$('#status'), timeEl=$('#time'), status2El=$('#status2'), time2El=$('#time2'),
-        planNameEl=$('#planName'), rateTextEl=$('#rateText'), balanceEl=$('#balance'),
-        toggleBtn=$('#toggleMining');
+  var statusEl=$('#status'), timeEl=$('#time'), status2El=$('#status2'), time2El=$('#time2'),
+      planNameEl=$('#planName'), rateTextEl=$('#rateText'), balanceEl=$('#balance'),
+      toggleBtn=$('#toggleMining');
 
-  const COSTS={TM1:10,TM2:20,TM3:30};
-  const RATES={TM1:0.000100,TM2:0.000300,TM3:0.000700};
-  const DEPOSIT_ADDR='TJBwEqi3izv5r3myXf7BV6hKdJYLBLoEw2';
-  const MIN_TRX=1, MAX_TRX=100;
+  var COSTS={TM1:10,TM2:20,TM3:30};
+  var RATES={TM1:0.000100,TM2:0.000300,TM3:0.000700};
+  var DEPOSIT_ADDR='TJBwEqi3izv5r3myXf7BV6hKdJYLBLoEw2';
+  var MIN_TRX=1, MAX_TRX=100;
 
   function hasAnyPlan(){ return state.purchased.TM1||state.purchased.TM2||state.purchased.TM3; }
 
   function render(){
-    statusEl.textContent = state.mining?'Start':'Stop';
-    status2El.textContent = state.mining?'Start':'Stop';
-    timeEl.textContent = mmss(state.sessionSec);
-    time2El.textContent = mmss(state.sessionSec);
-    planNameEl.textContent = state.plan;
-    rateTextEl.textContent = `${fmtTRX(state.rate)} TRX/sec`;
-    balanceEl.textContent = `${fmtTRX(state.balance)} TRX`;
-    toggleBtn.textContent = state.mining ? 'Stop Mining' : 'Start Mining';
+    if(statusEl) statusEl.textContent = state.mining?'Start':'Stop';
+    if(status2El) status2El.textContent = state.mining?'Start':'Stop';
+    if(timeEl) timeEl.textContent = mmss(state.sessionSec);
+    if(time2El) time2El.textContent = mmss(state.sessionSec);
+    if(planNameEl) planNameEl.textContent = state.plan;
+    if(rateTextEl) rateTextEl.textContent = fmtTRX(state.rate)+' TRX/sec';
+    if(balanceEl) balanceEl.textContent = fmtTRX(state.balance)+' TRX';
 
-    $$('.complete').forEach(b=>{
-      const id=b.dataset.id; if(state.tasks[id]){ b.textContent='Completed'; b.disabled=true; }
-    });
-
-    $$('.plan').forEach(b=>{
-      const p=b.dataset.plan;
-      if(state.purchased[p]){ b.classList.add('accent'); b.querySelector('.hint').textContent=`Purchased • Rate: ${b.dataset.rate}`; }
-    });
+    var completes=$all('.complete');
+    for(var i=0;i<completes.length;i++){
+      var b=completes[i], id=b.getAttribute('data-id');
+      if(state.tasks[id]){ b.textContent='Completed'; b.disabled=true; }
+    }
+    var plans=$all('.plan');
+    for(var j=0;j<plans.length;j++){
+      var p=plans[j].getAttribute('data-plan');
+      if(state.purchased[p]){ plans[j].classList.add('accent'); plans[j].querySelector('.hint').textContent='Purchased • Rate: '+plans[j].getAttribute('data-rate'); }
+    }
   }
-
-  // Tabs
-  $$('.tab').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      $$('.tab').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      const tab=btn.dataset.tab;
-      document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
-      document.getElementById('page-'+tab).classList.remove('hidden');
-    });
-  });
-
-  // Sub-page open/close
-  function openPage(id){
-    document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
-    document.getElementById(id).classList.remove('hidden');
-    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-  }
-  $('#goDeposit')?.addEventListener('click', ()=> openPage('page-deposit'));
-  $('#goWithdraw')?.addEventListener('click', ()=> openPage('page-withdraw'));
-  $('#backFromDeposit')?.addEventListener('click', ()=> openPage('page-wallet'));
-  $('#backFromWithdraw')?.addEventListener('click', ()=> openPage('page-wallet'));
 
   // Mining toggle
-  toggleBtn.addEventListener('click', ()=>{
-    if(!hasAnyPlan()){ alert('Please buy a mining plan first (TM1/TM2/TM3).'); return; }
-    state.mining=!state.mining; if(state.mining) state.lastTick=Date.now();
-    render(); save();
-  });
+  if(toggleBtn){
+    toggleBtn.addEventListener('click', function(){
+      if(!hasAnyPlan()){ alert('Please buy a mining plan first (TM1/TM2/TM3).'); return; }
+      state.mining=!state.mining; if(state.mining) state.lastTick=Date.now();
+      render(); save();
+    });
+  }
 
   // Buy plans
-  $$('.plan').forEach(b=>{
-    b.addEventListener('click', ()=>{
-      const p=b.dataset.plan, cost=Number(b.dataset.cost), rate=Number(b.dataset.rate);
-      if(state.purchased[p]){ state.plan=p; state.rate=rate; render(); save(); alert(`${p} set active ✓`); return; }
-      if(state.balance<cost){ alert(`Not enough balance. Need ${cost} TRX.`); return; }
-      state.balance-=cost; state.purchased[p]=true; state.plan=p; state.rate=rate; render(); save(); alert(`${p} purchased ✓`);
+  var planBtns=$all('.plan');
+  for(var k=0;k<planBtns.length;k++){
+    planBtns[k].addEventListener('click', function(){
+      var p=this.getAttribute('data-plan'),
+          cost=Number(this.getAttribute('data-cost')),
+          rate=Number(this.getAttribute('data-rate'));
+      if(state.purchased[p]){ state.plan=p; state.rate=rate; render(); save(); alert(p+' set active ✓'); return; }
+      if(state.balance<cost){ alert('Not enough balance. Need '+cost+' TRX.'); return; }
+      state.balance-=cost; state.purchased[p]=true; state.plan=p; state.rate=rate; render(); save(); alert(p+' purchased ✓');
     });
-  });
+  }
 
   // Tasks (+0.1 TRX each, once)
-  $$('.complete').forEach(b=>{
-    b.addEventListener('click', ()=>{
-      const id=b.dataset.id; if(state.tasks[id]) return;
+  var completes=$all('.complete');
+  for(var t=0;t<completes.length;t++){
+    completes[t].addEventListener('click', function(){
+      var id=this.getAttribute('data-id'); if(state.tasks[id]) return;
       state.tasks[id]=true; state.balance+=0.1; render(); save();
     });
-  });
+  }
 
   // Copy deposit address
-  $('#copyAddr')?.addEventListener('click', ()=>{
-    navigator.clipboard.writeText(DEPOSIT_ADDR).then(()=> alert('Address copied'));
-  });
-
-  // --- Client-side TRX Tx verification (TronGrid/TronScan) ---
-  async function fetchTX(txid){
-    const urls = [
-      `https://api.trongrid.io/v1/transactions/${txid}`,
-      `https://apilist.tronscanapi.com/api/transaction-info?hash=${txid}`
-    ]
+  var copyBtn=document.getElementById('copyAddr');
+  if(copyBtn){
+    copyBtn.addEventListener(
