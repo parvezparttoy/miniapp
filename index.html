@@ -14,12 +14,11 @@
   body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
   .wrap{max-width:560px;margin:0 auto;padding:12px 12px 110px}
 
-  /* Top dev note */
   .devnote{position:sticky;top:0;z-index:8;background:#0d1422;border-bottom:1px solid #0f1a2a;padding:8px 12px;
            font-size:12px;color:#9db2d3}
   .devnote a{color:#7dd3fc;text-decoration:none}
 
-  /* Splash (auto) */
+  /* Splash */
   .splash{position:fixed;inset:0;background:radial-gradient(900px 600px at 50% 0%,#111a2e 0%,#0a0f1a 60%,#05080e 100%);
           display:grid;place-items:center;z-index:50;animation:fadeOut .6s ease forwards;animation-delay:2.2s}
   @keyframes fadeOut{to{opacity:0;visibility:hidden}}
@@ -42,14 +41,10 @@
   .center{text-align:center}
   .row{display:flex;gap:10px;align-items:center}
   .col{display:flex;flex-direction:column;gap:10px}
-
   .pill{display:inline-block;background:#0e1626;border:1px solid #243754;color:#9db2d3;padding:6px 10px;border-radius:999px;font-size:12px}
-
-  /* GIANT TRX LOGO */
   .trx-giant{width:180px;height:180px;border-radius:50%;display:grid;place-items:center;background:#22060a;border:3px solid #3c0b12;
              box-shadow:0 25px 80px rgba(239,0,39,.35);margin:0 auto 10px}
   .trx-giant svg{width:122px;height:122px;fill:var(--brand)}
-
   .trx-sm{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#22060a;border:1px solid #3c0b12;margin:0 auto 6px}
   .trx-sm svg{width:16px;height:16px;fill:var(--brand)}
   .btn{background:var(--btn);border:1px solid var(--btnline);color:#dbeafe;padding:10px 12px;border-radius:14px;font-weight:800;text-align:center}
@@ -61,19 +56,19 @@
   .statrow{display:flex;justify-content:center;gap:8px;margin:8px 0}
   .balance{font-size:22px;font-weight:900}
 
-  /* ------- HASH ROUTING (CSS tabs) ------- */
+  /* Hash routing */
   .page{display:none}
   #home:target, #mining:target, #task:target, #wallet:target, #refer:target, #deposit:target, #withdraw:target { display:block }
   body:not([data-hash]) #home { display:block }
 
-  /* Bottom tab bar */
+  /* Bottom tabs */
   .tabbar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:6px;justify-content:center;padding:8px 10px 10px;
           background:rgba(10,15,25,.92);border-top:1px solid #0f1a2a;backdrop-filter:blur(6px);z-index:9}
-  .tab{flex:1;max-width:120px;background:transparent;border:0;color:#a9b9d6;font-weight:700;padding:6px 0 4px;text-align:center;text-decoration:none}
+  .tab{flex:1;max-width:120px;background:transparent;border:0;color:#a9b9d6;font-weight:700;padding:6px 0 4px;
+       text-align:center;text-decoration:none}
   .tab .ico{display:block;margin:0 auto 6px;width:22px;height:22px;opacity:.7}
   .tab.active{color:var(--accent)}
   .tab.active .ico{opacity:1;filter:drop-shadow(0 0 4px rgba(0,229,255,.55))}
-  .hidden{display:none}
 </style>
 </head>
 <body>
@@ -82,7 +77,9 @@
 <div id="splash" class="splash" aria-hidden="true">
   <div class="card-splash">
     <div class="coin">
-      <svg viewBox="0 0 24 24" aria-label="TRON (TRX)"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Zm-7.91-5.74 6.94 6.94-4.094 1.276-4.67-7.927 1.82-.29h.004ZM12.6 3.17l4.922 8.356-3.59 1.118-4.9-6.76 3.568-2.714ZM6.94 4.22 10.7 9.28l-6.39 1.97 2.63-7.03Zm-4.49 5.57 8.83-2.73 4.71 6.5-3.04 8.25L2.45 9.79Zm12.41 12.41 2.62-7.11 3.35-1.05-5.97 8.16Z"/></svg>
+      <svg viewBox="0 0 24 24" aria-label="TRON (TRX)">
+        <path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Zm-7.91-5.74 6.94 6.94-4.094 1.276-4.67-7.927 1.82-.29h.004ZM12.6 3.17l4.922 8.356-3.59 1.118-4.9-6.76 3.568-2.714ZM6.94 4.22 10.7 9.28l-6.39 1.97 2.63-7.03Zm-4.49 5.57 8.83-2.73 4.71 6.5-3.04 8.25L2.45 9.79Zm12.41 12.41 2.62-7.11 3.35-1.05-5.97 8.16Z"/>
+      </svg>
     </div>
     <div class="loader"><span></span></div>
   </div>
@@ -91,13 +88,12 @@
 <div class="devnote">Developer: <a href="https://t.me/ToxicNexo" target="_blank">t.me/ToxicNexo</a></div>
 
 <div class="wrap">
-  <!-- Welcome strip -->
   <div class="welcome">
     <div class="title">Welcome</div>
     <div class="sub">Use the tabs below to navigate. Buy a plan to enable mining.</div>
   </div>
 
-  <!-- HOME (Home-only content lives here) -->
+  <!-- HOME (only Home things here) -->
   <section id="home" class="page">
     <div class="card center">
       <div class="trx-giant" aria-hidden="true">
@@ -112,7 +108,7 @@
     </div>
   </section>
 
-  <!-- MINING (no Home items here) -->
+  <!-- MINING -->
   <section id="mining" class="page">
     <div class="card center">
       <h2>Mining Control</h2>
@@ -262,16 +258,32 @@
     </div>
   </section>
 
-  <!-- REFER -->
+  <!-- REFER (new) -->
   <section id="refer" class="page">
-    <div class="card center">
+    <div class="card">
       <h2>Refer</h2>
-      <div class="sub">Coming soon</div>
+      <div class="sub">Per refer: <b>0.1 TRX</b></div>
+      <div class="sub">Bot: <b>@VairalVideoInTelegramBOT</b></div>
+      <div class="sub">Mini app: <a href="http://t.me/VairalVideoInTelegramBOT/AllLink" target="_blank">http://t.me/VairalVideoInTelegramBOT/AllLink</a></div>
+
+      <div style="margin-top:12px;padding:10px;border:1px solid var(--line);border-radius:12px;background:#0f172a">
+        <div class="sub">Your referral code</div>
+        <div id="refCode" style="font-weight:900;font-size:18px;letter-spacing:.5px;margin:4px 0">—</div>
+        <div class="sub">Referral link</div>
+        <div id="refLink" style="word-break:break-all;margin:4px 0">—</div>
+        <button id="copyRef" class="btn accent">Copy referral link</button>
+      </div>
+
+      <div class="row" style="justify-content:space-between;margin-top:12px">
+        <div class="sub">Total refer: <b id="refCount">0</b></div>
+        <div class="sub">Total refer bonus: <b id="refBonus">0.0 TRX</b></div>
+      </div>
+      <div class="sub" style="margin-top:8px">Note: Counts are stored on this device only (demo, no server).</div>
     </div>
   </section>
 </div>
 
-<!-- Bottom Tab Bar -->
+<!-- Bottom TabBar -->
 <div class="tabbar" id="tabs">
   <a class="tab" data-tab="home"    href="#home">
     <svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>
@@ -297,22 +309,18 @@
 
 <script>
 (function(){
-  // default hash handling
   function setDefaultHash(){ if(!location.hash){ document.body.removeAttribute('data-hash'); } else { document.body.setAttribute('data-hash','1'); } }
   setDefaultHash(); window.addEventListener('hashchange', setDefaultHash);
-
-  // splash safety
   function hideSplash(){ var s=document.getElementById('splash'); if(s) s.style.display='none'; }
   window.addEventListener('load', function(){ setTimeout(hideSplash, 1200); }); setTimeout(hideSplash, 3500);
 
-  // active tab highlight
   function syncActive(){
     var h=(location.hash||'#home').replace('#',''); var tabs=document.querySelectorAll('.tab');
     for(var i=0;i<tabs.length;i++){ if(tabs[i].getAttribute('data-tab')===h) tabs[i].classList.add('active'); else tabs[i].classList.remove('active'); }
   }
   syncActive(); window.addEventListener('hashchange', syncActive);
 
-  // ===== App State
+  /* ===== STATE ===== */
   var S={}; try{ S=JSON.parse(localStorage.getItem('mining_state_pages')||'{}'); }catch(_){}
   var state=Object.assign({balance:0,mining:false,sessionSec:0,purchased:{TM1:false,TM2:false,TM3:false},plan:'None',rate:0,lastTick:Date.now(),tasks:{t1:false,t2:false,t3:false}}, S);
   function save(){ localStorage.setItem('mining_state_pages', JSON.stringify(state)); }
@@ -322,7 +330,7 @@
   function fmtTRX(x){ return (Math.floor(x*1e6)/1e6).toFixed(6); }
   function mmss(s){ var m=(s/60|0), ss=s%60; return (m<10?'0':'')+m+':' + (ss<10?'0':'')+ss; }
 
-  // Home elements only
+  /* Home only UI */
   var statusEl=$('#status'), timeEl=$('#time'), planNameEl=$('#planName'), rateTextEl=$('#rateText'), balanceEl=$('#balance');
   var toggleBtn=$('#toggleMining');
 
@@ -340,21 +348,24 @@
     if(rateTextEl) rateTextEl.textContent = fmtTRX(state.rate)+' TRX/sec';
     if(balanceEl)  balanceEl.textContent  = fmtTRX(state.balance)+' TRX';
 
-    // tasks UI
     var completes=$all('.complete');
     for(var i=0;i<completes.length;i++){
       var id=completes[i].getAttribute('data-id');
       if(state.tasks[id]){ completes[i].textContent='Completed'; completes[i].disabled=true; }
     }
-    // plan buttons
     var plans=$all('.plan');
     for(var j=0;j<plans.length;j++){
       var p=plans[j].getAttribute('data-plan');
       if(state.purchased[p]){ plans[j].classList.add('accent'); plans[j].querySelector('.hint').textContent='Purchased • Rate: '+plans[j].getAttribute('data-rate'); }
     }
+    // Refer UI
+    var rc=Number(localStorage.getItem('ref_count')||'0');
+    var rb=rc*0.1;
+    var elC=$('#refCount'), elB=$('#refBonus');
+    if(elC) elC.textContent=rc;
+    if(elB) elB.textContent=rb.toFixed(1)+' TRX';
   }
 
-  // Mining toggle (only button in Mining page; state still reflects on Home)
   if(toggleBtn){
     toggleBtn.addEventListener('click', function(){
       if(!hasAnyPlan()){ alert('Please buy a mining plan first (TM1/TM2/TM3).'); return; }
@@ -363,7 +374,6 @@
     });
   }
 
-  // Buy plans
   var planBtns=$all('.plan');
   for(var k=0;k<planBtns.length;k++){
     planBtns[k].addEventListener('click', function(){
@@ -372,31 +382,4 @@
           rate=Number(this.getAttribute('data-rate'));
       if(state.purchased[p]){ state.plan=p; state.rate=rate; render(); save(); alert(p+' set active ✓'); return; }
       if(state.balance<cost){ alert('Not enough balance. Need '+cost+' TRX.'); return; }
-      state.balance-=cost; state.purchased[p]=true; state.plan=p; state.rate=rate; render(); save(); alert(p+' purchased ✓');
-    });
-  }
-
-  // Tasks
-  var completes=$all('.complete');
-  for(var t=0;t<completes.length;t++){
-    completes[t].addEventListener('click', function(){
-      var id=this.getAttribute('data-id'); if(state.tasks[id]) return;
-      state.tasks[id]=true; state.balance+=0.1; render(); save();
-    });
-  }
-
-  // Copy deposit address
-  var copyBtn=document.getElementById('copyAddr');
-  if(copyBtn){
-    copyBtn.addEventListener('click', function(){
-      navigator.clipboard.writeText(DEPOSIT_ADDR).then(function(){ alert('Address copied'); });
-    });
-  }
-
-  // Verify deposit (client-side)
-  function fetchTX(txid){
-    var urls=['https://api.trongrid.io/v1/transactions/'+txid,'https://apilist.tronscanapi.com/api/transaction-info?hash='+txid];
-    return new Promise(function(resolve){
-      var i=0; function next(){
-        if(i>=urls.length) return resolve(null);
-        fetch(urls[i]).then(function(r){ if(!r.ok
+      state.balance-=cost; state.purchased[p]=true; state.plan=p; state.rate=rate
