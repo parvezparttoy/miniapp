@@ -1,30 +1,51 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mining Bot</title>
 <style>
-  :root{--bg:#0b0f16;--card:#121826;--muted:#9db2d3;--text:#e6f0ff;--line:#1e2a44;--accent:#00e5ff;--brand:#ef0027;--btn:#0f172a;--btnline:#223553}
+  :root{
+    --bg1:#0b1120; --bg2:#0a1228; --bg3:#07111c;
+    --card:#0f172a; --line:#15223d;
+    --text:#e6f0ff; --muted:#9fb5d8;
+    --accent:#00e5ff; --brand:#ef0027;
+    --btn:#0b1530; --btnline:#1c2e52;
+    --ok:#16a34a; --warn:#f59e0b;
+  }
   *{box-sizing:border-box}
-  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
+  html,body{height:100%}
+  body{
+    margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    color:var(--text);
+    background:
+      radial-gradient(900px 600px at 20% -10%, rgba(0,229,255,.08), transparent 60%),
+      radial-gradient(800px 500px at 80% 0%, rgba(239,0,39,.06), transparent 55%),
+      linear-gradient(180deg,var(--bg1),var(--bg2) 40%,var(--bg3));
+  }
   .wrap{max-width:560px;margin:0 auto;padding:12px 12px 110px}
-  .devnote{position:sticky;top:0;z-index:8;background:#0d1422;border-bottom:1px solid #0f1a2a;padding:8px 12px;font-size:12px;color:#9db2d3}
+  .devnote{position:sticky;top:0;z-index:8;background:rgba(10,17,32,.9);border-bottom:1px solid #0e1a33;padding:8px 12px;font-size:12px;color:var(--muted);backdrop-filter:blur(6px)}
   .devnote a{color:#7dd3fc;text-decoration:none}
-  .splash{position:fixed;inset:0;background:radial-gradient(900px 600px at 50% 0%,#111a2e 0%,#0a0f1a 60%,#05080e 100%);display:grid;place-items:center;z-index:50;animation:fadeOut .6s ease forwards;animation-delay:2.2s}
-  @keyframes fadeOut{to{opacity:0;visibility:hidden}}
+
+  /* Splash */
+  .splash{position:fixed;inset:0;display:grid;place-items:center;z-index:50;
+          background:linear-gradient(180deg,#0b1120,#080f1b);}
   .card-splash{text-align:center}
-  .coin{width:140px;height:140px;border-radius:50%;background:#2a0b10;border:3px solid #4a0f18;display:grid;place-items:center;box-shadow:0 30px 80px rgba(239,0,39,.35), inset 0 0 40px rgba(239,0,39,.2);animation:float 3s ease-in-out infinite}
+  .coin{width:140px;height:140px;border-radius:50%;background:#2a0b10;border:3px solid #4a0f18;
+        display:grid;place-items:center;box-shadow:0 30px 80px rgba(239,0,39,.32), inset 0 0 40px rgba(239,0,39,.18);
+        animation:float 3s ease-in-out infinite}
   .coin svg{width:90px;height:90px;fill:var(--brand);animation:spin 4.5s linear infinite}
   @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-  .loader{margin:14px auto 0;width:72%;height:6px;border-radius:999px;background:#0f1a2a;overflow:hidden}
-  .loader>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#00e5ff,#46f1ff);animation:load 1.6s ease-in-out infinite}
+  .loader{margin:14px auto 0;width:72%;height:6px;border-radius:999px;background:#0e1830;overflow:hidden}
+  .loader>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#00e5ff,#48f1ff);animation:load 1.6s ease-in-out infinite}
   @keyframes load{0%{width:0}55%{width:72%}100%{width:100%}}
-  .welcome{background:#151e2f;border:1px solid var(--line);padding:10px 12px;border-radius:12px;margin:8px 0}
+
+  .welcome{background:rgba(15,23,42,.7);border:1px solid var(--line);padding:10px 12px;border-radius:12px;margin:8px 0}
   .title{font-size:18px;font-weight:800;margin:0;color:#7dd3fc}
-  .sub{font-size:12px;color:#9db2d3;margin-top:4px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-top:12px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+  .sub{font-size:12px;color:var(--muted);margin-top:4px}
+
+  .card{background:rgba(15,23,42,.72);border:1px solid var(--line);border-radius:16px;padding:12px;margin-top:12px;box-shadow:0 10px 30px rgba(0,0,0,.28)}
   h2{margin:6px 0 8px;font-size:16px}
   .center{text-align:center}
   .row{display:flex;gap:10px;align-items:center}
@@ -32,33 +53,42 @@
   .pill{display:inline-block;background:#0e1626;border:1px solid #243754;color:#9db2d3;padding:6px 10px;border-radius:999px;font-size:12px}
   .trx-giant{width:180px;height:180px;border-radius:50%;display:grid;place-items:center;background:#22060a;border:3px solid #3c0b12;box-shadow:0 25px 80px rgba(239,0,39,.35);margin:0 auto 10px}
   .trx-giant svg{width:122px;height:122px;fill:var(--brand)}
-  .trx-sm{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#22060a;border:1px solid #3c0b12;margin:0 auto 6px}
-  .trx-sm svg{width:16px;height:16px;fill:var(--brand)}
-  .btn{background:var(--btn);border:1px solid var(--btnline);color:#dbeafe;padding:10px 12px;border-radius:14px;font-weight:800;text-align:center}
+  .btn{background:var(--btn);border:1px solid var(--btnline);color:#dbeafe;padding:10px 12px;border-radius:14px;font-weight:800;text-align:center;cursor:pointer}
   .btn.accent{background:var(--brand);border-color:var(--brand);color:#fff}
-  .btn:disabled{opacity:.6}
+  .btn.ok{background:#0b2a18;border-color:#144a29;color:#b7f7c9}
+  .btn:disabled{opacity:.6;cursor:not-allowed}
   .btn .label{display:block}
   .btn .hint{display:block;font-weight:600;font-size:12px;color:#9db2d3}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .statrow{display:flex;justify-content:center;gap:8px;margin:8px 0}
   .balance{font-size:22px;font-weight:900}
+
+  /* Pages (hash routing) */
   .page{display:none}
   #home:target,#mining:target,#task:target,#wallet:target,#refer:target,#deposit:target,#withdraw:target{display:block}
   body:not([data-hash]) #home{display:block}
-  .tabbar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:6px;justify-content:center;padding:8px 10px 10px;background:rgba(10,15,25,.92);border-top:1px solid #0f1a2a;backdrop-filter:blur(6px);z-index:9}
+
+  /* Tabs */
+  .tabbar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:6px;justify-content:center;padding:8px 10px 10px;background:rgba(10,15,25,.9);border-top:1px solid #0f1a2a;backdrop-filter:blur(6px);z-index:9}
   .tab{flex:1;max-width:120px;background:transparent;border:0;color:#a9b9d6;font-weight:700;padding:6px 0 4px;text-align:center;text-decoration:none}
   .tab .ico{display:block;margin:0 auto 6px;width:22px;height:22px;opacity:.7}
   .tab.active{color:var(--accent)}
   .tab.active .ico{opacity:1;filter:drop-shadow(0 0 4px rgba(0,229,255,.55))}
+
+  /* Toast */
+  .toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);background:#0b1f33;border:1px solid #134063;color:#dff6ff;padding:8px 12px;border-radius:10px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .25s;z-index:99}
+  .toast.show{opacity:1}
 </style>
 </head>
 <body>
 
-<!-- Splash -->
+<!-- Splash (auto hides) -->
 <div id="splash" class="splash" aria-hidden="true">
   <div class="card-splash">
     <div class="coin">
-      <svg viewBox="0 0 24 24" aria-label="TRON (TRX)"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Zm-7.91-5.74 6.94 6.94-4.094 1.276-4.67-7.927 1.82-.29h.004ZM12.6 3.17l4.922 8.356-3.59 1.118-4.9-6.76 3.568-2.714ZM6.94 4.22 10.7 9.28l-6.39 1.97 2.63-7.03Zm-4.49 5.57 8.83-2.73 4.71 6.5-3.04 8.25L2.45 9.79Zm12.41 12.41 2.62-7.11 3.35-1.05-5.97 8.16Z"/></svg>
+      <svg viewBox="0 0 24 24" aria-label="TRON (TRX)">
+        <path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Zm-7.91-5.74 6.94 6.94-4.094 1.276-4.67-7.927 1.82-.29h.004ZM12.6 3.17l4.922 8.356-3.59 1.118-4.9-6.76 3.568-2.714ZM6.94 4.22 10.7 9.28l-6.39 1.97 2.63-7.03Zm-4.49 5.57 8.83-2.73 4.71 6.5-3.04 8.25L2.45 9.79Zm12.41 12.41 2.62-7.11 3.35-1.05-5.97 8.16Z"/>
+      </svg>
     </div>
     <div class="loader"><span></span></div>
   </div>
@@ -72,7 +102,7 @@
     <div class="sub">Use the tabs below to navigate. Buy a plan to enable mining.</div>
   </div>
 
-  <!-- HOME -->
+  <!-- HOME (only home items) -->
   <section id="home" class="page">
     <div class="card center">
       <div class="trx-giant" aria-hidden="true">
@@ -91,36 +121,15 @@
   <section id="mining" class="page">
     <div class="card center">
       <h2>Mining Control</h2>
-      <button id="toggleMining" class="btn accent" style="width:100%">
-        <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
-        <span class="label">Start / Stop Mining</span>
-        <span class="hint">Requires any purchased plan</span>
-      </button>
+      <button id="toggleMining" class="btn accent" style="width:100%"><span class="label">Start / Stop Mining</span><span class="hint">Requires any purchased plan</span></button>
     </div>
-
     <div class="card">
       <h2>Buy Mining Plan</h2>
       <div class="grid2">
-        <button class="btn plan" data-plan="TM1" data-cost="10" data-rate="0.000100">
-          <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
-          <span class="label">Buy Mining TM1</span>
-          <span class="hint">Cost: 10 TRX • Rate: 0.000100</span>
-        </button>
-        <button class="btn plan" data-plan="TM2" data-cost="20" data-rate="0.000300">
-          <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
-          <span class="label">Buy Mining TM2</span>
-          <span class="hint">Cost: 20 TRX • Rate: 0.000300</span>
-        </button>
-        <button class="btn plan" data-plan="TM3" data-cost="30" data-rate="0.000700">
-          <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
-          <span class="label">Buy Mining TM3</span>
-          <span class="hint">Cost: 30 TRX • Rate: 0.000700</span>
-        </button>
-        <button class="btn" disabled>
-          <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
-          <span class="label">More Soon</span>
-          <span class="hint">—</span>
-        </button>
+        <button class="btn plan" data-plan="TM1" data-cost="10" data-rate="0.000100"><span class="label">Buy Mining TM1</span><span class="hint">Cost: 10 TRX • Rate: 0.000100</span></button>
+        <button class="btn plan" data-plan="TM2" data-cost="20" data-rate="0.000300"><span class="label">Buy Mining TM2</span><span class="hint">Cost: 20 TRX • Rate: 0.000300</span></button>
+        <button class="btn plan" data-plan="TM3" data-cost="30" data-rate="0.000700"><span class="label">Buy Mining TM3</span><span class="hint">Cost: 30 TRX • Rate: 0.000700</span></button>
+        <button class="btn" disabled><span class="label">More Soon</span><span class="hint">—</span></button>
       </div>
       <div class="sub" style="margin-top:8px">Purchasing deducts TRX from your balance (local demo).</div>
     </div>
@@ -251,92 +260,133 @@
   <a class="tab" data-tab="refer" href="#refer"><svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M10.59 13.41 9.17 12l6-6 1.41 1.41-6 6zM7 6h4V4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-4h-2v4H7V6z"/></svg>Refer</a>
 </div>
 
+<div id="toast" class="toast">Copied!</div>
+
 <script>
 (function(){
+  function $(q){return document.querySelector(q);}
+  function $all(q){return document.querySelectorAll(q);}
+  function showToast(msg){
+    var t=$("#toast"); if(!t) return;
+    t.textContent=msg||"Done";
+    t.classList.add("show");
+    clearTimeout(showToast._t);
+    showToast._t=setTimeout(function(){ t.classList.remove("show"); },1200);
+  }
+
   function setDefaultHash(){ if(!location.hash){ document.body.removeAttribute('data-hash'); } else { document.body.setAttribute('data-hash','1'); } }
   setDefaultHash(); window.addEventListener('hashchange', setDefaultHash);
-  function hideSplash(){ var s=document.getElementById('splash'); if(s) s.style.display='none'; }
-  window.addEventListener('load', function(){ setTimeout(hideSplash,1200); }); setTimeout(hideSplash,3500);
 
-  function syncActive(){ var h=(location.hash||'#home').replace('#',''); document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===h)); }
+  // splash hide
+  function hideSplash(){ var s=$("#splash"); if(s) s.style.display="none"; }
+  window.addEventListener('load', function(){ setTimeout(hideSplash,1200); });
+  setTimeout(hideSplash,3500);
+
+  // active tab highlight
+  function syncActive(){
+    var h=(location.hash||"#home").replace("#","");
+    var tabs=$all(".tab");
+    for(var i=0;i<tabs.length;i++){ tabs[i].classList.toggle("active", tabs[i].getAttribute("data-tab")===h); }
+  }
   syncActive(); window.addEventListener('hashchange', syncActive);
 
-  // state
-  var S={}; try{ S=JSON.parse(localStorage.getItem('mining_state_pages')||'{}'); }catch(_){}
-  var state=Object.assign({balance:0,mining:false,sessionSec:0,purchased:{TM1:false,TM2:false,TM3:false},plan:'None',rate:0,lastTick:Date.now(),tasks:{t1:false,t2:false,t3:false}}, S);
+  // ========= STATE =========
+  var S={}; try{ S=JSON.parse(localStorage.getItem('mining_state_pages')||'{}'); }catch(e){}
+  var state={
+    balance:0,mining:false,sessionSec:0,
+    purchased:{TM1:false,TM2:false,TM3:false},
+    plan:"None",rate:0,lastTick:Date.now(),
+    tasks:{t1:false,t2:false,t3:false}
+  };
+  for(var k in S){ state[k]=S[k]; }
   function save(){ localStorage.setItem('mining_state_pages', JSON.stringify(state)); }
 
-  function $(q){ return document.querySelector(q); }
-  function $all(q){ return document.querySelectorAll(q); }
   function fmtTRX(x){ return (Math.floor(x*1e6)/1e6).toFixed(6); }
   function mmss(s){ var m=(s/60|0), ss=s%60; return (m<10?'0':'')+m+':' + (ss<10?'0':'')+ss; }
 
-  var statusEl=$('#status'), timeEl=$('#time'), planNameEl=$('#planName'), rateTextEl=$('#rateText'), balanceEl=$('#balance');
-  var toggleBtn=$('#toggleMining');
-  var DEPOSIT_ADDR='TJBwEqi3izv5r3myXf7BV6hKdJYLBLoEw2';
+  // home els
+  var statusEl=$("#status"), timeEl=$("#time"), planNameEl=$("#planName"), rateTextEl=$("#rateText"), balanceEl=$("#balance");
+  var toggleBtn=$("#toggleMining");
+
+  function hasAnyPlan(){ return state.purchased.TM1||state.purchased.TM2||state.purchased.TM3; }
 
   function render(){
-    if(statusEl) statusEl.textContent=state.mining?'Start':'Stop';
-    if(timeEl) timeEl.textContent=mmss(state.sessionSec);
-    if(planNameEl) planNameEl.textContent=state.plan;
-    if(rateTextEl) rateTextEl.textContent=fmtTRX(state.rate)+' TRX/sec';
-    if(balanceEl) balanceEl.textContent=fmtTRX(state.balance)+' TRX';
+    if(statusEl) statusEl.textContent = state.mining ? "Start" : "Stop";
+    if(timeEl) timeEl.textContent = mmss(state.sessionSec);
+    if(planNameEl) planNameEl.textContent = state.plan;
+    if(rateTextEl) rateTextEl.textContent = fmtTRX(state.rate) + " TRX/sec";
+    if(balanceEl) balanceEl.textContent = fmtTRX(state.balance) + " TRX";
 
-    $all('.complete').forEach(b=>{ var id=b.dataset.id; if(state.tasks[id]){ b.textContent='Completed'; b.disabled=true; }});
-    $all('.plan').forEach(p=>{ var id=p.dataset.plan; if(state.purchased[id]){ p.classList.add('accent'); p.querySelector('.hint').textContent='Purchased • Rate: '+p.dataset.rate; }});
+    var completes=$all(".complete");
+    for(var i=0;i<completes.length;i++){
+      var id=completes[i].getAttribute("data-id");
+      if(state.tasks[id]){ completes[i].textContent="Completed"; completes[i].disabled=true; }
+    }
+    var plans=$all(".plan");
+    for(var j=0;j<plans.length;j++){
+      var p=plans[j].getAttribute("data-plan");
+      if(state.purchased[p]){ plans[j].classList.add("ok"); var h=plans[j].querySelector(".hint"); if(h) h.textContent="Purchased • Rate: "+plans[j].getAttribute("data-rate"); }
+    }
 
-    var rc=Number(localStorage.getItem('ref_count')||'0'); $('#refCount')?.textContent=rc; $('#refBonus')?.textContent=(rc*0.1).toFixed(1)+' TRX';
+    // refer counters
+    var rc=Number(localStorage.getItem('ref_count')||'0');
+    var rcEl=$("#refCount"); if(rcEl) rcEl.textContent=rc;
+    var rbEl=$("#refBonus"); if(rbEl) rbEl.textContent=(rc*0.1).toFixed(1)+" TRX";
   }
 
   // mining toggle
-  function hasAnyPlan(){ return state.purchased.TM1||state.purchased.TM2||state.purchased.TM3; }
-  toggleBtn?.addEventListener('click', ()=>{ if(!hasAnyPlan()) return alert('Please buy a mining plan first.'); state.mining=!state.mining; if(state.mining) state.lastTick=Date.now(); render(); save(); });
-
-  // plan buy
-  $all('.plan').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      var p=btn.dataset.plan, cost=+btn.dataset.cost, rate=+btn.dataset.rate;
-      if(state.purchased[p]){ state.plan=p; state.rate=rate; render(); save(); alert(p+' set active ✓'); return; }
-      if(state.balance<cost) return alert('Not enough balance. Need '+cost+' TRX.');
-      state.balance-=cost; state.purchased[p]=true; state.plan=p; state.rate=rate; render(); save(); alert(p+' purchased ✓');
+  if(toggleBtn){
+    toggleBtn.addEventListener("click", function(){
+      if(!hasAnyPlan()){ alert("Please buy a mining plan first."); return; }
+      state.mining=!state.mining;
+      if(state.mining) state.lastTick=Date.now();
+      render(); save();
     });
-  });
-
-  // tasks
-  $all('.complete').forEach(btn=>{
-    btn.addEventListener('click', ()=>{ var id=btn.dataset.id; if(state.tasks[id]) return; state.tasks[id]=true; state.balance+=0.1; render(); save(); });
-  });
-
-  // copy helper (robust)
-  function copyText(text, okCb, errCb){
-    if(navigator.clipboard && window.isSecureContext){
-      navigator.clipboard.writeText(text).then(okCb, errCb);
-    }else{
-      try{
-        var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.left='-9999px'; document.body.appendChild(ta);
-        ta.focus(); ta.select(); var ok=document.execCommand('copy'); document.body.removeChild(ta); ok?okCb():errCb();
-      }catch(e){ errCb(); }
-    }
   }
 
-  // deposit copy
-  $('#copyAddr')?.addEventListener('click', ()=>copyText(DEPOSIT_ADDR, ()=>alert('Address copied'), ()=>alert('Copy failed')));
+  // plan buttons
+  var planBtns=$all(".plan");
+  for(var p=0;p<planBtns.length;p++){
+    planBtns[p].addEventListener("click", function(){
+      var plan=this.getAttribute("data-plan");
+      var cost=Number(this.getAttribute("data-cost"));
+      var rate=Number(this.getAttribute("data-rate"));
+      if(state.purchased[plan]){ state.plan=plan; state.rate=rate; render(); save(); showToast(plan+" active"); return; }
+      if(state.balance<cost){ alert("Not enough balance. Need "+cost+" TRX."); return; }
+      state.balance-=cost; state.purchased[plan]=true; state.plan=plan; state.rate=rate; render(); save(); showToast(plan+" purchased");
+    });
+  }
 
-  // deposit verify (client-side, same as before)
+  // task buttons
+  var comp=$all(".complete");
+  for(var c=0;c<comp.length;c++){
+    comp[c].addEventListener("click", function(){
+      var id=this.getAttribute("data-id");
+      if(state.tasks[id]) return;
+      state.tasks[id]=true; state.balance+=0.1; render(); save(); showToast("+0.1 TRX added");
+    });
+  }
+
+  // robust copy helper
+  function copyText(text, okCb, errCb){
+    try{
+      if(navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(text).then(okCb, errCb);
+        return;
+      }
+    }catch(e){}
+    try{
+      var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.left='-9999px'; document.body.appendChild(ta);
+      ta.focus(); ta.select(); var ok=document.execCommand('copy'); document.body.removeChild(ta);
+      if(ok && okCb) okCb(); else if(errCb) errCb();
+    }catch(e2){ if(errCb) errCb(); }
+  }
+
+  var DEPOSIT_ADDR='TJBwEqi3izv5r3myXf7BV6hKdJYLBLoEw2';
+  var copyAddr=$("#copyAddr");
+  if(copyAddr){ copyAddr.addEventListener("click", function(){ copyText(DEPOSIT_ADDR, function(){ showToast("Address copied"); }, function(){ alert("Copy failed"); }); }); }
+
+  // deposit verify
   function fetchTX(txid){
     var urls=['https://api.trongrid.io/v1/transactions/'+txid,'https://apilist.tronscanapi.com/api/transaction-info?hash='+txid];
-    return new Promise(function(resolve){
-      var i=0; function next(){ if(i>=urls.length) return resolve(null);
-        fetch(urls[i]).then(r=>r.ok?r.json():Promise.reject()).then(raw=>{
-          if(raw?.data?.[0]) resolve({tx:raw.data[0]});
-          else if(raw?.hash || raw?.contractMap || raw?.contract_type) resolve({tx:raw});
-          else{ i++; next(); }
-        }).catch(()=>{ i++; next(); });
-      } next();
-    });
-  }
-  function extractInfo(tx){
-    var confirmed = tx && ((tx.ret && tx.ret.some(r=>r.contractRet==='SUCCESS')) || tx.contractRet==='SUCCESS' || tx.confirmed===true);
-    var v=tx?.raw_data?.contract?.[0]?.parameter?.value||{}, toAddr=String(v.to_address||tx?.toAddress||tx?.toAddressList?.[0]||'');
-    var amountTRX = v.amount? v.amount/1e6 : (typeof tx?.amount==='number'? tx.amount/1e6 : 0);
-    var toMatches = toAddr.includes(DEPOSIT_ADDR) || DEPOSIT_ADDR.slice(-8)
+    return new 
