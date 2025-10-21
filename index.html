@@ -7,7 +7,7 @@
 <style>
   :root{
     --bg:#0b0f16; --card:#121826; --muted:#9db2d3; --text:#e6f0ff;
-    --line:#1e2a44; --accent:#00e5ff; /* active cyan for tabs (like screenshot) */
+    --line:#1e2a44; --accent:#00e5ff; /* cyan for active tab */
     --brand:#ef0027; /* TRX red */
     --btn:#0f172a; --btnline:#223553;
   }
@@ -15,16 +15,24 @@
   body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
   .wrap{max-width:560px;margin:0 auto;padding:12px 12px 100px}
 
-  /* Splash (Login) */
-  .splash{position:fixed;inset:0;background:radial-gradient(900px 600px at 50% 0%,#111a2e 0%,#0a0f1a 60%,#05080e 100%);display:grid;place-items:center;z-index:50}
+  /* Top dev note */
+  .devnote{position:sticky;top:0;z-index:8;background:#0d1422;border-bottom:1px solid #0f1a2a;padding:8px 12px;
+           font-size:12px;color:#9db2d3}
+  .devnote a{color:#7dd3fc;text-decoration:none}
+
+  /* Splash (auto-loading) */
+  .splash{position:fixed;inset:0;background:radial-gradient(900px 600px at 50% 0%,#111a2e 0%,#0a0f1a 60%,#05080e 100%);
+          display:grid;place-items:center;z-index:50}
   .card-splash{text-align:center}
   .coin{width:140px;height:140px;border-radius:50%;background:#2a0b10;border:3px solid #4a0f18;display:grid;place-items:center;
-        box-shadow:0 30px 80px rgba(239,0,39,.35), inset 0 0 40px rgba(239,0,39,.2); animation:float 3s ease-in-out infinite}
+        box-shadow:0 30px 80px rgba(239,0,39,.35), inset 0 0 40px rgba(239,0,39,.2);animation:float 3s ease-in-out infinite}
   .coin svg{width:90px;height:90px;fill:var(--brand);animation:spin 4.5s linear infinite}
   @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-  .enter{margin-top:16px;background:var(--accent);color:#00131a;border:0;padding:12px 18px;border-radius:14px;font-weight:900}
-  .slogan{margin-top:8px;color:var(--muted);font-size:13px}
+  .loader{margin:14px auto 0;width:72%;height:6px;border-radius:999px;background:#0f1a2a;overflow:hidden}
+  .loader>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#00e5ff,#46f1ff);
+               animation:load 1.8s ease-in-out infinite}
+  @keyframes load{0%{width:0}50%{width:70%}100%{width:100%}}
 
   .welcome{background:#151e2f;border:1px solid var(--line);padding:10px 12px;border-radius:12px;margin:8px 0}
   .title{font-size:18px;font-weight:800;margin:0;color:#7dd3fc}
@@ -37,9 +45,11 @@
   .col{display:flex;flex-direction:column;gap:10px}
 
   .pill{display:inline-block;background:#0e1626;border:1px solid #243754;color:#9db2d3;padding:6px 10px;border-radius:999px;font-size:12px}
+
+  /* GIANT TRX LOGO (accurate path from Simple Icons) */
   .trx-giant{width:180px;height:180px;border-radius:50%;display:grid;place-items:center;background:#22060a;border:3px solid #3c0b12;
              box-shadow:0 25px 80px rgba(239,0,39,.35);margin:0 auto 10px}
-  .trx-giant svg{width:110px;height:110px;fill:var(--brand)}
+  .trx-giant svg{width:122px;height:122px;fill:var(--brand)}
 
   .trx-sm{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#22060a;border:1px solid #3c0b12;margin:0 auto 6px}
   .trx-sm svg{width:16px;height:16px;fill:var(--brand)}
@@ -52,7 +62,7 @@
   .statrow{display:flex;justify-content:center;gap:8px;margin:8px 0}
   .balance{font-size:22px;font-weight:900}
 
-  /* Bottom tab bar with icons above text (like screenshot) */
+  /* Bottom tab bar (icons above labels) */
   .tabbar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:6px;justify-content:center;padding:8px 10px 10px;
           background:rgba(10,15,25,.92);border-top:1px solid #0f1a2a;backdrop-filter:blur(6px);z-index:9}
   .tab{flex:1;max-width:120px;background:transparent;border:0;color:#a9b9d6;font-weight:700;padding:6px 0 4px}
@@ -64,17 +74,20 @@
 </head>
 <body>
 
-<!-- Splash / Login -->
-<div id="splash" class="splash">
+<!-- Auto Splash / Loading -->
+<div id="splash" class="splash" aria-hidden="true">
   <div class="card-splash">
     <div class="coin">
-      <svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg>
+      <!-- accurate TRX logo -->
+      <svg viewBox="0 0 24 24" aria-label="TRON (TRX)">
+        <path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Zm-7.91-5.74 6.94 6.94-4.094 1.276-4.67-7.927 1.82-.29h.004ZM12.6 3.17l4.922 8.356-3.59 1.118-4.9-6.76 3.568-2.714ZM6.94 4.22 10.7 9.28l-6.39 1.97 2.63-7.03Zm-4.49 5.57 8.83-2.73 4.71 6.5-3.04 8.25L2.45 9.79Zm12.41 12.41 2.62-7.11 3.35-1.05-5.97 8.16Z"/>
+      </svg>
     </div>
-    <h2 style="margin:14px 0 0">Welcome to our mining bot</h2>
-    <div class="slogan">Secure. Fast. Tap “Enter App” to continue.</div>
-    <button id="enter" class="enter">Enter App</button>
+    <div class="loader"><span></span></div>
   </div>
 </div>
+
+<div class="devnote">Developer: <a href="https://t.me/ToxicNexo" target="_blank">t.me/ToxicNexo</a></div>
 
 <div class="wrap">
   <!-- Welcome strip -->
@@ -87,7 +100,8 @@
   <section id="page-home" class="page">
     <div class="card center">
       <div class="trx-giant" aria-hidden="true">
-        <svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg>
+        <!-- same accurate logo -->
+        <svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Zm-7.91-5.74 6.94 6.94-4.094 1.276-4.67-7.927 1.82-.29h.004ZM12.6 3.17l4.922 8.356-3.59 1.118-4.9-6.76 3.568-2.714ZM6.94 4.22 10.7 9.28l-6.39 1.97 2.63-7.03Zm-4.49 5.57 8.83-2.73 4.71 6.5-3.04 8.25L2.45 9.79Zm12.41 12.41 2.62-7.11 3.35-1.05-5.97 8.16Z"/></svg>
       </div>
       <h2>Home</h2>
       <div class="statrow">
@@ -107,7 +121,7 @@
         <span class="pill">Session: <b id="time2">00:00</b></span>
       </div>
       <button id="toggleMining" class="btn accent" style="width:100%">
-        <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+        <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
         <span class="label">Start Mining</span>
         <span class="hint">Requires any purchased plan</span>
       </button>
@@ -117,22 +131,22 @@
       <h2>Buy Mining Plan</h2>
       <div class="grid2">
         <button class="btn plan" data-plan="TM1" data-cost="10" data-rate="0.000100">
-          <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+          <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
           <span class="label">Buy Mining TM1</span>
           <span class="hint">Cost: 10 TRX • Rate: 0.000100</span>
         </button>
         <button class="btn plan" data-plan="TM2" data-cost="20" data-rate="0.000300">
-          <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+          <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
           <span class="label">Buy Mining TM2</span>
           <span class="hint">Cost: 20 TRX • Rate: 0.000300</span>
         </button>
         <button class="btn plan" data-plan="TM3" data-cost="30" data-rate="0.000700">
-          <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+          <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
           <span class="label">Buy Mining TM3</span>
           <span class="hint">Cost: 30 TRX • Rate: 0.000700</span>
         </button>
         <button class="btn" disabled>
-          <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+          <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
           <span class="label">More Soon</span>
           <span class="hint">—</span>
         </button>
@@ -153,7 +167,7 @@
             <div class="sub">Join then tap Complete to get +0.1 TRX</div>
           </div>
           <button class="btn accent complete" data-id="t1">
-            <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
             <span class="label">Complete</span>
           </button>
         </div>
@@ -165,7 +179,7 @@
             <div class="sub">+0.1 TRX</div>
           </div>
           <button class="btn accent complete" data-id="t2">
-            <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
             <span class="label">Complete</span>
           </button>
         </div>
@@ -177,7 +191,7 @@
             <div class="sub">+0.1 TRX</div>
           </div>
           <button class="btn accent complete" data-id="t3">
-            <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
             <span class="label">Complete</span>
           </button>
         </div>
@@ -189,7 +203,7 @@
   <section id="page-wallet" class="page hidden">
     <div class="card center">
       <div class="trx-giant" aria-hidden="true">
-        <svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg>
       </div>
       <h2>Wallet</h2>
       <div class="row" style="justify-content:space-between;align-items:flex-end;margin-top:6px">
@@ -199,11 +213,11 @@
         </div>
         <div class="row" style="gap:8px">
           <button class="btn">
-            <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
             <span class="label">Deposit</span>
           </button>
           <button class="btn accent">
-            <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
             <span class="label">Withdraw</span>
           </button>
         </div>
@@ -246,13 +260,11 @@
 </div>
 
 <script>
-  // ---- Splash ----
-  document.getElementById('enter').addEventListener('click', ()=> {
-    document.getElementById('splash').style.display='none';
-  });
+  // auto-hide splash after 1.8s
+  setTimeout(()=>{ document.getElementById('splash').style.display='none'; }, 1800);
 
   // ---- State ----
-  const S = JSON.parse(localStorage.getItem('mining_state_v3')||'{}');
+  const S = JSON.parse(localStorage.getItem('mining_state_v4')||'{}');
   const state = Object.assign({
     balance: 0,
     mining: false,
@@ -263,7 +275,7 @@
     lastTick: Date.now(),
     tasks: { t1:false, t2:false, t3:false }
   }, S);
-  const save = ()=>localStorage.setItem('mining_state_v3', JSON.stringify(state));
+  const save = ()=>localStorage.setItem('mining_state_v4', JSON.stringify(state));
 
   const $  = q=>document.querySelector(q);
   const $$ = q=>document.querySelectorAll(q);
@@ -317,7 +329,7 @@
     render(); save();
   });
 
-  // Buy plans (costed)
+  // Buy plans
   $$('.plan').forEach(b=>{
     b.addEventListener('click', ()=>{
       const p=b.dataset.plan, cost=Number(b.dataset.cost), rate=Number(b.dataset.rate);
@@ -349,8 +361,7 @@
     }else{ state.lastTick=now; }
     requestAnimationFrame(tick);
   }
-
   render(); requestAnimationFrame(tick);
 </script>
 </body>
-  </html>
+          </html>
