@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mining Bot</title>
+<title>Mining Bot (Debug)</title>
 <style>
   :root{
     --bg1:#0b1120; --bg2:#0a1228; --bg3:#07111c;
@@ -41,32 +41,34 @@
   .btn{background:var(--btn);border:1px solid var(--btnline);color:#dbeafe;padding:10px 12px;border-radius:14px;font-weight:800;text-align:center;cursor:pointer}
   .btn.accent{background:var(--brand);border-color:var(--brand);color:#fff}
   .btn:disabled{opacity:.6;cursor:not-allowed}
-  .btn .label{display:block}
-  .btn .hint{display:block;font-weight:600;font-size:12px;color:#9db2d3}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .statrow{display:flex;justify-content:center;gap:8px;margin:8px 0}
   .balance{font-size:22px;font-weight:900}
 
-  /* Hash pages */
   .page{display:none}
   #home:target,#mining:target,#task:target,#wallet:target,#refer:target,#deposit:target,#withdraw:target{display:block}
   body:not([data-hash]) #home{display:block}
 
-  /* Tabs */
   .tabbar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:6px;justify-content:center;padding:8px 10px 10px;background:rgba(10,15,25,.9);border-top:1px solid #0f1a2a;backdrop-filter:blur(6px);z-index:9}
   .tab{flex:1;max-width:120px;background:transparent;border:0;color:#a9b9d6;font-weight:700;padding:6px 0 4px;text-align:center;text-decoration:none}
   .tab .ico{display:block;margin:0 auto 6px;width:22px;height:22px;opacity:.7}
   .tab.active{color:var(--accent)}
   .tab.active .ico{opacity:1;filter:drop-shadow(0 0 4px rgba(0,229,255,.55))}
 
-  /* Toast */
   .toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);background:#0b1f33;border:1px solid #134063;color:#dff6ff;padding:8px 12px;border-radius:10px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .25s;z-index:99}
   .toast.show{opacity:1}
+
+  /* DEBUG */
+  .dbg{position:fixed;right:10px;top:52px;background:#12233b;border:1px solid #1f3a67;color:#bfe1ff;padding:6px 8px;border-radius:8px;font-size:12px;z-index:99}
+  .dbg.ok{background:#0d2a16;border-color:#185a2a;color:#bfffcf}
+  .err{position:fixed;left:10px;right:10px;top:80px;background:#3b1010;border:1px solid #7a1f1f;color:#ffd6d6;padding:10px;border-radius:10px;z-index:100;display:none;white-space:pre-wrap}
 </style>
 </head>
 <body>
 
 <div class="devnote">Developer: <a href="https://t.me/ToxicNexo" target="_blank">t.me/ToxicNexo</a></div>
+<div id="dbg" class="dbg">JS: loading…</div>
+<div id="err" class="err"></div>
 
 <div class="wrap">
   <div class="welcome">
@@ -98,10 +100,10 @@
     <div class="card">
       <h2>Buy Mining Plan</h2>
       <div class="grid2">
-        <button class="btn plan" data-plan="TM1" data-cost="10" data-rate="0.000100"><span class="label">Buy Mining TM1</span><span class="hint">Cost: 10 TRX • Rate: 0.000100</span></button>
-        <button class="btn plan" data-plan="TM2" data-cost="20" data-rate="0.000300"><span class="label">Buy Mining TM2</span><span class="hint">Cost: 20 TRX • Rate: 0.000300</span></button>
-        <button class="btn plan" data-plan="TM3" data-cost="30" data-rate="0.000700"><span class="label">Buy Mining TM3</span><span class="hint">Cost: 30 TRX • Rate: 0.000700</span></button>
-        <button class="btn" disabled><span class="label">More Soon</span><span class="hint">—</span></button>
+        <button class="btn plan" data-plan="TM1" data-cost="10" data-rate="0.000100"><span class="label">Buy Mining TM1</span></button>
+        <button class="btn plan" data-plan="TM2" data-cost="20" data-rate="0.000300"><span class="label">Buy Mining TM2</span></button>
+        <button class="btn plan" data-plan="TM3" data-cost="30" data-rate="0.000700"><span class="label">Buy Mining TM3</span></button>
+        <button class="btn" disabled><span class="label">More Soon</span></button>
       </div>
       <div class="sub" style="margin-top:8px">Purchasing deducts TRX from your balance (local demo).</div>
     </div>
@@ -168,12 +170,10 @@
     <div class="card">
       <a href="#wallet" class="btn" style="margin-bottom:10px">← Back</a>
       <h2>Deposit TRX</h2>
-      <div class="sub">Send TRX to this address (min 1, max 100), then paste your TxID and Verify.</div>
 
       <div style="margin:10px 0;padding:10px;border:1px dashed #2b3b5d;border-radius:10px">
         <div class="sub">Deposit Address</div>
         <div id="depAddr" style="word-break:break-all;font-weight:800">TJBwEqi3izv5r3myXf7BV6hKdJYLBLoEw2</div>
-        <div class="sub">Min: <b>1 TRX</b> • Max: <b>100 TRX</b></div>
         <button id="copyAddr" class="btn" style="margin-top:8px">Copy address</button>
       </div>
 
@@ -189,7 +189,6 @@
     <div class="card">
       <a href="#wallet" class="btn" style="margin-bottom:10px">← Back</a>
       <h2>Withdraw TRX</h2>
-      <div class="sub">Enter address and amount, then Confirm.</div>
       <label class="sub">Enter TRX address</label>
       <input id="wdAddr" placeholder="TRX address (T...)" style="width:100%;padding:10px;border-radius:10px;border:1px solid #223553;background:#0f172a;color:#dbeafe">
       <label class="sub" style="margin-top:10px">Enter amount</label>
@@ -218,7 +217,6 @@
         <div class="sub">Total refer: <b id="refCount">0</b></div>
         <div class="sub">Total refer bonus: <b id="refBonus">0.0 TRX</b></div>
       </div>
-      <div class="sub" style="margin-top:8px">Note: Counts are stored on this device only (demo).</div>
     </div>
   </section>
 </div>
@@ -234,81 +232,121 @@
 
 <div id="toast" class="toast">Copied!</div>
 
-<script>
+<script defer>
 (function(){
-  function $(q){return document.querySelector(q);}
-  function $all(q){return document.querySelectorAll(q);}
-  function showToast(msg){var t=$("#toast"); if(!t) return; t.textContent=msg||"Done"; t.classList.add("show"); clearTimeout(showToast._t); showToast._t=setTimeout(function(){ t.classList.remove("show"); },1200);}
-  function setDefaultHash(){ if(!location.hash){ document.body.removeAttribute('data-hash'); } else { document.body.setAttribute('data-hash','1'); } }
-  setDefaultHash(); window.addEventListener('hashchange', setDefaultHash);
+  var dbg = document.getElementById('dbg');
+  function ok(m){ dbg.textContent = m||'JS: ok'; dbg.classList.add('ok'); }
+  function log(){ try{ console.log.apply(console, arguments); }catch(e){} }
 
-  function syncActive(){ var h=(location.hash||"#home").replace("#",""); var tabs=$all(".tab"); for(var i=0;i<tabs.length;i++){ tabs[i].classList.toggle("active", tabs[i].getAttribute("data-tab")===h); } }
-  syncActive(); window.addEventListener('hashchange', syncActive);
+  // show runtime errors on screen
+  window.onerror = function(msg, src, line, col, err){
+    var box = document.getElementById('err');
+    box.style.display='block';
+    box.textContent = 'JS Error: ' + msg + '\n' + (src||'') + ':' + (line||0) + ':' + (col||0);
+    dbg.textContent = 'JS: error';
+    dbg.classList.remove('ok');
+  };
 
-  var S={}; try{ S=JSON.parse(localStorage.getItem('mining_state_pages')||'{}'); }catch(e){}
-  var state={balance:0,mining:false,sessionSec:0,purchased:{TM1:false,TM2:false,TM3:false},plan:"None",rate:0,lastTick:Date.now(),tasks:{t1:false,t2:false,t3:false}};
-  for(var k in S){ state[k]=S[k]; }
-  function save(){ localStorage.setItem('mining_state_pages', JSON.stringify(state)); }
-  function fmtTRX(x){ return (Math.floor(x*1e6)/1e6).toFixed(6); }
-  function mmss(s){ var m=(s/60|0), ss=s%60; return (m<10?'0':'')+m+':' + (ss<10?'0':'')+ss; }
+  // wait DOM ready
+  document.addEventListener('DOMContentLoaded', function(){
+    ok('JS: loaded');
 
-  var statusEl=$("#status"), timeEl=$("#time"), planNameEl=$("#planName"), rateTextEl=$("#rateText"), balanceEl=$("#balance");
-  var toggleBtn=$("#toggleMining");
-  function hasAnyPlan(){ return state.purchased.TM1||state.purchased.TM2||state.purchased.TM3; }
+    function $(q){return document.querySelector(q);}
+    function $all(q){return document.querySelectorAll(q);}
+    function toast(msg){
+      var t=$("#toast"); if(!t) return;
+      t.textContent=msg||"Done"; t.classList.add("show");
+      clearTimeout(toast._t); toast._t=setTimeout(function(){t.classList.remove("show");},1200);
+    }
+    function setDefaultHash(){ if(!location.hash){ document.body.removeAttribute('data-hash'); } else { document.body.setAttribute('data-hash','1'); } }
+    setDefaultHash(); window.addEventListener('hashchange', setDefaultHash);
 
-  function render(){
-    if(statusEl) statusEl.textContent = state.mining ? "Start" : "Stop";
-    if(timeEl) timeEl.textContent = mmss(state.sessionSec);
-    if(planNameEl) planNameEl.textContent = state.plan;
-    if(rateTextEl) rateTextEl.textContent = fmtTRX(state.rate) + " TRX/sec";
-    if(balanceEl) balanceEl.textContent = fmtTRX(state.balance) + " TRX";
-    var completes=$all(".complete");
-    for(var i=0;i<completes.length;i++){ var id=completes[i].getAttribute("data-id"); if(state.tasks[id]){ completes[i].textContent="Completed"; completes[i].disabled=true; } }
-    var plans=$all(".plan");
-    for(var j=0;j<plans.length;j++){ var p=plans[j].getAttribute("data-plan"); if(state.purchased[p]){ plans[j].classList.add("accent"); var h=plans[j].querySelector(".hint"); if(h) h.textContent="Purchased • Rate: "+plans[j].getAttribute("data-rate"); } }
-    var rc=Number(localStorage.getItem('ref_count')||'0'); var rcEl=$("#refCount"); if(rcEl) rcEl.textContent=rc; var rbEl=$("#refBonus"); if(rbEl) rbEl.textContent=(rc*0.1).toFixed(1)+" TRX";
-  }
+    function syncActive(){
+      var h=(location.hash||"#home").replace("#","");
+      var tabs=$all(".tab"); for(var i=0;i<tabs.length;i++){ tabs[i].classList.toggle("active", tabs[i].getAttribute("data-tab")===h); }
+    }
+    syncActive(); window.addEventListener('hashchange', syncActive);
 
-  toggleBtn && toggleBtn.addEventListener("click", function(){ if(!hasAnyPlan()) return alert("Please buy a mining plan first."); state.mining=!state.mining; if(state.mining) state.lastTick=Date.now(); render(); save(); });
+    var S={}; try{ S=JSON.parse(localStorage.getItem('mining_state_pages')||'{}'); }catch(e){}
+    var state={balance:0,mining:false,sessionSec:0,purchased:{TM1:false,TM2:false,TM3:false},plan:"None",rate:0,lastTick:Date.now(),tasks:{t1:false,t2:false,t3:false}};
+    for(var k in S){ state[k]=S[k]; }
+    function save(){ localStorage.setItem('mining_state_pages', JSON.stringify(state)); }
+    function fmtTRX(x){ return (Math.floor(x*1e6)/1e6).toFixed(6); }
+    function mmss(s){ var m=(s/60|0), ss=s%60; return (m<10?'0':'')+m+':' + (ss<10?'0':'')+ss; }
 
-  var planBtns=$all(".plan");
-  for(var p=0;p<planBtns.length;p++){ planBtns[p].addEventListener("click", function(){ var plan=this.getAttribute("data-plan"), cost=Number(this.getAttribute("data-cost")), rate=Number(this.getAttribute("data-rate")); if(state.purchased[plan]){ state.plan=plan; state.rate=rate; render(); save(); showToast(plan+" active"); return; } if(state.balance<cost){ alert("Not enough balance. Need "+cost+" TRX."); return; } state.balance-=cost; state.purchased[plan]=true; state.plan=plan; state.rate=rate; render(); save(); showToast(plan+" purchased"); }); }
+    var statusEl=$("#status"), timeEl=$("#time"), planNameEl=$("#planName"), rateTextEl=$("#rateText"), balanceEl=$("#balance");
+    function render(){
+      if(statusEl) statusEl.textContent = state.mining ? "Start" : "Stop";
+      if(timeEl) timeEl.textContent = mmss(state.sessionSec);
+      if(planNameEl) planNameEl.textContent = state.plan;
+      if(rateTextEl) rateTextEl.textContent = fmtTRX(state.rate) + " TRX/sec";
+      if(balanceEl) balanceEl.textContent = fmtTRX(state.balance) + " TRX";
+      var completes=$all(".complete");
+      for(var i=0;i<completes.length;i++){ var id=completes[i].getAttribute("data-id"); if(state.tasks[id]){ completes[i].textContent="Completed"; completes[i].disabled=true; } }
+      var plans=$all(".plan");
+      for(var j=0;j<plans.length;j++){ var p=plans[j].getAttribute("data-plan"); if(state.purchased[p]){ plans[j].classList.add("accent"); } }
+    }
 
-  var comp=$all(".complete");
-  for(var c=0;c<comp.length;c++){ comp[c].addEventListener("click", function(){ var id=this.getAttribute("data-id"); if(state.tasks[id]) return; state.tasks[id]=true; state.balance+=0.1; render(); save(); showToast("+0.1 TRX added"); }); }
+    function hasAnyPlan(){ return state.purchased.TM1||state.purchased.TM2||state.purchased.TM3; }
 
-  function copyText(text, okCb, errCb){
-    try{ if(navigator.clipboard && window.isSecureContext){ navigator.clipboard.writeText(text).then(okCb, errCb); return; } }catch(e){}
-    try{ var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.left='-9999px'; document.body.appendChild(ta); ta.focus(); ta.select(); var ok=document.execCommand('copy'); document.body.removeChild(ta); if(ok && okCb) okCb(); else if(errCb) errCb(); }catch(e2){ if(errCb) errCb(); }
-  }
+    var toggleBtn=$("#toggleMining");
+    if(toggleBtn){
+      toggleBtn.addEventListener("click", function(){
+        log('click: toggleMining');
+        if(!hasAnyPlan()){ alert("Please buy a mining plan first."); return; }
+        state.mining=!state.mining; if(state.mining) state.lastTick=Date.now();
+        render(); save(); toast("Mining "+(state.mining?'started':'stopped'));
+      });
+    }
 
-  var DEPOSIT_ADDR='TJBwEqi3izv5r3myXf7BV6hKdJYLBLoEw2';
-  var copyAddr=$("#copyAddr"); copyAddr && copyAddr.addEventListener("click", function(){ copyText(DEPOSIT_ADDR, function(){ showToast("Address copied"); }, function(){ alert("Copy failed"); }); });
+    var planBtns=$all(".plan");
+    for(var p=0;p<planBtns.length;p++){
+      planBtns[p].addEventListener("click", function(){
+        var plan=this.getAttribute("data-plan"), cost=Number(this.getAttribute("data-cost")), rate=Number(this.getAttribute("data-rate"));
+        log('click: plan', plan);
+        if(state.purchased[plan]){ state.plan=plan; state.rate=rate; render(); save(); toast(plan+" active"); return; }
+        if(state.balance<cost){ alert("Not enough balance. Need "+cost+" TRX."); return; }
+        state.balance-=cost; state.purchased[plan]=true; state.plan=plan; state.rate=rate; render(); save(); toast(plan+" purchased");
+      });
+    }
 
-  function fetchTX(txid){
-    var urls=['https://api.trongrid.io/v1/transactions/'+txid,'https://apilist.tronscanapi.com/api/transaction-info?hash='+txid];
-    return new Promise(function(resolve){ var i=0; function next(){ if(i>=urls.length) return resolve(null); fetch(urls[i]).then(function(r){ if(!r.ok){ i++; return next(); } return r.json(); }).then(function(raw){ if(raw && raw.data && raw.data[0]) resolve({tx:raw.data[0]}); else if(raw && (raw.hash || raw.contractMap || raw.contract_type)) resolve({tx:raw}); else { i++; next(); } }).catch(function(){ i++; next(); }); } next(); });
-  }
-  function extractInfo(tx){
-    var confirmed = !!(tx && ((tx.ret && tx.ret.some(function(r){return r.contractRet==='SUCCESS';})) || tx.contractRet==='SUCCESS' || tx.confirmed===true));
-    var v = tx && tx.raw_data && tx.raw_data.contract && tx.raw_data.contract[0] && tx.raw_data.contract[0].parameter && tx.raw_data.contract[0].parameter.value || {};
-    var toAddr = String(v.to_address || tx && tx.toAddress || tx && tx.toAddressList && tx.toAddressList[0] || '');
-    var amountTRX = v.amount ? v.amount/1e6 : (typeof (tx && tx.amount)==='number' ? tx.amount/1e6 : 0);
-    var toMatches = toAddr.indexOf(DEPOSIT_ADDR)>-1 || DEPOSIT_ADDR.slice(-8)===toAddr.slice(-8);
-    return {confirmed:confirmed,toMatches:toMatches,amountTRX:amountTRX};
-  }
-  var verifyBtn=$("#verifyBtn");
-  verifyBtn && verifyBtn.addEventListener("click", function(){
-    var txid=($("#txid").value||"").trim(), msg=$("#depMsg"); if(!txid){ alert("Enter your TxID"); return; }
-    msg.textContent="Checking transaction…";
-    fetchTX(txid).then(function(n){
-      if(!n){ msg.textContent="Transaction not found or blocked by CORS."; return; }
-      var info=extractInfo(n.tx);
-      if(!info.confirmed){ msg.textContent="Transaction not confirmed yet."; return; }
-      if(!info.toMatches){ msg.textContent="Not sent to our deposit address."; return; }
-      if(info.amountTRX<1){ msg.textContent="Amount too small (< 1 TRX)."; return; }
-      if(info.amountTRX>100){ msg.textContent="Amount too large (> 100 TRX)."; return; }
-      var seen=[]; try{ seen=JSON.parse(localStorage.getItem('credited_txids')||'[]'); }catch(e){}
-      if(seen.indexOf(txid)>-1){ msg.textContent="This TxID was already credited."; return; }
-      state.balance+=info.amountTRX; seen.push(txid); localStorage.setItem('credited_txids', JSON.stringify(seen)); render(); save(); msg.textContent="Success! Credited "+info.amountTRX+" TRX."; showToast("Deposit credited");
-    }).catch(function(){ msg.textContent="Verification error. Try again."; });
+    var comp=$all(".complete");
+    for(var c=0;c<comp.length;c++){
+      comp[c].addEventListener("click", function(){
+        var id=this.getAttribute("data-id"); log('click: task', id);
+        if(state.tasks[id]) return; state.tasks[id]=true; state.balance+=0.1; render(); save(); toast("+0.1 TRX added");
+      });
+    }
+
+    // Copy helpers
+    function copyText(text, okCb, errCb){
+      try{ if(navigator.clipboard && window.isSecureContext){ navigator.clipboard.writeText(text).then(okCb, errCb); return; } }catch(e){}
+      try{ var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.left='-9999px'; document.body.appendChild(ta); ta.focus(); ta.select(); var ok=document.execCommand('copy'); document.body.removeChild(ta); if(ok && okCb) okCb(); else if(errCb) errCb(); }catch(e2){ if(errCb) errCb(); }
+    }
+
+    var DEPOSIT_ADDR='TJBwEqi3izv5r3myXf7BV6hKdJYLBLoEw2';
+    var copyAddr=$("#copyAddr");
+    if(copyAddr){ copyAddr.addEventListener("click", function(){ log('click: copyAddr'); copyText(DEPOSIT_ADDR, function(){ toast("Address copied"); }, function(){ alert("Copy failed"); }); }); }
+
+    // simple fake withdraw(deposit verify বাদ দেওয়া হলো ডিবাগের জন্য)
+    var wdBtn=$("#wdConfirm");
+    if(wdBtn){ wdBtn.addEventListener("click", function(){ log('click: withdraw'); var addr=($("#wdAddr").value||"").trim(), amt=Number(($("#wdAmt").value||"0")), msg=$("#wdMsg"); if(!addr||addr.charAt(0)!=='T'){ msg.textContent="Enter a valid TRX address."; return; } if(!(amt>0)){ msg.textContent="Enter a valid amount."; return; } if(amt>state.balance){ msg.textContent="Insufficient balance."; return; } state.balance-=amt; render(); save(); msg.textContent="Withdraw request submitted: "+amt+" TRX to "+addr+"."; toast("Withdraw requested"); }); }
+
+    // referral mock
+    var REF_BASE='http://t.me/VairalVideoInTelegramBOT/AllLink';
+    function getRefCode(){ var c=localStorage.getItem('ref_code'); if(!c){ c=Math.random().toString(36).slice(2,8).toUpperCase(); localStorage.setItem('ref_code',c);} return c; }
+    (function setupRef(){
+      var code=getRefCode(), link=REF_BASE+'?start='+code;
+      var rc=$("#refCode"); if(rc) rc.textContent=code;
+      var rl=$("#refLink"); if(rl) rl.textContent=link;
+      var cr=$("#copyRef"); if(cr){ cr.onclick=function(){ log('click: copyRef'); copyText(link,function(){ toast("Referral link copied"); var m=$("#refMsg"); if(m) m.textContent="Copied!"; },function(){ alert("Copy failed"); }); }; }
+    })();
+
+    // mining tick
+    function tick(){ var now=Date.now(), dt=Math.max(0, now-state.lastTick); if(state.mining){ var dsec=(dt/1000)|0; if(dsec>0){ state.lastTick+=dsec*1000; state.sessionSec+=dsec; state.balance+=state.rate*dsec; render(); save(); } } else { state.lastTick=now; } requestAnimationFrame(tick); }
+    render(); requestAnimationFrame(tick);
+  });
+})();
+</script>
+</body>
+                                   </html>
