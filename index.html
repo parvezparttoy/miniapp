@@ -5,45 +5,32 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Mining Bot</title>
 <style>
-  :root{
-    --bg:#0b0f16; --card:#121826; --muted:#9db2d3; --text:#e6f0ff;
-    --line:#1e2a44; --accent:#00e5ff; --brand:#ef0027;
-    --btn:#0f172a; --btnline:#223553;
-  }
+  :root{--bg:#0b0f16;--card:#121826;--muted:#9db2d3;--text:#e6f0ff;--line:#1e2a44;--accent:#00e5ff;--brand:#ef0027;--btn:#0f172a;--btnline:#223553}
   *{box-sizing:border-box}
   body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
   .wrap{max-width:560px;margin:0 auto;padding:12px 12px 110px}
-
-  .devnote{position:sticky;top:0;z-index:8;background:#0d1422;border-bottom:1px solid #0f1a2a;padding:8px 12px;
-           font-size:12px;color:#9db2d3}
+  .devnote{position:sticky;top:0;z-index:8;background:#0d1422;border-bottom:1px solid #0f1a2a;padding:8px 12px;font-size:12px;color:#9db2d3}
   .devnote a{color:#7dd3fc;text-decoration:none}
-
-  /* Splash */
-  .splash{position:fixed;inset:0;background:radial-gradient(900px 600px at 50% 0%,#111a2e 0%,#0a0f1a 60%,#05080e 100%);
-          display:grid;place-items:center;z-index:50;animation:fadeOut .6s ease forwards;animation-delay:2.2s}
+  .splash{position:fixed;inset:0;background:radial-gradient(900px 600px at 50% 0%,#111a2e 0%,#0a0f1a 60%,#05080e 100%);display:grid;place-items:center;z-index:50;animation:fadeOut .6s ease forwards;animation-delay:2.2s}
   @keyframes fadeOut{to{opacity:0;visibility:hidden}}
   .card-splash{text-align:center}
-  .coin{width:140px;height:140px;border-radius:50%;background:#2a0b10;border:3px solid #4a0f18;display:grid;place-items:center;
-        box-shadow:0 30px 80px rgba(239,0,39,.35), inset 0 0 40px rgba(239,0,39,.2);animation:float 3s ease-in-out infinite}
+  .coin{width:140px;height:140px;border-radius:50%;background:#2a0b10;border:3px solid #4a0f18;display:grid;place-items:center;box-shadow:0 30px 80px rgba(239,0,39,.35), inset 0 0 40px rgba(239,0,39,.2);animation:float 3s ease-in-out infinite}
   .coin svg{width:90px;height:90px;fill:var(--brand);animation:spin 4.5s linear infinite}
   @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
   .loader{margin:14px auto 0;width:72%;height:6px;border-radius:999px;background:#0f1a2a;overflow:hidden}
   .loader>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#00e5ff,#46f1ff);animation:load 1.6s ease-in-out infinite}
   @keyframes load{0%{width:0}55%{width:72%}100%{width:100%}}
-
   .welcome{background:#151e2f;border:1px solid var(--line);padding:10px 12px;border-radius:12px;margin:8px 0}
   .title{font-size:18px;font-weight:800;margin:0;color:#7dd3fc}
   .sub{font-size:12px;color:#9db2d3;margin-top:4px}
-
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-top:12px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
   h2{margin:6px 0 8px;font-size:16px}
   .center{text-align:center}
   .row{display:flex;gap:10px;align-items:center}
   .col{display:flex;flex-direction:column;gap:10px}
   .pill{display:inline-block;background:#0e1626;border:1px solid #243754;color:#9db2d3;padding:6px 10px;border-radius:999px;font-size:12px}
-  .trx-giant{width:180px;height:180px;border-radius:50%;display:grid;place-items:center;background:#22060a;border:3px solid #3c0b12;
-             box-shadow:0 25px 80px rgba(239,0,39,.35);margin:0 auto 10px}
+  .trx-giant{width:180px;height:180px;border-radius:50%;display:grid;place-items:center;background:#22060a;border:3px solid #3c0b12;box-shadow:0 25px 80px rgba(239,0,39,.35);margin:0 auto 10px}
   .trx-giant svg{width:122px;height:122px;fill:var(--brand)}
   .trx-sm{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#22060a;border:1px solid #3c0b12;margin:0 auto 6px}
   .trx-sm svg{width:16px;height:16px;fill:var(--brand)}
@@ -55,17 +42,11 @@
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .statrow{display:flex;justify-content:center;gap:8px;margin:8px 0}
   .balance{font-size:22px;font-weight:900}
-
-  /* Hash routing */
   .page{display:none}
-  #home:target, #mining:target, #task:target, #wallet:target, #refer:target, #deposit:target, #withdraw:target { display:block }
-  body:not([data-hash]) #home { display:block }
-
-  /* Bottom tabs */
-  .tabbar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:6px;justify-content:center;padding:8px 10px 10px;
-          background:rgba(10,15,25,.92);border-top:1px solid #0f1a2a;backdrop-filter:blur(6px);z-index:9}
-  .tab{flex:1;max-width:120px;background:transparent;border:0;color:#a9b9d6;font-weight:700;padding:6px 0 4px;
-       text-align:center;text-decoration:none}
+  #home:target,#mining:target,#task:target,#wallet:target,#refer:target,#deposit:target,#withdraw:target{display:block}
+  body:not([data-hash]) #home{display:block}
+  .tabbar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:6px;justify-content:center;padding:8px 10px 10px;background:rgba(10,15,25,.92);border-top:1px solid #0f1a2a;backdrop-filter:blur(6px);z-index:9}
+  .tab{flex:1;max-width:120px;background:transparent;border:0;color:#a9b9d6;font-weight:700;padding:6px 0 4px;text-align:center;text-decoration:none}
   .tab .ico{display:block;margin:0 auto 6px;width:22px;height:22px;opacity:.7}
   .tab.active{color:var(--accent)}
   .tab.active .ico{opacity:1;filter:drop-shadow(0 0 4px rgba(0,229,255,.55))}
@@ -77,9 +58,7 @@
 <div id="splash" class="splash" aria-hidden="true">
   <div class="card-splash">
     <div class="coin">
-      <svg viewBox="0 0 24 24" aria-label="TRON (TRX)">
-        <path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Zm-7.91-5.74 6.94 6.94-4.094 1.276-4.67-7.927 1.82-.29h.004ZM12.6 3.17l4.922 8.356-3.59 1.118-4.9-6.76 3.568-2.714ZM6.94 4.22 10.7 9.28l-6.39 1.97 2.63-7.03Zm-4.49 5.57 8.83-2.73 4.71 6.5-3.04 8.25L2.45 9.79Zm12.41 12.41 2.62-7.11 3.35-1.05-5.97 8.16Z"/>
-      </svg>
+      <svg viewBox="0 0 24 24" aria-label="TRON (TRX)"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Zm-7.91-5.74 6.94 6.94-4.094 1.276-4.67-7.927 1.82-.29h.004ZM12.6 3.17l4.922 8.356-3.59 1.118-4.9-6.76 3.568-2.714ZM6.94 4.22 10.7 9.28l-6.39 1.97 2.63-7.03Zm-4.49 5.57 8.83-2.73 4.71 6.5-3.04 8.25L2.45 9.79Zm12.41 12.41 2.62-7.11 3.35-1.05-5.97 8.16Z"/></svg>
     </div>
     <div class="loader"><span></span></div>
   </div>
@@ -93,7 +72,7 @@
     <div class="sub">Use the tabs below to navigate. Buy a plan to enable mining.</div>
   </div>
 
-  <!-- HOME (only Home things here) -->
+  <!-- HOME -->
   <section id="home" class="page">
     <div class="card center">
       <div class="trx-giant" aria-hidden="true">
@@ -158,10 +137,7 @@
             <a href="https://t.me/+JQdsBNK6nE1kNTg1" target="_blank">Go to channel</a>
             <div class="sub">Join then tap Complete to get +0.1 TRX</div>
           </div>
-          <button class="btn accent complete" data-id="t1">
-            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
-            <span class="label">Complete</span>
-          </button>
+          <button class="btn accent complete" data-id="t1"><span class="label">Complete</span></button>
         </div>
         <hr style="border:0;border-top:1px solid var(--line)">
         <div class="row" style="justify-content:space-between;align-items:center">
@@ -170,10 +146,7 @@
             <a href="https://t.me/+JQdsBNK6nE1kNTg1" target="_blank">Go to channel</a>
             <div class="sub">+0.1 TRX</div>
           </div>
-          <button class="btn accent complete" data-id="t2">
-            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
-            <span class="label">Complete</span>
-          </button>
+          <button class="btn accent complete" data-id="t2"><span class="label">Complete</span></button>
         </div>
         <hr style="border:0;border-top:1px solid var(--line)">
         <div class="row" style="justify-content:space-between;align-items:center">
@@ -182,10 +155,7 @@
             <a href="https://t.me/+JQdsBNK6nE1kNTg1" target="_blank">Go to channel</a>
             <div class="sub">+0.1 TRX</div>
           </div>
-          <button class="btn accent complete" data-id="t3">
-            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
-            <span class="label">Complete</span>
-          </button>
+          <button class="btn accent complete" data-id="t3"><span class="label">Complete</span></button>
         </div>
       </div>
     </div>
@@ -204,14 +174,8 @@
           <div id="balance" class="balance">0.000000 TRX</div>
         </div>
         <div class="row" style="gap:8px">
-          <a href="#deposit" class="btn">
-            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
-            <span class="label">Deposit</span>
-          </a>
-          <a href="#withdraw" class="btn accent">
-            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
-            <span class="label">Withdraw</span>
-          </a>
+          <a href="#deposit" class="btn"><span class="label">Deposit</span></a>
+          <a href="#withdraw" class="btn accent"><span class="label">Withdraw</span></a>
         </div>
       </div>
       <div class="sub" style="margin-top:8px">Deposit verifies your Tx on-chain (client-side demo).</div>
@@ -235,7 +199,6 @@
       <label class="sub">Your Transaction ID (TxID)</label>
       <input id="txid" placeholder="Paste TxID…" style="width:100%;padding:10px;border-radius:10px;border:1px solid #223553;background:#0f172a;color:#dbeafe">
       <button id="verifyBtn" class="btn accent" style="width:100%;margin-top:10px">Verify & Credit</button>
-
       <div id="depMsg" class="sub" style="margin-top:10px"></div>
     </div>
   </section>
@@ -246,25 +209,20 @@
       <a href="#wallet" class="btn" style="margin-bottom:10px">← Back</a>
       <h2>Withdraw TRX</h2>
       <div class="sub">Enter address and amount, then Confirm.</div>
-
       <label class="sub">Enter TRX address</label>
       <input id="wdAddr" placeholder="TRX address (T...)" style="width:100%;padding:10px;border-radius:10px;border:1px solid #223553;background:#0f172a;color:#dbeafe">
-
       <label class="sub" style="margin-top:10px">Enter amount</label>
       <input id="wdAmt" type="number" min="1" step="0.000001" placeholder="Amount in TRX" style="width:100%;padding:10px;border-radius:10px;border:1px solid #223553;background:#0f172a;color:#dbeafe">
-
       <button id="wdConfirm" class="btn accent" style="width:100%;margin-top:10px">Confirm</button>
       <div id="wdMsg" class="sub" style="margin-top:10px"></div>
     </div>
   </section>
 
-  <!-- REFER (new) -->
+  <!-- REFER -->
   <section id="refer" class="page">
     <div class="card">
       <h2>Refer</h2>
-      <div class="sub">Per refer: <b>0.1 TRX</b></div>
-      <div class="sub">Bot: <b>@VairalVideoInTelegramBOT</b></div>
-      <div class="sub">Mini app: <a href="http://t.me/VairalVideoInTelegramBOT/AllLink" target="_blank">http://t.me/VairalVideoInTelegramBOT/AllLink</a></div>
+      <div class="sub">Per refer bonus: <b>0.1 TRX</b> — Refer and earn more.</div>
 
       <div style="margin-top:12px;padding:10px;border:1px solid var(--line);border-radius:12px;background:#0f172a">
         <div class="sub">Your referral code</div>
@@ -272,39 +230,25 @@
         <div class="sub">Referral link</div>
         <div id="refLink" style="word-break:break-all;margin:4px 0">—</div>
         <button id="copyRef" class="btn accent">Copy referral link</button>
+        <div id="refMsg" class="sub" style="margin-top:6px"></div>
       </div>
 
       <div class="row" style="justify-content:space-between;margin-top:12px">
         <div class="sub">Total refer: <b id="refCount">0</b></div>
         <div class="sub">Total refer bonus: <b id="refBonus">0.0 TRX</b></div>
       </div>
-      <div class="sub" style="margin-top:8px">Note: Counts are stored on this device only (demo, no server).</div>
+      <div class="sub" style="margin-top:8px">Note: Counts are stored on this device only (demo).</div>
     </div>
   </section>
 </div>
 
-<!-- Bottom TabBar -->
+<!-- Tabs -->
 <div class="tabbar" id="tabs">
-  <a class="tab" data-tab="home"    href="#home">
-    <svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>
-    Home
-  </a>
-  <a class="tab" data-tab="mining"  href="#mining">
-    <svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M10 2 8.6 3.4 13.2 8l-1.2 1.2-1.7-1.7L5 12v3l-2 2 2 2 2-2h3l6.5-6.3-1.7-1.7L15 7.2 20.6 12 22 10.6 10 2z"/></svg>
-    Mining
-  </a>
-  <a class="tab" data-tab="task"    href="#task">
-    <svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M7 3h10a2 2 0 0 1 2 2v14l-7-3-7 3V5a2 2 0 0 1 2-2z"/></svg>
-    Task
-  </a>
-  <a class="tab" data-tab="wallet"  href="#wallet">
-    <svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M3 7a2 2 0 0 1 2-2h12a3 3 0 0 1 3 3v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7zm14 3h3v4h-3a2 2 0 0 1-2-2 2 2 0 0 1 2-2z"/></svg>
-    Wallet
-  </a>
-  <a class="tab" data-tab="refer"   href="#refer">
-    <svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M10.59 13.41 9.17 12l6-6 1.41 1.41-6 6zM7 6h4V4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-4h-2v4H7V6z"/></svg>
-    Refer
-  </a>
+  <a class="tab" data-tab="home" href="#home"><svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+  <a class="tab" data-tab="mining" href="#mining"><svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M10 2 8.6 3.4 13.2 8l-1.2 1.2-1.7-1.7L5 12v3l-2 2 2 2 2-2h3l6.5-6.3-1.7-1.7L15 7.2 20.6 12 22 10.6 10 2z"/></svg>Mining</a>
+  <a class="tab" data-tab="task" href="#task"><svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M7 3h10a2 2 0 0 1 2 2v14l-7-3-7 3V5a2 2 0 0 1 2-2z"/></svg>Task</a>
+  <a class="tab" data-tab="wallet" href="#wallet"><svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M3 7a2 2 0 0 1 2-2h12a3 3 0 0 1 3 3v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7zm14 3h3v4h-3a2 2 0 0 1-2-2 2 2 0 0 1 2-2z"/></svg>Wallet</a>
+  <a class="tab" data-tab="refer" href="#refer"><svg class="ico" viewBox="0 0 24 24"><path fill="currentColor" d="M10.59 13.41 9.17 12l6-6 1.41 1.41-6 6zM7 6h4V4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-4h-2v4H7V6z"/></svg>Refer</a>
 </div>
 
 <script>
@@ -312,15 +256,12 @@
   function setDefaultHash(){ if(!location.hash){ document.body.removeAttribute('data-hash'); } else { document.body.setAttribute('data-hash','1'); } }
   setDefaultHash(); window.addEventListener('hashchange', setDefaultHash);
   function hideSplash(){ var s=document.getElementById('splash'); if(s) s.style.display='none'; }
-  window.addEventListener('load', function(){ setTimeout(hideSplash, 1200); }); setTimeout(hideSplash, 3500);
+  window.addEventListener('load', function(){ setTimeout(hideSplash,1200); }); setTimeout(hideSplash,3500);
 
-  function syncActive(){
-    var h=(location.hash||'#home').replace('#',''); var tabs=document.querySelectorAll('.tab');
-    for(var i=0;i<tabs.length;i++){ if(tabs[i].getAttribute('data-tab')===h) tabs[i].classList.add('active'); else tabs[i].classList.remove('active'); }
-  }
+  function syncActive(){ var h=(location.hash||'#home').replace('#',''); document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===h)); }
   syncActive(); window.addEventListener('hashchange', syncActive);
 
-  /* ===== STATE ===== */
+  // state
   var S={}; try{ S=JSON.parse(localStorage.getItem('mining_state_pages')||'{}'); }catch(_){}
   var state=Object.assign({balance:0,mining:false,sessionSec:0,purchased:{TM1:false,TM2:false,TM3:false},plan:'None',rate:0,lastTick:Date.now(),tasks:{t1:false,t2:false,t3:false}}, S);
   function save(){ localStorage.setItem('mining_state_pages', JSON.stringify(state)); }
@@ -330,56 +271,72 @@
   function fmtTRX(x){ return (Math.floor(x*1e6)/1e6).toFixed(6); }
   function mmss(s){ var m=(s/60|0), ss=s%60; return (m<10?'0':'')+m+':' + (ss<10?'0':'')+ss; }
 
-  /* Home only UI */
   var statusEl=$('#status'), timeEl=$('#time'), planNameEl=$('#planName'), rateTextEl=$('#rateText'), balanceEl=$('#balance');
   var toggleBtn=$('#toggleMining');
-
-  var COSTS={TM1:10,TM2:20,TM3:30};
-  var RATES={TM1:0.000100,TM2:0.000300,TM3:0.000700};
   var DEPOSIT_ADDR='TJBwEqi3izv5r3myXf7BV6hKdJYLBLoEw2';
-  var MIN_TRX=1, MAX_TRX=100;
-
-  function hasAnyPlan(){ return state.purchased.TM1||state.purchased.TM2||state.purchased.TM3; }
 
   function render(){
-    if(statusEl) statusEl.textContent = state.mining?'Start':'Stop';
-    if(timeEl)   timeEl.textContent   = mmss(state.sessionSec);
-    if(planNameEl) planNameEl.textContent = state.plan;
-    if(rateTextEl) rateTextEl.textContent = fmtTRX(state.rate)+' TRX/sec';
-    if(balanceEl)  balanceEl.textContent  = fmtTRX(state.balance)+' TRX';
+    if(statusEl) statusEl.textContent=state.mining?'Start':'Stop';
+    if(timeEl) timeEl.textContent=mmss(state.sessionSec);
+    if(planNameEl) planNameEl.textContent=state.plan;
+    if(rateTextEl) rateTextEl.textContent=fmtTRX(state.rate)+' TRX/sec';
+    if(balanceEl) balanceEl.textContent=fmtTRX(state.balance)+' TRX';
 
-    var completes=$all('.complete');
-    for(var i=0;i<completes.length;i++){
-      var id=completes[i].getAttribute('data-id');
-      if(state.tasks[id]){ completes[i].textContent='Completed'; completes[i].disabled=true; }
-    }
-    var plans=$all('.plan');
-    for(var j=0;j<plans.length;j++){
-      var p=plans[j].getAttribute('data-plan');
-      if(state.purchased[p]){ plans[j].classList.add('accent'); plans[j].querySelector('.hint').textContent='Purchased • Rate: '+plans[j].getAttribute('data-rate'); }
-    }
-    // Refer UI
-    var rc=Number(localStorage.getItem('ref_count')||'0');
-    var rb=rc*0.1;
-    var elC=$('#refCount'), elB=$('#refBonus');
-    if(elC) elC.textContent=rc;
-    if(elB) elB.textContent=rb.toFixed(1)+' TRX';
+    $all('.complete').forEach(b=>{ var id=b.dataset.id; if(state.tasks[id]){ b.textContent='Completed'; b.disabled=true; }});
+    $all('.plan').forEach(p=>{ var id=p.dataset.plan; if(state.purchased[id]){ p.classList.add('accent'); p.querySelector('.hint').textContent='Purchased • Rate: '+p.dataset.rate; }});
+
+    var rc=Number(localStorage.getItem('ref_count')||'0'); $('#refCount')?.textContent=rc; $('#refBonus')?.textContent=(rc*0.1).toFixed(1)+' TRX';
   }
 
-  if(toggleBtn){
-    toggleBtn.addEventListener('click', function(){
-      if(!hasAnyPlan()){ alert('Please buy a mining plan first (TM1/TM2/TM3).'); return; }
-      state.mining=!state.mining; if(state.mining) state.lastTick=Date.now();
-      render(); save();
+  // mining toggle
+  function hasAnyPlan(){ return state.purchased.TM1||state.purchased.TM2||state.purchased.TM3; }
+  toggleBtn?.addEventListener('click', ()=>{ if(!hasAnyPlan()) return alert('Please buy a mining plan first.'); state.mining=!state.mining; if(state.mining) state.lastTick=Date.now(); render(); save(); });
+
+  // plan buy
+  $all('.plan').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      var p=btn.dataset.plan, cost=+btn.dataset.cost, rate=+btn.dataset.rate;
+      if(state.purchased[p]){ state.plan=p; state.rate=rate; render(); save(); alert(p+' set active ✓'); return; }
+      if(state.balance<cost) return alert('Not enough balance. Need '+cost+' TRX.');
+      state.balance-=cost; state.purchased[p]=true; state.plan=p; state.rate=rate; render(); save(); alert(p+' purchased ✓');
+    });
+  });
+
+  // tasks
+  $all('.complete').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ var id=btn.dataset.id; if(state.tasks[id]) return; state.tasks[id]=true; state.balance+=0.1; render(); save(); });
+  });
+
+  // copy helper (robust)
+  function copyText(text, okCb, errCb){
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(okCb, errCb);
+    }else{
+      try{
+        var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.left='-9999px'; document.body.appendChild(ta);
+        ta.focus(); ta.select(); var ok=document.execCommand('copy'); document.body.removeChild(ta); ok?okCb():errCb();
+      }catch(e){ errCb(); }
+    }
+  }
+
+  // deposit copy
+  $('#copyAddr')?.addEventListener('click', ()=>copyText(DEPOSIT_ADDR, ()=>alert('Address copied'), ()=>alert('Copy failed')));
+
+  // deposit verify (client-side, same as before)
+  function fetchTX(txid){
+    var urls=['https://api.trongrid.io/v1/transactions/'+txid,'https://apilist.tronscanapi.com/api/transaction-info?hash='+txid];
+    return new Promise(function(resolve){
+      var i=0; function next(){ if(i>=urls.length) return resolve(null);
+        fetch(urls[i]).then(r=>r.ok?r.json():Promise.reject()).then(raw=>{
+          if(raw?.data?.[0]) resolve({tx:raw.data[0]});
+          else if(raw?.hash || raw?.contractMap || raw?.contract_type) resolve({tx:raw});
+          else{ i++; next(); }
+        }).catch(()=>{ i++; next(); });
+      } next();
     });
   }
-
-  var planBtns=$all('.plan');
-  for(var k=0;k<planBtns.length;k++){
-    planBtns[k].addEventListener('click', function(){
-      var p=this.getAttribute('data-plan'),
-          cost=Number(this.getAttribute('data-cost')),
-          rate=Number(this.getAttribute('data-rate'));
-      if(state.purchased[p]){ state.plan=p; state.rate=rate; render(); save(); alert(p+' set active ✓'); return; }
-      if(state.balance<cost){ alert('Not enough balance. Need '+cost+' TRX.'); return; }
-      state.balance-=cost; state.purchased[p]=true; state.plan=p; state.rate=rate
+  function extractInfo(tx){
+    var confirmed = tx && ((tx.ret && tx.ret.some(r=>r.contractRet==='SUCCESS')) || tx.contractRet==='SUCCESS' || tx.confirmed===true);
+    var v=tx?.raw_data?.contract?.[0]?.parameter?.value||{}, toAddr=String(v.to_address||tx?.toAddress||tx?.toAddressList?.[0]||'');
+    var amountTRX = v.amount? v.amount/1e6 : (typeof tx?.amount==='number'? tx.amount/1e6 : 0);
+    var toMatches = toAddr.includes(DEPOSIT_ADDR) || DEPOSIT_ADDR.slice(-8)
