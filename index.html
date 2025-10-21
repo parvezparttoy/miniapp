@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -8,31 +8,40 @@
     :root{
       --bg:#0b0f16; --card:#121826; --muted:#9db2d3; --text:#e6f0ff;
       --line:#1e2a44; --accent:#ef0027; /* TRX red */
+      --btn:#0f172a; --btnline:#223553;
     }
     *{box-sizing:border-box}
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
-    .wrap{max-width:520px;margin:0 auto;padding:12px 12px 68px}
+    .wrap{max-width:560px;margin:0 auto;padding:12px 12px 78px}
     .welcome{background:#151e2f;border:1px solid var(--line);padding:10px 12px;border-radius:12px;margin:8px 0}
     .title{font-size:18px;font-weight:800;margin:0;color:#7dd3fc}
-    .nav{position:fixed;left:0;right:0;bottom:0;background:#0e1420;border-top:1px solid var(--line);display:flex}
-    .nav button{flex:1;padding:10px 8px;background:transparent;border:0;color:#9fb4d6;font-weight:700}
-    .nav button.active{color:#fff;border-top:3px solid var(--accent)}
+    .sub{font-size:12px;color:var(--muted);margin-top:4px}
+
     .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-top:12px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    h2{margin:6px 0 8px;font-size:16px}
+
+    .center{text-align:center}
     .row{display:flex;gap:10px;align-items:center}
     .col{display:flex;flex-direction:column;gap:10px}
-    .btn{background:#111827;border:1px solid #2a3d61;color:#dbeafe;padding:10px 12px;border-radius:12px;font-weight:800}
-    .btn.accent{background:var(--accent);border-color:var(--accent);color:#fff}
-    .btn.ghost{background:#0e1626;border-color:#243754}
+
     .pill{display:inline-block;background:#0e1626;border:1px solid #243754;color:#9db2d3;padding:6px 10px;border-radius:999px;font-size:12px}
-    .trx{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:#22060a;border:2px solid #3c0b12;box-shadow:0 10px 30px rgba(239,0,39,.25)}
-    .trx svg{width:48px;height:48px;fill:var(--accent)}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    h2{margin:6px 0 8px;font-size:16px}
-    a{color:#7dd3fc;text-decoration:none}
-    .small{font-size:12px;color:var(--muted)}
-    .center{text-align:center}
-    .right{text-align:right}
+    .trx-lg{width:100px;height:100px;border-radius:50%;display:grid;place-items:center;background:#22060a;border:2px solid #3c0b12;box-shadow:0 10px 30px rgba(239,0,39,.25);margin:0 auto 10px}
+    .trx-lg svg{width:60px;height:60px;fill:var(--accent)}
+    .trx-sm{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#22060a;border:1px solid #3c0b12;margin:0 auto 6px}
+    .trx-sm svg{width:16px;height:16px;fill:var(--accent)}
+
+    .nav{position:fixed;left:0;right:0;bottom:0;background:#0e1420;border-top:1px solid var(--line);display:flex;z-index:9}
+    .nav button{flex:1;padding:10px 8px;background:transparent;border:0;color:#9fb4d6;font-weight:700}
+    .nav button.active{color:#fff;border-top:3px solid var(--accent)}
+
     .hidden{display:none}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn{background:var(--btn);border:1px solid var(--btnline);color:#dbeafe;padding:10px 12px;border-radius:14px;font-weight:800;text-align:center}
+    .btn.accent{background:var(--accent);border-color:var(--accent);color:#fff}
+    .btn:disabled{opacity:.6}
+    .btn .label{display:block}
+    .btn .hint{display:block;font-weight:600;font-size:12px;color:#9db2d3}
+    .statrow{display:flex;justify-content:center;gap:8px;margin:8px 0}
     .balance{font-size:22px;font-weight:900}
   </style>
 </head>
@@ -41,30 +50,21 @@
     <!-- Welcome -->
     <div class="welcome">
       <div class="title">Welcome to our mining bot</div>
-      <div class="small">আমাদের মাইনিং বটে স্বাগতম — নিচের ন্যাভ থেকে পেজ সিলেক্ট করুন।</div>
+      <div class="sub">Use the tabs below to navigate. Buy a plan to enable mining.</div>
     </div>
 
     <!-- HOME -->
     <section id="page-home" class="page">
-      <div class="card">
-        <div class="row">
-          <div class="trx">
-            <!-- TRX logo -->
-            <svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg>
-          </div>
-          <div style="flex:1">
-            <h2>হোম</h2>
-            <div class="row" style="justify-content:space-between">
-              <span class="pill">Mining: <b id="status">Stop</b></span>
-              <span class="pill">Time <b id="time">00:00</b></span>
-            </div>
-            <div class="small" style="margin-top:8px">Mining চালু করতে “Mining” ট্যাবে গিয়ে Start চাপুন।</div>
-          </div>
-        </div>
-      </div>
       <div class="card center">
-        <div class="small">Current Plan: <b id="planName">None</b></div>
-        <div class="small">Rate: <b id="rateText">0.000000 TRX/sec</b></div>
+        <div class="trx-lg" aria-hidden="true">
+          <svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg>
+        </div>
+        <h2>Home</h2>
+        <div class="statrow">
+          <span class="pill">Mining: <b id="status">Stop</b></span>
+          <span class="pill">Time <b id="time">00:00</b></span>
+        </div>
+        <div class="sub">Current Plan: <b id="planName">None</b> • Rate: <b id="rateText">0.000000 TRX/sec</b></div>
       </div>
     </section>
 
@@ -72,21 +72,42 @@
     <section id="page-mining" class="page hidden">
       <div class="card center">
         <h2>Mining Control</h2>
-        <div class="row" style="justify-content:center;gap:8px;margin:8px 0">
+        <div class="statrow">
           <span class="pill">Status: <b id="status2">Stop</b></span>
           <span class="pill">Session: <b id="time2">00:00</b></span>
         </div>
-        <button id="toggleMining" class="btn accent" style="width:100%">Start Mining</button>
+        <button id="toggleMining" class="btn accent" style="width:100%">
+          <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+          <span class="label">Start Mining</span>
+          <span class="hint">Requires any purchased plan</span>
+        </button>
       </div>
+
       <div class="card">
         <h2>Buy Mining Plan</h2>
-        <div class="grid">
-          <button class="btn ghost plan" data-plan="TM1"><b>Buy Mining TM1</b><br><span class="small">বেসিক • 0.000100 TRX/s</span></button>
-          <button class="btn ghost plan" data-plan="TM2"><b>Buy Mining TM2</b><br><span class="small">মিড • 0.000300 TRX/s</span></button>
-          <button class="btn ghost plan" data-plan="TM3"><b>Buy Mining TM3</b><br><span class="small">প্রো • 0.000700 TRX/s</span></button>
-          <button class="btn" disabled><b>Coming soon</b><br><span class="small">—</span></button>
+        <div class="grid2">
+          <button class="btn plan" data-plan="TM1" data-cost="10" data-rate="0.000100">
+            <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+            <span class="label">Buy Mining TM1</span>
+            <span class="hint">Cost: 10 TRX • Rate: 0.000100</span>
+          </button>
+          <button class="btn plan" data-plan="TM2" data-cost="20" data-rate="0.000300">
+            <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+            <span class="label">Buy Mining TM2</span>
+            <span class="hint">Cost: 20 TRX • Rate: 0.000300</span>
+          </button>
+          <button class="btn plan" data-plan="TM3" data-cost="30" data-rate="0.000700">
+            <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+            <span class="label">Buy Mining TM3</span>
+            <span class="hint">Cost: 30 TRX • Rate: 0.000700</span>
+          </button>
+          <button class="btn" disabled>
+            <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+            <span class="label">More Soon</span>
+            <span class="hint">—</span>
+          </button>
         </div>
-        <div class="small" style="margin-top:8px">নোট: আপাতত প্ল্যান ফ্রি-তে সিলেক্ট করা যাবে (ডেমো)।</div>
+        <div class="sub" style="margin-top:8px">Purchasing deducts TRX from your balance (demo, local only).</div>
       </div>
     </section>
 
@@ -95,34 +116,40 @@
       <div class="card">
         <h2>Task</h2>
         <div class="col">
-          <!-- Task 1 -->
-          <div class="row" style="justify-content:space-between">
+          <div class="row" style="justify-content:space-between;align-items:center">
             <div>
               <div><b>Join our channel</b></div>
-              <a href="https://t.me/+JQdsBNK6nE1kNTg1" target="_blank">চ্যানেলে যাও</a>
-              <div class="small">Join করে Complete চাপলে +0.1 TRX</div>
+              <a href="https://t.me/+JQdsBNK6nE1kNTg1" target="_blank">Go to channel</a>
+              <div class="sub">Join then tap Complete to get +0.1 TRX</div>
             </div>
-            <button class="btn accent complete" data-id="t1">Complete</button>
+            <button class="btn accent complete" data-id="t1">
+              <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+              <span class="label">Complete</span>
+            </button>
           </div>
           <hr style="border:0;border-top:1px solid var(--line)">
-          <!-- Task 2 -->
-          <div class="row" style="justify-content:space-between">
+          <div class="row" style="justify-content:space-between;align-items:center">
             <div>
               <div><b>Join our channel 2</b></div>
-              <a href="https://t.me/+JQdsBNK6nE1kNTg1" target="_blank">চ্যানেলে যাও</a>
-              <div class="small">Join করে Complete চাপলে +0.1 TRX</div>
+              <a href="https://t.me/+JQdsBNK6nE1kNTg1" target="_blank">Go to channel</a>
+              <div class="sub">+0.1 TRX</div>
             </div>
-            <button class="btn accent complete" data-id="t2">Complete</button>
+            <button class="btn accent complete" data-id="t2">
+              <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+              <span class="label">Complete</span>
+            </button>
           </div>
           <hr style="border:0;border-top:1px solid var(--line)">
-          <!-- Task 3 -->
-          <div class="row" style="justify-content:space-between">
+          <div class="row" style="justify-content:space-between;align-items:center">
             <div>
               <div><b>Join our channel 3</b></div>
-              <a href="https://t.me/+JQdsBNK6nE1kNTg1" target="_blank">চ্যানেলে যাও</a>
-              <div class="small">Join করে Complete চাপলে +0.1 TRX</div>
+              <a href="https://t.me/+JQdsBNK6nE1kNTg1" target="_blank">Go to channel</a>
+              <div class="sub">+0.1 TRX</div>
             </div>
-            <button class="btn accent complete" data-id="t3">Complete</button>
+            <button class="btn accent complete" data-id="t3">
+              <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+              <span class="label">Complete</span>
+            </button>
           </div>
         </div>
       </div>
@@ -130,19 +157,39 @@
 
     <!-- WALLET -->
     <section id="page-wallet" class="page hidden">
-      <div class="card">
+      <div class="card center">
+        <div class="trx-lg" aria-hidden="true">
+          <svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg>
+        </div>
         <h2>Wallet</h2>
-        <div class="row" style="justify-content:space-between;align-items:flex-end">
+        <div class="row" style="justify-content:space-between;align-items:flex-end;margin-top:6px">
           <div>
-            <div class="small">Main Balance</div>
+            <div class="sub">Main Balance</div>
             <div id="balance" class="balance">0.000000 TRX</div>
           </div>
           <div class="row" style="gap:8px">
-            <button class="btn">Deposit</button>
-            <button class="btn accent">Withdraw</button>
+            <button class="btn">
+              <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+              <span class="label">Deposit</span>
+            </button>
+            <button class="btn accent">
+              <div class="trx-sm"><svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg></div>
+              <span class="label">Withdraw</span>
+            </button>
           </div>
         </div>
-        <div class="small" style="margin-top:8px">ডিপোজিট/উইথড্র এখন শুধু UI—পরে যুক্ত করব।</div>
+        <div class="sub" style="margin-top:8px">Deposit/Withdraw are UI-only placeholders for now.</div>
+      </div>
+    </section>
+
+    <!-- REFER -->
+    <section id="page-refer" class="page hidden">
+      <div class="card center">
+        <div class="trx-lg" aria-hidden="true">
+          <svg viewBox="0 0 512 512"><path d="M256 32 32 96l192 320 256-320L256 32zm0 64 150.8 44.1L224 376 87.6 134.1 256 96z"/></svg>
+        </div>
+        <h2>Refer</h2>
+        <div class="sub">Coming soon</div>
       </div>
     </section>
   </div>
@@ -153,29 +200,29 @@
     <button data-tab="mining">Mining</button>
     <button data-tab="task">Task</button>
     <button data-tab="wallet">Wallet</button>
+    <button data-tab="refer">Refer</button>
   </div>
 
   <script>
     // ====== STATE (localStorage) ======
-    const S = JSON.parse(localStorage.getItem('mining_state')||'{}');
+    const S = JSON.parse(localStorage.getItem('mining_state_v2')||'{}');
     const state = Object.assign({
       balance: 0,                // TRX
       mining: false,
-      sessionSec: 0,             // seconds in current session
-      plan: 'None',              // TM1/TM2/TM3
+      sessionSec: 0,
+      purchased: { TM1:false, TM2:false, TM3:false },
+      plan: 'None',              // active plan
       rate: 0,                   // TRX per second
       lastTick: Date.now(),
       tasks: { t1:false, t2:false, t3:false }
     }, S);
+    function save(){ localStorage.setItem('mining_state_v2', JSON.stringify(state)); }
 
-    function save(){ localStorage.setItem('mining_state', JSON.stringify(state)); }
-
-    // ====== UI HELPERS ======
+    // ====== HELPERS ======
     const $ = (q)=>document.querySelector(q);
     const $$= (q)=>document.querySelectorAll(q);
-
-    function fmtTRX(x){ return (Math.floor(x*1e6)/1e6).toFixed(6); }
-    function secToMMSS(s){ const m = Math.floor(s/60), ss = s%60; return `${String(m).padStart(2,'0')}:${String(ss).padStart(2,'0')}`; }
+    const fmtTRX = x => (Math.floor(x*1e6)/1e6).toFixed(6);
+    const mmss = s => { const m=(s/60|0), ss=s%60; return `${String(m).padStart(2,'0')}:${String(ss).padStart(2,'0')}`; };
 
     // Elements
     const statusEl = $('#status'), timeEl = $('#time');
@@ -185,11 +232,13 @@
     const toggleBtn = $('#toggleMining');
 
     // ====== RENDER ======
+    function hasAnyPlan(){ return state.purchased.TM1 || state.purchased.TM2 || state.purchased.TM3; }
+
     function render(){
       statusEl.textContent = state.mining ? 'Start' : 'Stop';
       status2El.textContent = state.mining ? 'Start' : 'Stop';
-      timeEl.textContent = secToMMSS(state.sessionSec);
-      time2El.textContent = secToMMSS(state.sessionSec);
+      timeEl.textContent = mmss(state.sessionSec);
+      time2El.textContent = mmss(state.sessionSec);
       planNameEl.textContent = state.plan;
       rateTextEl.textContent = `${fmtTRX(state.rate)} TRX/sec`;
       balanceEl.textContent = `${fmtTRX(state.balance)} TRX`;
@@ -199,6 +248,15 @@
       $$('.complete').forEach(b=>{
         const id = b.dataset.id;
         if(state.tasks[id]){ b.textContent='Completed'; b.disabled=true; }
+      });
+
+      // Mark bought plans
+      $$('.plan').forEach(b=>{
+        const p = b.dataset.plan;
+        if(state.purchased[p]){
+          b.classList.add('accent');
+          b.querySelector('.hint').textContent = `Purchased • Rate: ${b.dataset.rate}`;
+        }
       });
     }
 
@@ -215,20 +273,34 @@
 
     // ====== MINING TOGGLE ======
     toggleBtn.addEventListener('click', ()=>{
+      if(!hasAnyPlan()){
+        alert('Please buy a mining plan first (TM1/TM2/TM3).');
+        return;
+      }
       state.mining = !state.mining;
       if(state.mining){ state.lastTick = Date.now(); }
       render(); save();
     });
 
-    // ====== BUY PLANS (free select for now) ======
-    const PLAN_RATES = { TM1: 0.000100, TM2: 0.000300, TM3: 0.000700 };
+    // ====== BUY PLANS (costed) ======
+    const COSTS  = { TM1:10, TM2:20, TM3:30 };
+    const RATES  = { TM1:0.000100, TM2:0.000300, TM3:0.000700 };
+
     $$('.plan').forEach(b=>{
       b.addEventListener('click', ()=>{
         const p = b.dataset.plan;
+        const cost = Number(b.dataset.cost);
+        const rate = Number(b.dataset.rate);
+        if(state.purchased[p]){ // already bought -> set active
+          state.plan = p; state.rate = rate; render(); save(); alert(`${p} set active ✓`); return;
+        }
+        if(state.balance < cost){ alert(`Not enough balance. Need ${cost} TRX.`); return; }
+        state.balance -= cost;
+        state.purchased[p] = true;
         state.plan = p;
-        state.rate = PLAN_RATES[p] || 0;
+        state.rate = rate;
         render(); save();
-        alert(`${p} selected ✓`);
+        alert(`${p} purchased ✓`);
       });
     });
 
@@ -265,4 +337,4 @@
     requestAnimationFrame(tick);
   </script>
 </body>
-                                                                                    </html>
+  </html>
