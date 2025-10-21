@@ -31,8 +31,8 @@
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
   .loader{margin:14px auto 0;width:72%;height:6px;border-radius:999px;background:#0f1a2a;overflow:hidden}
   .loader>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#00e5ff,#46f1ff);
-               animation:load 1.8s ease-in-out infinite}
-  @keyframes load{0%{width:0}50%{width:70%}100%{width:100%}}
+               animation:load 1.6s ease-in-out infinite}
+  @keyframes load{0%{width:0}55%{width:72%}100%{width:100%}}
 
   .welcome{background:#151e2f;border:1px solid var(--line);padding:10px 12px;border-radius:12px;margin:8px 0}
   .title{font-size:18px;font-weight:800;margin:0;color:#7dd3fc}
@@ -100,7 +100,7 @@
   <section id="page-home" class="page">
     <div class="card center">
       <div class="trx-giant" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Zm-7.91-5.74 6.94 6.94-4.094 1.276-4.67-7.927 1.82-.29h.004ZM12.6 3.17l4.922 8.356-3.59 1.118-4.9-6.76 3.568-2.714ZM6.94 4.22 10.7 9.28l-6.39 1.97 2.63-7.03Zm-4.49 5.57 8.83-2.73 4.71 6.5-3.04 8.25L2.45 9.79Zm12.41 12.41 2.62-7.11 3.35-1.05-5.97 8.16Z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Zm-7.91-5.74 6.94 6.94-4.094 1.276-4.67-7.927 1.82-.29h.004ZM12.6 3.17l4.922 8.356-3.59 1.118-4.9-6.76 3.568-2.714ZM6.94 4.22 10.7 9.28ল-6.39 1.97 2.63-7.03Zm-4.49 5.57 8.83-2.73 4.71 6.5-3.04 8.25L2.45 9.79Zm12.41 12.41 2.62-7.11 3.35-1.05-5.97 8.16Z"/></svg>
       </div>
       <h2>Home</h2>
       <div class="statrow">
@@ -129,23 +129,24 @@
     <div class="card">
       <h2>Buy Mining Plan</h2>
       <div class="grid2">
+        <!-- all button SVG paths cleaned (no stray characters) -->
         <button class="btn plan" data-plan="TM1" data-cost="10" data-rate="0.000100">
-          <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604ল11.236 16.21 12.656-16.21Z"/></svg></div>
+          <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
           <span class="label">Buy Mining TM1</span>
           <span class="hint">Cost: 10 TRX • Rate: 0.000100</span>
         </button>
         <button class="btn plan" data-plan="TM2" data-cost="20" data-rate="0.000300">
-          <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604 11.236 16.21 12.656-16.21Z"/></svg></div>
+          <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
           <span class="label">Buy Mining TM2</span>
           <span class="hint">Cost: 20 TRX • Rate: 0.000300</span>
         </button>
         <button class="btn plan" data-plan="TM3" data-cost="30" data-rate="0.000700">
-          <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604 11.236 16.21 12.656-16.21Z"/></svg></div>
+          <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
           <span class="label">Buy Mining TM3</span>
           <span class="hint">Cost: 30 TRX • Rate: 0.000700</span>
         </button>
         <button class="btn" disabled>
-          <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604 11.236 16.21 12.656-16.21Z"/></svg></div>
+          <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
           <span class="label">More Soon</span>
           <span class="hint">—</span>
         </button>
@@ -166,7 +167,7 @@
             <div class="sub">Join then tap Complete to get +0.1 TRX</div>
           </div>
           <button class="btn accent complete" data-id="t1">
-            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604 11.236 16.21 12.656-16.21Z"/></svg></div>
+            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
             <span class="label">Complete</span>
           </button>
         </div>
@@ -177,8 +178,8 @@
             <a href="https://t.me/+JQdsBNK6nE1kNTg1" target="_blank">Go to channel</a>
             <div class="sub">+0.1 TRX</div>
           </div>
-        <button class="btn accent complete" data-id="t2">
-            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604 11.236 16.21 12.656-16.21Z"/></svg></div>
+          <button class="btn accent complete" data-id="t2">
+            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
             <span class="label">Complete</span>
           </button>
         </div>
@@ -190,7 +191,7 @@
             <div class="sub">+0.1 TRX</div>
           </div>
           <button class="btn accent complete" data-id="t3">
-            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604 11.236 16.21 12.656-16.21Z"/></svg></div>
+            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
             <span class="label">Complete</span>
           </button>
         </div>
@@ -202,7 +203,7 @@
   <section id="page-wallet" class="page hidden">
     <div class="card center">
       <div class="trx-giant" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604 11.236 16.21 12.656-16.21Z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg>
       </div>
       <h2>Wallet</h2>
       <div class="row" style="justify-content:space-between;align-items:flex-end;margin-top:6px">
@@ -212,11 +213,11 @@
         </div>
         <div class="row" style="gap:8px">
           <button id="goDeposit" class="btn">
-            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604 11.236 16.21 12.656-16.21Z"/></svg></div>
+            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
             <span class="label">Deposit</span>
           </button>
           <button id="goWithdraw" class="btn accent">
-            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604 11.236 16.21 12.656-16.21Z"/></svg></div>
+            <div class="trx-sm"><svg viewBox="0 0 24 24"><path d="M23.938 7.604 16.63.297H7.353L.046 7.604l11.236 16.21 12.656-16.21Z"/></svg></div>
             <span class="label">Withdraw</span>
           </button>
         </div>
@@ -299,10 +300,14 @@
 </div>
 
 <script>
-  // Auto-hide splash after 1.8s
-  setTimeout(()=>{ document.getElementById('splash').style.display='none'; }, 1800);
+(function(){
+  // ===== Robust splash hiding (prevents "stuck loading")
+  const hideSplash = ()=>{ const s=document.getElementById('splash'); if(s) s.style.display='none'; };
+  // Hide after load + backup timer in case of slow load/CORS
+  window.addEventListener('load', ()=> setTimeout(hideSplash, 1000));
+  setTimeout(hideSplash, 3000); // hard fallback
 
-  // ---- State ----
+  // ===== State
   const S = JSON.parse(localStorage.getItem('mining_state_pages')||'{}');
   const state = Object.assign({
     balance: 0,
@@ -369,10 +374,10 @@
     document.getElementById(id).classList.remove('hidden');
     document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
   }
-  document.getElementById('goDeposit')?.addEventListener('click', ()=> openPage('page-deposit'));
-  document.getElementById('goWithdraw')?.addEventListener('click', ()=> openPage('page-withdraw'));
-  document.getElementById('backFromDeposit')?.addEventListener('click', ()=> openPage('page-wallet'));
-  document.getElementById('backFromWithdraw')?.addEventListener('click', ()=> openPage('page-wallet'));
+  $('#goDeposit')?.addEventListener('click', ()=> openPage('page-deposit'));
+  $('#goWithdraw')?.addEventListener('click', ()=> openPage('page-withdraw'));
+  $('#backFromDeposit')?.addEventListener('click', ()=> openPage('page-wallet'));
+  $('#backFromWithdraw')?.addEventListener('click', ()=> openPage('page-wallet'));
 
   // Mining toggle
   toggleBtn.addEventListener('click', ()=>{
@@ -400,19 +405,12 @@
   });
 
   // Copy deposit address
-  document.getElementById('copyAddr')?.addEventListener('click', ()=>{
+  $('#copyAddr')?.addEventListener('click', ()=>{
     navigator.clipboard.writeText(DEPOSIT_ADDR).then(()=> alert('Address copied'));
   });
 
   // --- Client-side TRX Tx verification (TronGrid/TronScan) ---
   async function fetchTX(txid){
-    // Try TronGrid (may require CORS/key), then TronScan
     const urls = [
       `https://api.trongrid.io/v1/transactions/${txid}`,
-      `https://apilist.tronscanapi.com/api/transaction-info?hash=${txid}`
-    ];
-    for (const u of urls){
-      try{
-        const r = await fetch(u);
-        if(r.ok){
-          const raw = a
+      `https://apilist.tronscanapi.com/api/transactio
