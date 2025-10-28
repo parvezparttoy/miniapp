@@ -1,114 +1,87 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Toxic AI – Chat Assistant</title>
-<style>
-body{
-  background:#0b1120;
-  color:#fff;
-  font-family:system-ui,Roboto,Arial;
-  display:flex;flex-direction:column;
-  height:100vh;margin:0;
-}
-header{
-  padding:10px 14px;
-  text-align:center;
-  background:#111a33;
-  font-weight:700;
-  color:#00e5ff;
-  letter-spacing:.5px;
-}
-.chat{
-  flex:1;
-  overflow-y:auto;
-  padding:15px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-.msg{
-  max-width:80%;
-  padding:10px 14px;
-  border-radius:14px;
-  line-height:1.4;
-}
-.user{
-  align-self:flex-end;
-  background:#00e5ff;
-  color:#000;
-}
-.bot{
-  align-self:flex-start;
-  background:#18233f;
-}
-form{
-  display:flex;
-  gap:8px;
-  padding:10px;
-  background:#0e162b;
-}
-input{
-  flex:1;
-  border:1px solid #243a6b;
-  border-radius:10px;
-  background:#091124;
-  color:#fff;
-  padding:10px;
-}
-button{
-  background:#00e5ff;
-  border:0;
-  border-radius:10px;
-  font-weight:700;
-  padding:10px 14px;
-  cursor:pointer;
-}
-</style>
-</head>
-<body>
-<header>Toxic AI 🤖</header>
-<div id="chat" class="chat">
-  <div class="msg bot">Hello! I’m <strong>Toxic AI</strong>, your personal assistant. How can I help you today?</div>
-</div>
-<form id="form">
-  <input id="input" placeholder="Type your message…" autocomplete="off">
-  <button>Send</button>
-</form>
+// server.js — Safe SMS sender (whitelist + rate limits)
+// npm i express body-parser node-fetch rate-limiter-flexible dotenv
+require('dotenv').config();
+const express = require('express');
+const bodyParser = require('body-parser');
+const fetch = require('node-fetch');
+const { RateLimiterMemory } = require('rate-limiter-flexible');
 
-<script>
-const chat=document.getElementById("chat");
-const form=document.getElementById("form");
-const input=document.getElementById("input");
+const app = express();
+app.use(bodyParser.json());
 
-function addMessage(text,cls){
-  const m=document.createElement("div");
-  m.className="msg "+cls;
-  m.innerHTML=text;
-  chat.appendChild(m);
-  chat.scrollTop=chat.scrollHeight;
+// ===== CONFIG =====
+const WHITELIST = new Set([
+  '+8801YOURNUMBER', // put only your test numbers here
+  // '+8801ANOTHER'
+]);
+
+const ADMIN_SECRET = process.env.ADMIN_SECRET || 'change-this-in-prod';
+
+// rate limit: 1 SMS per phone per 60s
+const perNumberLimiter = new RateLimiterMemory({ points: 1, duration: 60 });
+// global limiter: e.g., 5 SMS per minute overall
+const globalLimiter = new RateLimiterMemory({ points: 5, duration: 60 });
+
+// provider config (put real values in .env)
+const SMS_API_URL = process.env.SMS_API_URL || '';
+const SMS_API_KEY = process.env.SMS_API_KEY || '';
+const SMS_SENDER  = process.env.SMS_SENDER || 'TEST';
+
+// ===== provider send (example generic) =====
+async function sendSmsViaProvider(to, text) {
+  // IMPORTANT: customize for your provider
+  if(!SMS_API_URL || !SMS_API_KEY) {
+    // in test, just simulate
+    console.log('[SIM] send to', to, text);
+    return { simulated: true };
+  }
+
+  const resp = await fetch(SMS_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${SMS_API_KEY}`
+    },
+    body: JSON.stringify({
+      to, from: SMS_SENDER, message: text
+    })
+  });
+
+  if(!resp.ok) {
+    const txt = await resp.text();
+    throw new Error('Provider error: ' + txt);
+  }
+  return resp.json();
 }
 
-async function toxicReply(msg){
-  const q=msg.toLowerCase();
-  if(q.includes("name")) return "I’m Toxic AI 🤖 — your personal assistant.";
-  if(q.includes("creator")||q.includes("made")||q.includes("owner"))
-    return "I was created by MD Parvez Parttoy 💻.";
-  if(q.includes("who are you")) return "I’m Toxic AI, a smart AI built to assist you like ChatGPT.";
-  // For all other messages, use a tiny offline response (no API)
-  return "Hmm 🤔 that’s interesting! I’ll think about that — but you can ask me anything!";
-}
+// ===== Admin send endpoint (whitelist only, rate-limited) =====
+app.post('/admin/send-to-whitelist', async (req, res) => {
+  // Protect with admin secret
+  const secret = req.headers['x-admin-secret'];
+  if(secret !== ADMIN_SECRET) return res.status(401).json({ error: 'Unauthorized' });
 
-form.addEventListener("submit",async e=>{
-  e.preventDefault();
-  const msg=input.value.trim();
-  if(!msg)return;
-  addMessage(msg,"user");
-  input.value="";
-  const reply=await toxicReply(msg);
-  setTimeout(()=>addMessage(reply,"bot"),400);
+  const phone = (req.body.phone || '').trim();
+  const message = (req.body.message || '').trim();
+  if(!phone || !message) return res.status(400).json({ error: 'phone and message required' });
+
+  if(!WHITELIST.has(phone)) return res.status(403).json({ error: 'Phone not whitelisted' });
+
+  try {
+    // rate limit checks
+    await perNumberLimiter.consume(phone);
+    await globalLimiter.consume('global');
+
+    // send ONE SMS (no loops)
+    const r = await sendSmsViaProvider(phone, message);
+    return res.json({ ok: true, provider: r });
+  } catch (err) {
+    console.error('send error', err);
+    return res.status(500).json({ ok: false, error: String(err) });
+  }
 });
-</script>
-</body>
-</html>
+
+// health
+app.get('/', (req,res)=> res.send('Safe SMS test hub running'));
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, ()=> console.log('listening', PORT));
