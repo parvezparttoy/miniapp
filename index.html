@@ -1,358 +1,128 @@
-<!doctype html>
-<html lang="bn">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Unlimited Vairal Video – Ads Unlock 🔓</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviator Fun Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #111;
+            color: white;
+        }
 
-  <!-- Telegram SDK -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <!-- Adexora SDK (App ID: 650) -->
-  <script src="https://adexora.com/cdn/ads.js?id=650"></script>
+        #gameContainer {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
-  <style>
-    :root{
-      --bg:#0b1220;--bg2:#0a1422;--card:#0d1426;--bd:#1f2a44;
-      --txt:#e5e7eb;--mut:#a1a8b4;--ok:#22c55e;--pri:#22d3ee;--prid:#0ea5e9
-    }
-    *{box-sizing:border-box}
-    body{margin:0;background:
-      radial-gradient(1200px 600px at 10% -10%,#0f1f3e 0%,transparent 60%),
-      radial-gradient(900px 420px at 95% -15%,#052b36 0%,transparent 60%),
-      var(--bg2);color:var(--txt);font:14px/1.5 ui-sans-serif,system-ui}
-    .wrap{max-width:960px;margin:0 auto;padding:18px 14px 110px}
-    h2{margin:6px 0 12px;font-size:22px;font-weight:900}
-    .view{display:none}.view.active{display:block}
+        #score {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
 
-    /* search (Home only) */
-    .search{display:flex;gap:8px;align-items:center;background:#0d1426;border:1px solid #1f2a44;border-radius:14px;padding:10px 12px;margin:10px 0 14px}
-    .search input{flex:1;background:transparent;border:0;outline:0;color:#e5e7eb;font-weight:800}
+        #plane {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 50px;
+            background-color: red;
+            border-radius: 10px;
+        }
 
-    /* cards */
-    .card{position:relative;background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:14px;margin-bottom:14px}
-    .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;background:#1f2937}
-    .title{font-weight:900;margin:10px 0 4px}
-    .names{font-size:12px;color:#a8b2c1;margin-bottom:8px}
-    .desc{color:var(--mut);margin:0 0 10px}
-    .progress{height:8px;background:#0c1322;border:1px solid var(--bd);border-radius:999px;overflow:hidden;margin-bottom:12px}
-    .bar{height:100%;width:0;background:linear-gradient(90deg,#22c55e,#a3e635);transition:width .25s}
-    .row{display:flex;gap:10px}
-    .btn{flex:1;padding:12px;border:0;border-radius:12px;font-weight:900;cursor:pointer}
-    .watch{background:linear-gradient(180deg,var(--pri),var(--prid));color:#001b30}
-    .watch.disabled{background:#253244;color:#93a3b5;cursor:not-allowed}
-    .join{background:#253244;color:#cbd5e1}
-    .join.ready{background:var(--ok);color:#062012}
+        #betContainer {
+            margin-top: 20px;
+        }
 
-    /* like */
-    .like{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);
-          width:48px;height:48px;border-radius:14px;display:grid;place-items:center;cursor:pointer}
-    .like svg{width:26px;height:26px;fill:none;stroke:#e5e7eb;stroke-width:2}
-    .like.active{background:rgba(244,63,94,.18);border-color:rgba(244,63,94,.4)}
-    .like.active svg{fill:#f43f5e;stroke:#f43f5e}
+        #betButton {
+            padding: 10px 20px;
+            background-color: green;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
 
-    /* bottom dock */
-    .dock{position:fixed;left:12px;right:12px;bottom:12px;background:#0c1322;border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:12px 8px}
-    .nav{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-    .tab{display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 0;color:#cbd5e1;text-decoration:none;cursor:pointer}
-    .tab svg{width:22px;height:22px;stroke:#cbd5e1;fill:none;stroke-width:2}
-    .tab.active{color:#7dd3fc}.tab.active svg{stroke:#7dd3fc}
-    .tablabel{font-weight:900}
+        #betButton:hover {
+            background-color: darkgreen;
+        }
 
-    .foot{font-size:12px;color:#9aa4b2;margin:10px 2px}
-    .foot a{color:#93c5fd;font-weight:800;text-decoration:none}
-
-    /* toast */
-    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:95px;background:rgba(34,197,94,.95);color:#062012;border:1px solid rgba(34,197,94,.6);
-           padding:10px 14px;border-radius:10px;font-weight:900;display:none}
-    .toast.show{display:block;animation:fade 1.8s ease-out 1}
-    @keyframes fade{0%{opacity:0;transform:translate(-50%,8px)}10%{opacity:1}80%{opacity:1}100%{opacity:0}}
-  </style>
+        #status {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+    </style>
 </head>
 <body>
-  <div class="wrap">
-    <h2>Unlimited Vairal Video – Ads Unlock 🔓</h2>
-
-    <!-- Search (Home only) -->
-    <div id="searchWrap" class="search">
-      <span style="color:#93c5fd;font-weight:900">🔎</span>
-      <input id="searchInput" type="text" placeholder="Search posts (e.g. era, era video, ridhi)">
-    </div>
-
-    <!-- Views -->
-    <div id="view-home" class="view active"></div>
-    <div id="home-notes" class="foot">
-      Invite friend: <a href="https://parvezparttoy.github.io/miniapp/" target="_blank" rel="noopener">https://parvezparttoy.github.io/miniapp/</a><br>
-      App Community: <a href="http://t.me/VairalVideoInTelegramBOT">t.me/VairalVideoInTelegramBOT</a>
-    </div>
-
-    <div id="view-liked" class="view"><div id="liked-container"></div></div>
-
-    <div id="view-tutorial" class="view">
-      <div class="card"><div class="title">How to Unlock & Earn</div>
-        <ol class="desc" style="margin-left:18px">
-          <li>“Watch Ads” চাপলে বিজ্ঞাপন খুলবে</li>
-          <li><b>বিজ্ঞাপন শেষ হলে</b> অটো +1 coin যোগ হবে</li>
-          <li>১০/১০ হলে “Join Channel” সবুজ হবে</li>
-          <li>Join চাপলে পোস্ট নিচে যাবে এবং আবার 0/10 থেকে শুরু</li>
-        </ol>
-      </div>
-    </div>
-
-    <div id="view-links" class="view">
-      <div class="card" style="display:flex;justify-content:space-between;gap:12px;align-items:center">
-        <div>
-          <div class="title">Community</div>
-          <div class="desc">t.me/VairalVideoInTelegram</div>
+    <div id="gameContainer">
+        <div id="score">0</div>
+        <div id="plane"></div>
+        <div id="betContainer">
+            <button id="betButton">Place Bet</button>
+            <input type="number" id="betAmount" placeholder="Enter Amount">
         </div>
-        <button class="btn watch" data-go="https://t.me/VairalVideoInTelegram">Open</button>
-      </div>
-      <div class="card" style="display:flex;justify-content:space-between;gap:12px;align-items:center">
-        <div>
-          <div class="title">Demo Bot</div>
-          <div class="desc">t.me/VairalVideoInTelegramBOT</div>
-        </div>
-        <button class="btn watch" data-go="http://t.me/VairalVideoInTelegramBOT">Open</button>
-      </div>
-
-      <div class="card">
-        <div class="title" style="margin-bottom:10px">Invite friend</div>
-        <div style="display:flex;gap:10px">
-          <input id="inviteLink" value="https://parvezparttoy.github.io/miniapp/" readonly
-                 style="flex:1;background:#0b1220;border:1px solid #1f2a44;color:#cfe0ff;border-radius:12px;padding:10px 12px;font-weight:800">
-          <button class="btn watch" id="copyBtn" style="flex:0 0 auto">Copy</button>
-        </div>
-      </div>
-
-      <div class="foot" style="text-align:center">Community: <a href="https://t.me/VairalVideoInTelegram">t.me/VairalVideoInTelegram</a></div>
+        <div id="status">FUN MODE</div>
     </div>
-  </div>
 
-  <!-- Toast -->
-  <div id="toast" class="toast">+1 coin added!</div>
+    <script>
+        let score = 0;
+        let betAmount = 0;
+        let isBetting = false;
 
-  <!-- Bottom Nav -->
-  <div class="dock">
-    <div class="nav">
-      <a class="tab active" data-tab="home">
-        <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5v9H4z"/></svg><span class="tablabel">Home</span>
-      </a>
-      <a class="tab" data-tab="liked">
-        <svg viewBox="0 0 24 24"><path d="M12 21C8 18 3 14 3 9.5A4.5 4.5 0 0 1 11 8a4.5 4.5 0 0 1 8 1.5C19 14 14 18 12 21Z"/></svg><span class="tablabel">Liked</span>
-      </a>
-      <a class="tab" data-tab="tutorial">
-        <svg viewBox="0 0 24 24"><path d="M4 5h12a3 3 0 0 1 3 3v11H7a3 3 0 0 1-3-3z"/><path d="M7 5v11a3 3 0 0 0 3 3h9"/></svg><span class="tablabel">Tutorial</span>
-      </a>
-      <a class="tab" data-tab="links">
-        <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7L11 5"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l2-2"/></svg><span class="tablabel">Links</span>
-      </a>
-    </div>
-  </div>
+        const scoreDisplay = document.getElementById('score');
+        const betButton = document.getElementById('betButton');
+        const betInput = document.getElementById('betAmount');
+        const plane = document.getElementById('plane');
 
-<script>
-/* ========= CONFIG ========= */
-const JOIN_URL = "https://t.me/+JQdsBNK6nE1kNTg1";
-const REQUIRED = 10;
+        betButton.addEventListener('click', () => {
+            if (betInput.value) {
+                betAmount = parseFloat(betInput.value);
+                isBetting = true;
+                startGame();
+            } else {
+                alert('Please enter a valid bet amount!');
+            }
+        });
 
-/* ========= DATA ========= */
-const POSTS = [
-  { id:"p1", title:"Jannat Toha Vairal Video 🥵", names:["Jannat Toha","জান্নাত তোহা"],
-    desc:"জান্নাত তোহার ভাইরাল ভিডিও লিংক 😍",
-    img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_193741_659.jpg", join:JOIN_URL,
-    kw:"jannat toha জান্নাত তোহা video viral"
-  },
-  { id:"p2", title:"Ridhii TikTok 💗", names:["Ridhii Moni","রিধী মনি"],
-    desc:"রিধী মনি ভাইরাল ভিডিও লিংক 🥵",
-    img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_194758_066.jpg", join:JOIN_URL,
-    kw:"ridhii ridhi moni রিধী video viral"
-  },
-  { id:"p3", title:"Era Moni TikTok 💗", names:["Era Moni","ইরা মনি"],
-    desc:"ইরা মনি ভাইরাল ভিডিও লিংক 😍💦",
-    img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251016_155725_290.jpg", join:JOIN_URL,
-    kw:"era moni ira ইরা মনি video viral"
-  }
-];
+        function startGame() {
+            let multiplier = 1;
+            const interval = setInterval(() => {
+                if (multiplier >= 10) {
+                    clearInterval(interval);
+                    gameOver();
+                    return;
+                }
+                multiplier += 0.1;
+                plane.style.transform = `translateX(-50%) translateY(-${multiplier * 10}px)`;
+                scoreDisplay.textContent = multiplier.toFixed(2);
+            }, 100);
 
-/* ========= HELPERS ========= */
-const qs=(s,p)=> (p||document).querySelector(s);
-const qsa=(s,p)=> Array.from((p||document).querySelectorAll(s));
-const sk=id=>`coins_${id}`;
-const lk=id=>`liked_${id}`;
-const dk=id=>`done_${id}`;
-const pct=v=>Math.min(100,Math.round((v/REQUIRED)*100));
-const idx=p=>(p.title+" "+p.desc+" "+(p.kw||" ")+" "+(p.names||[]).join(" ")).toLowerCase();
+            setTimeout(() => {
+                if (isBetting) {
+                    clearInterval(interval);
+                    gameOver();
+                }
+            }, 5000); // Game lasts for 5 seconds
+        }
 
-function showToast(msg){const t=qs('#toast');t.textContent=msg||'+1 coin added!';t.classList.remove('show');void t.offsetWidth;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600);}
-
-/* ========= RENDER ========= */
-function renderCard(p){
-  const coins=Number(localStorage.getItem(sk(p.id))||"0");
-  const liked=localStorage.getItem(lk(p.id))==="1";
-
-  const el=document.createElement('div');
-  el.className='card'; el.dataset.id=p.id;
-  el.innerHTML = `
-    <button class="like ${liked?'active':''}" data-like="${p.id}">
-      <svg viewBox="0 0 24 24"><path d="M12 21C8 18 3 14 3 9.5A4.5 4.5 0 0 1 11 8a4.5 4.5 0 0 1 8 1.5C19 14 14 18 12 21Z"/></svg>
-    </button>
-    <img class="thumb" src="${p.img}" alt="">
-    <div class="title">${p.title}</div>
-    <div class="names">${(p.names||[]).join(' / ')}</div>
-    <p class="desc">${p.desc}</p>
-    <div class="progress"><div class="bar" id="${p.id}_bar" style="width:${pct(coins)}%"></div></div>
-    <div class="row">
-      <button class="btn watch ${coins>=REQUIRED?'disabled':''}" id="${p.id}_watch" ${coins>=REQUIRED?'disabled':''}>Watch Ads (${Math.min(coins,REQUIRED)}/${REQUIRED})</button>
-      <button class="btn join ${coins>=REQUIRED?'ready':''}" id="${p.id}_join" ${coins>=REQUIRED?'':'disabled'}>Join Channel</button>
-    </div>`;
-
-  // like toggle
-  qs('[data-like]',el).onclick=()=>{
-    const b=qs('.like',el); const on=b.classList.toggle('active');
-    localStorage.setItem(lk(p.id),on?'1':'0'); refreshLiked();
-  };
-
-  // watch ad
-  qs('#'+p.id+'_watch',el).onclick=()=>openAd(p.id);
-
-  // join -> move to bottom + reset
-  qs('#'+p.id+'_join',el).onclick=()=>{
-    const c=Number(localStorage.getItem(sk(p.id))||"0");
-    if(c>=REQUIRED){
-      if(window.Telegram?.WebApp?.openTelegramLink){ Telegram.WebApp.openTelegramLink(p.join); }
-      else { window.open(p.join,'_blank'); }
-      localStorage.setItem(dk(p.id),'1');            // mark done (to bottom)
-      localStorage.removeItem(sk(p.id));             // reset coins
-      renderHome(qs('#searchInput').value);          // rerender
-    }
-  };
-
-  return el;
-}
-
-function renderHome(filter){
-  const box=qs('#view-home'); box.innerHTML="";
-  const tokens=(filter||"").trim().toLowerCase().split(/\s+/).filter(Boolean);
-  const notDone=[], done=[];
-  POSTS.forEach(p => (localStorage.getItem(dk(p.id))==='1'?done:notDone).push(p));
-
-  const match = p=>{
-    if(!tokens.length) return true;
-    const s=idx(p); return tokens.some(t=>s.includes(t));
-  };
-
-  notDone.filter(match).forEach(p=>box.appendChild(renderCard(p)));
-  done.filter(match).forEach(p=>box.appendChild(renderCard(p)));
-}
-
-function refreshLiked(){
-  const c=qs('#liked-container'); c.innerHTML="";
-  const lp=POSTS.filter(p=>localStorage.getItem(lk(p.id))==='1');
-  if(!lp.length){ c.innerHTML='<div class="card"><div class="desc">এখনো কিছু ❤️ করা হয়নি। Home থেকে হার্ট চাপুন।</div></div>'; return; }
-  lp.forEach(p=>c.appendChild(renderCard(p)));
-}
-
-/* ========= SEARCH & NAV ========= */
-qs('#searchInput').addEventListener('input', e=>renderHome(e.target.value));
-
-qsa('.tab').forEach(t=>{
-  t.onclick=()=>{
-    qsa('.tab').forEach(x=>x.classList.remove('active')); t.classList.add('active');
-    const name=t.dataset.tab;
-    qsa('.view').forEach(v=>v.classList.remove('active'));
-    qs('#view-'+name).classList.add('active');
-    qs('#searchWrap').style.display = (name==='home')?'flex':'none';
-    qs('#home-notes').style.display  = (name==='home')?'block':'none';
-    if(name==='liked') refreshLiked();
-    if(name==='home') renderHome(qs('#searchInput').value);
-  };
-});
-
-/* ========= Links actions ========= */
-qsa('[data-go]').forEach(btn=>{
-  btn.onclick=()=>{
-    const url=btn.getAttribute('data-go');
-    if(window.Telegram?.WebApp?.openTelegramLink){ Telegram.WebApp.openTelegramLink(url); }
-    else { window.open(url,'_blank'); }
-  };
-});
-qs('#copyBtn').onclick=()=>{
-  const v=qs('#inviteLink').value;
-  if(navigator.clipboard?.writeText) navigator.clipboard.writeText(v).then(()=>showToast('Link copied'));
-};
-
-/* ========= ADS FLOW (reward only after real ad) ========= */
-let adBusy=false; // prevent double taps
-
-function waitAdexora(maxMs = 4000){
-  return new Promise((resolve, reject)=>{
-    if(window.showAdexora) return resolve();
-    let elapsed = 0;
-    const iv = setInterval(()=>{
-      if(window.showAdexora){ clearInterval(iv); resolve(); }
-      elapsed += 100;
-      if(elapsed >= maxMs){ clearInterval(iv); reject(new Error("SDK not ready")); }
-    }, 100);
-  });
-}
-
-function withTimeout(promise, ms){
-  return new Promise((resolve, reject)=>{
-    const t = setTimeout(()=>reject(new Error("timeout")), ms);
-    promise.then(v=>{clearTimeout(t); resolve(v);})
-           .catch(e=>{clearTimeout(t); reject(e);});
-  });
-}
-
-async function openAd(cardId){
-  if(adBusy) return;
-  adBusy=true;
-
-  const watchBtn = document.getElementById(cardId + "_watch");
-  if (watchBtn) { watchBtn.textContent = "Loading Ad..."; watchBtn.disabled = true; }
-
-  try{
-    // ensure SDK ready
-    await waitAdexora();
-
-    // try to show ad (12s timeout). If first fails, retry once.
-    try{
-      await withTimeout(window.showAdexora(), 12000);
-    }catch(e){
-      await withTimeout(window.showAdexora(), 12000);
-    }
-
-    // ✅ ad finished → add coin
-    const key  = sk(cardId);
-    const cur  = Number(localStorage.getItem(key) || "0");
-    const next = Math.min(REQUIRED, cur + 1);
-    localStorage.setItem(key, String(next));
-
-    // UI update
-    const bar = document.getElementById(cardId + "_bar");
-    if (bar) bar.style.width = pct(next) + "%";
-    if (watchBtn) {
-      watchBtn.textContent = `Watch Ads (${next}/${REQUIRED})`;
-      watchBtn.disabled = next >= REQUIRED;
-      if(next >= REQUIRED){
-        const j = document.getElementById(cardId + "_join");
-        if (j){ j.classList.add("ready"); j.disabled = false; }
-      }
-    }
-    showToast("+1 coin added ✅");
-  }catch(err){
-    // ❌ No ad → no coin
-    showToast("No ad available now, try again");
-  }finally{
-    // restore button label if still enabled
-    if (watchBtn){
-      const cur = Number(localStorage.getItem(sk(cardId)) || "0");
-      if(cur < REQUIRED) { watchBtn.textContent = `Watch Ads (${cur}/${REQUIRED})`; watchBtn.disabled = false; }
-    }
-    adBusy=false;
-  }
-}
-
-/* ========= First render ========= */
-renderHome("");
-</script>
+        function gameOver() {
+            const finalScore = parseFloat(scoreDisplay.textContent);
+            if (finalScore > 1) {
+                alert(`You won! Your payout is ${betAmount * finalScore}`);
+            } else {
+                alert('You lost! Try again.');
+            }
+            isBetting = false;
+            scoreDisplay.textContent = '0';
+            plane.style.transform = 'translateX(-50%)';
+        }
+    </script>
 </body>
-                       </html>
+</html>
