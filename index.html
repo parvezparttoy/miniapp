@@ -1,87 +1,77 @@
-// server.js — Safe SMS sender (whitelist + rate limits)
-// npm i express body-parser node-fetch rate-limiter-flexible dotenv
-require('dotenv').config();
-const express = require('express');
-const bodyParser = require('body-parser');
-const fetch = require('node-fetch');
-const { RateLimiterMemory } = require('rate-limiter-flexible');
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Safe SMS Test Hub</title>
+<style>
+  body{font-family:system-ui,Arial;background:#f4f7fb;color:#04263b;padding:20px}
+  .card{max-width:600px;margin:24px auto;padding:18px;border-radius:10px;background:#fff;box-shadow:0 6px 18px rgba(2,8,23,.08)}
+  label{display:block;margin:8px 0 4px;font-weight:700}
+  input,textarea,button{width:100%;padding:10px;border:1px solid #dbe7f0;border-radius:8px}
+  button{background:#0b6cff;color:#fff;border:0;margin-top:10px;cursor:pointer}
+  .hidden{display:none}
+  .note{font-size:13px;color:#556b7a;margin-top:8px}
+</style>
+</head>
+<body>
+  <div class="card" id="authCard">
+    <h2>Enter password</h2>
+    <input id="pw" type="password" placeholder="password">
+    <button id="pwBtn">Unlock</button>
+    <p class="note">This page is for safe testing only. Use only your whitelisted numbers.</p>
+  </div>
 
-const app = express();
-app.use(bodyParser.json());
+  <div class="card hidden" id="appCard">
+    <h2>Safe SMS Test Hub (whitelist only)</h2>
 
-// ===== CONFIG =====
-const WHITELIST = new Set([
-  '+8801YOURNUMBER', // put only your test numbers here
-  // '+8801ANOTHER'
-]);
+    <label>Phone number (whitelist only):</label>
+    <input id="phone" placeholder="+8801XXXXXXXXX">
 
-const ADMIN_SECRET = process.env.ADMIN_SECRET || 'change-this-in-prod';
+    <label>Message (one SMS per request):</label>
+    <textarea id="msg" rows="4" placeholder="Test message..."></textarea>
 
-// rate limit: 1 SMS per phone per 60s
-const perNumberLimiter = new RateLimiterMemory({ points: 1, duration: 60 });
-// global limiter: e.g., 5 SMS per minute overall
-const globalLimiter = new RateLimiterMemory({ points: 5, duration: 60 });
+    <button id="sendBtn">Send (one SMS)</button>
 
-// provider config (put real values in .env)
-const SMS_API_URL = process.env.SMS_API_URL || '';
-const SMS_API_KEY = process.env.SMS_API_KEY || '';
-const SMS_SENDER  = process.env.SMS_SENDER || 'TEST';
+    <p class="note">Only whitelisted numbers will receive SMS. Rate limits apply. Do not use for spamming.</p>
 
-// ===== provider send (example generic) =====
-async function sendSmsViaProvider(to, text) {
-  // IMPORTANT: customize for your provider
-  if(!SMS_API_URL || !SMS_API_KEY) {
-    // in test, just simulate
-    console.log('[SIM] send to', to, text);
-    return { simulated: true };
-  }
+    <pre id="log" style="background:#eef6ff;padding:8px;border-radius:6px;max-height:180px;overflow:auto"></pre>
+  </div>
 
-  const resp = await fetch(SMS_API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${SMS_API_KEY}`
-    },
-    body: JSON.stringify({
-      to, from: SMS_SENDER, message: text
-    })
+<script>
+  // CLIENT-SIDE PASSWORD (light protection). For strong security, do server-auth.
+  const PASSWORD = 'parvezXnexo'; // keep secret — production: move to server
+  const authCard = document.getElementById('authCard');
+  const appCard  = document.getElementById('appCard');
+  document.getElementById('pwBtn').addEventListener('click', ()=>{
+    const val=document.getElementById('pw').value;
+    if(val===PASSWORD){
+      authCard.classList.add('hidden'); appCard.classList.remove('hidden');
+    } else {
+      alert('Wrong password');
+    }
   });
 
-  if(!resp.ok) {
-    const txt = await resp.text();
-    throw new Error('Provider error: ' + txt);
-  }
-  return resp.json();
-}
+  function log(txt){ const p=document.getElementById('log'); p.textContent = new Date().toLocaleTimeString() + ' — ' + txt + '\\n' + p.textContent; }
 
-// ===== Admin send endpoint (whitelist only, rate-limited) =====
-app.post('/admin/send-to-whitelist', async (req, res) => {
-  // Protect with admin secret
-  const secret = req.headers['x-admin-secret'];
-  if(secret !== ADMIN_SECRET) return res.status(401).json({ error: 'Unauthorized' });
+  document.getElementById('sendBtn').addEventListener('click', async ()=>{
+    const phone = document.getElementById('phone').value.trim();
+    const msg = document.getElementById('msg').value.trim();
+    if(!phone || !msg){ alert('Enter phone and message'); return; }
 
-  const phone = (req.body.phone || '').trim();
-  const message = (req.body.message || '').trim();
-  if(!phone || !message) return res.status(400).json({ error: 'phone and message required' });
-
-  if(!WHITELIST.has(phone)) return res.status(403).json({ error: 'Phone not whitelisted' });
-
-  try {
-    // rate limit checks
-    await perNumberLimiter.consume(phone);
-    await globalLimiter.consume('global');
-
-    // send ONE SMS (no loops)
-    const r = await sendSmsViaProvider(phone, message);
-    return res.json({ ok: true, provider: r });
-  } catch (err) {
-    console.error('send error', err);
-    return res.status(500).json({ ok: false, error: String(err) });
-  }
-});
-
-// health
-app.get('/', (req,res)=> res.send('Safe SMS test hub running'));
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, ()=> console.log('listening', PORT));
+    // call server endpoint
+    try{
+      log('Sending to ' + phone + ' ...');
+      const res = await fetch('/admin/send-to-whitelist', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json','x-admin-secret': 'REPLACE_WITH_ADMIN_SECRET_ON_SERVER' },
+        body: JSON.stringify({ phone, message: msg })
+      });
+      const j = await res.json();
+      log('Response: ' + JSON.stringify(j));
+      if(j.ok) alert('Request processed — check log');
+    }catch(e){ log('Error: ' + e.message); alert('Network error'); }
+  });
+</script>
+</body>
+      </html>
