@@ -58,69 +58,78 @@
             margin-top: 20px;
             font-size: 20px;
         }
+
+        #gameOver {
+            font-size: 24px;
+            color: yellow;
+        }
     </style>
 </head>
 <body>
     <div id="gameContainer">
-        <div id="score">0</div>
+        <div id="score">1.00x</div>
         <div id="plane"></div>
         <div id="betContainer">
             <button id="betButton">Place Bet</button>
             <input type="number" id="betAmount" placeholder="Enter Amount">
         </div>
         <div id="status">FUN MODE</div>
+        <div id="gameOver"></div>
     </div>
 
     <script>
-        let score = 0;
+        let score = 1;
         let betAmount = 0;
         let isBetting = false;
-
+        let gameInterval;
+        let isGameRunning = false;
         const scoreDisplay = document.getElementById('score');
         const betButton = document.getElementById('betButton');
         const betInput = document.getElementById('betAmount');
         const plane = document.getElementById('plane');
+        const gameOverDisplay = document.getElementById('gameOver');
 
         betButton.addEventListener('click', () => {
-            if (betInput.value) {
+            if (betInput.value && !isGameRunning) {
                 betAmount = parseFloat(betInput.value);
                 isBetting = true;
+                isGameRunning = true;
+                gameOverDisplay.textContent = '';
                 startGame();
             } else {
-                alert('Please enter a valid bet amount!');
+                alert('Please enter a valid bet amount or wait for the next round.');
             }
         });
 
         function startGame() {
             let multiplier = 1;
-            const interval = setInterval(() => {
-                if (multiplier >= 10) {
-                    clearInterval(interval);
-                    gameOver();
-                    return;
-                }
-                multiplier += 0.1;
+            gameInterval = setInterval(() => {
+                multiplier += 0.05;
                 plane.style.transform = `translateX(-50%) translateY(-${multiplier * 10}px)`;
-                scoreDisplay.textContent = multiplier.toFixed(2);
-            }, 100);
-
-            setTimeout(() => {
-                if (isBetting) {
-                    clearInterval(interval);
-                    gameOver();
+                scoreDisplay.textContent = multiplier.toFixed(2) + 'x';
+                if (multiplier >= 5) {
+                    clearInterval(gameInterval);
+                    endGame(multiplier);
                 }
-            }, 5000); // Game lasts for 5 seconds
+            }, 100);
+            setTimeout(() => {
+                if (isGameRunning) {
+                    clearInterval(gameInterval);
+                    endGame(multiplier);
+                }
+            }, 5000); // Game lasts for 5 seconds max
         }
 
-        function gameOver() {
+        function endGame(finalMultiplier) {
             const finalScore = parseFloat(scoreDisplay.textContent);
             if (finalScore > 1) {
-                alert(`You won! Your payout is ${betAmount * finalScore}`);
+                gameOverDisplay.textContent = `You won! Payout: ${betAmount * finalScore}`;
             } else {
-                alert('You lost! Try again.');
+                gameOverDisplay.textContent = `You lost! Try again.`;
             }
             isBetting = false;
-            scoreDisplay.textContent = '0';
+            isGameRunning = false;
+            scoreDisplay.textContent = '1.00x';
             plane.style.transform = 'translateX(-50%)';
         }
     </script>
