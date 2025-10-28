@@ -1,137 +1,114 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviator Fun Game</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #111;
-            color: white;
-        }
-
-        #gameContainer {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #score {
-            font-size: 40px;
-            margin-bottom: 20px;
-        }
-
-        #plane {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 50px;
-            background-color: red;
-            border-radius: 10px;
-        }
-
-        #betContainer {
-            margin-top: 20px;
-        }
-
-        #betButton {
-            padding: 10px 20px;
-            background-color: green;
-            border: none;
-            color: white;
-            cursor: pointer;
-        }
-
-        #betButton:hover {
-            background-color: darkgreen;
-        }
-
-        #status {
-            margin-top: 20px;
-            font-size: 20px;
-        }
-
-        #gameOver {
-            font-size: 24px;
-            color: yellow;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Toxic AI – Chat Assistant</title>
+<style>
+body{
+  background:#0b1120;
+  color:#fff;
+  font-family:system-ui,Roboto,Arial;
+  display:flex;flex-direction:column;
+  height:100vh;margin:0;
+}
+header{
+  padding:10px 14px;
+  text-align:center;
+  background:#111a33;
+  font-weight:700;
+  color:#00e5ff;
+  letter-spacing:.5px;
+}
+.chat{
+  flex:1;
+  overflow-y:auto;
+  padding:15px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.msg{
+  max-width:80%;
+  padding:10px 14px;
+  border-radius:14px;
+  line-height:1.4;
+}
+.user{
+  align-self:flex-end;
+  background:#00e5ff;
+  color:#000;
+}
+.bot{
+  align-self:flex-start;
+  background:#18233f;
+}
+form{
+  display:flex;
+  gap:8px;
+  padding:10px;
+  background:#0e162b;
+}
+input{
+  flex:1;
+  border:1px solid #243a6b;
+  border-radius:10px;
+  background:#091124;
+  color:#fff;
+  padding:10px;
+}
+button{
+  background:#00e5ff;
+  border:0;
+  border-radius:10px;
+  font-weight:700;
+  padding:10px 14px;
+  cursor:pointer;
+}
+</style>
 </head>
 <body>
-    <div id="gameContainer">
-        <div id="score">1.00x</div>
-        <div id="plane"></div>
-        <div id="betContainer">
-            <button id="betButton">Place Bet</button>
-            <input type="number" id="betAmount" placeholder="Enter Amount">
-        </div>
-        <div id="status">FUN MODE</div>
-        <div id="gameOver"></div>
-    </div>
+<header>Toxic AI 🤖</header>
+<div id="chat" class="chat">
+  <div class="msg bot">Hello! I’m <strong>Toxic AI</strong>, your personal assistant. How can I help you today?</div>
+</div>
+<form id="form">
+  <input id="input" placeholder="Type your message…" autocomplete="off">
+  <button>Send</button>
+</form>
 
-    <script>
-        let score = 1;
-        let betAmount = 0;
-        let isBetting = false;
-        let gameInterval;
-        let isGameRunning = false;
-        const scoreDisplay = document.getElementById('score');
-        const betButton = document.getElementById('betButton');
-        const betInput = document.getElementById('betAmount');
-        const plane = document.getElementById('plane');
-        const gameOverDisplay = document.getElementById('gameOver');
+<script>
+const chat=document.getElementById("chat");
+const form=document.getElementById("form");
+const input=document.getElementById("input");
 
-        betButton.addEventListener('click', () => {
-            if (betInput.value && !isGameRunning) {
-                betAmount = parseFloat(betInput.value);
-                isBetting = true;
-                isGameRunning = true;
-                gameOverDisplay.textContent = '';
-                startGame();
-            } else {
-                alert('Please enter a valid bet amount or wait for the next round.');
-            }
-        });
+function addMessage(text,cls){
+  const m=document.createElement("div");
+  m.className="msg "+cls;
+  m.innerHTML=text;
+  chat.appendChild(m);
+  chat.scrollTop=chat.scrollHeight;
+}
 
-        function startGame() {
-            let multiplier = 1;
-            gameInterval = setInterval(() => {
-                multiplier += 0.05;
-                plane.style.transform = `translateX(-50%) translateY(-${multiplier * 10}px)`;
-                scoreDisplay.textContent = multiplier.toFixed(2) + 'x';
-                if (multiplier >= 5) {
-                    clearInterval(gameInterval);
-                    endGame(multiplier);
-                }
-            }, 100);
-            setTimeout(() => {
-                if (isGameRunning) {
-                    clearInterval(gameInterval);
-                    endGame(multiplier);
-                }
-            }, 5000); // Game lasts for 5 seconds max
-        }
+async function toxicReply(msg){
+  const q=msg.toLowerCase();
+  if(q.includes("name")) return "I’m Toxic AI 🤖 — your personal assistant.";
+  if(q.includes("creator")||q.includes("made")||q.includes("owner"))
+    return "I was created by MD Parvez Parttoy 💻.";
+  if(q.includes("who are you")) return "I’m Toxic AI, a smart AI built to assist you like ChatGPT.";
+  // For all other messages, use a tiny offline response (no API)
+  return "Hmm 🤔 that’s interesting! I’ll think about that — but you can ask me anything!";
+}
 
-        function endGame(finalMultiplier) {
-            const finalScore = parseFloat(scoreDisplay.textContent);
-            if (finalScore > 1) {
-                gameOverDisplay.textContent = `You won! Payout: ${betAmount * finalScore}`;
-            } else {
-                gameOverDisplay.textContent = `You lost! Try again.`;
-            }
-            isBetting = false;
-            isGameRunning = false;
-            scoreDisplay.textContent = '1.00x';
-            plane.style.transform = 'translateX(-50%)';
-        }
-    </script>
+form.addEventListener("submit",async e=>{
+  e.preventDefault();
+  const msg=input.value.trim();
+  if(!msg)return;
+  addMessage(msg,"user");
+  input.value="";
+  const reply=await toxicReply(msg);
+  setTimeout(()=>addMessage(reply,"bot"),400);
+});
+</script>
 </body>
 </html>
