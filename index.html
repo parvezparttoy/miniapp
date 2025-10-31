@@ -1,79 +1,426 @@
 <!doctype html>
-<html lang="en">
+<html lang="bn">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HabitSwap — Change Your Life Together</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Camera Verify + Admin — HabitSwap Demo</title>
 <style>
-  :root{
-    --bg1:#0b1120; --bg2:#0a1228; --bg3:#07111c;
-    --card:#0f172a; --line:#182a4f;
-    --text:#e8f0ff; --muted:#9fb6da;
-    --brand:#00e5ff; --brand2:#7dd3fc; --accent:#ef0027;
-    --ok:#22c55e; --warn:#f59e0b;
+:root{
+  --bg1:#0b1120; --bg2:#0a1228; --accent:#00e5ff; --card:#0f172a; --muted:#9fb6da; --text:#eaf2ff;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:
+  radial-gradient(900px 600px at 20% -10%, rgba(0,229,255,.06), transparent 60%),
+  linear-gradient(180deg,var(--bg1),var(--bg2)); color:var(--text)}
+.header{
+  display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.04);position:sticky;top:0;background:rgba(6,12,22,.6);backdrop-filter:blur(6px);z-index:30;
+}
+.brand{font-weight:800;color:var(--accent)}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.icon-btn{background:transparent;border:0;color:var(--text);font-size:20px;cursor:pointer;padding:6px;border-radius:8px}
+.icon-btn:active{transform:scale(.98)}
+.wrap{max-width:920px;margin:18px auto;padding:14px}
+.card{background:rgba(12,18,36,.6);border:1px solid rgba(255,255,255,.04);padding:14px;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.45);margin-bottom:14px}
+.title{font-size:18px;font-weight:800;margin:0 0 8px}
+.muted{color:var(--muted);font-size:13px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.col{display:flex;flex-direction:column;gap:10px}
+.btn{background:var(--accent);border:0;color:#02121a;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:800}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.03)}
+.video-wrap{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:720px){ .video-wrap{grid-template-columns:1fr}}
+video,canvas{width:100%;height:auto;border-radius:10px;background:#000;border:1px solid rgba(255,255,255,.03)}
+.small{font-size:13px;color:var(--muted)}
+.menu{position:relative}
+.menu-list{position:absolute;right:0;top:36px;background:#071026;border:1px solid rgba(255,255,255,.03);padding:8px;border-radius:8px;display:none;min-width:160px;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.menu-list.show{display:block}
+.menu-item{padding:8px 10px;border-radius:8px;color:var(--text);cursor:pointer}
+.menu-item:hover{background:rgba(255,255,255,.02)}
+.modal-back{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:60}
+.modal-back.show{display:flex}
+.modal{background:#071427;padding:16px;border-radius:12px;max-width:720px;width:92%;border:1px solid rgba(255,255,255,.04)}
+.input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.04);background:transparent;color:var(--text)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.photo-card{background:rgba(8,12,20,.6);padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.03)}
+.photo-card img{width:100%;height:auto;border-radius:6px}
+.actions{display:flex;gap:8px;margin-top:8px}
+.smallbtn{padding:6px 8px;border-radius:8px;border:0;cursor:pointer;font-weight:700}
+.smallbtn.dl{background:linear-gradient(90deg,#1f5a84,#00c6ff);color:#00121a}
+.smallbtn.del{background:linear-gradient(90deg,#ff6b6b,#ff8a8a);color:#200}
+.alert{padding:8px;border-radius:8px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.02)}
+.footer{margin-top:24px;text-align:center;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="brand">HabitSwap — Camera Demo</div>
+  <div class="header-right">
+    <div class="menu">
+      <button id="menuBtn" class="icon-btn" title="Menu">⋯</button>
+      <div id="menuList" class="menu-list" role="menu" aria-hidden="true">
+        <div class="menu-item" id="mAbout">About us</div>
+        <div class="menu-item" id="mFaq">FAQ</div>
+        <div class="menu-item" id="mLogin">Login (Admin)</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- Start card -->
+  <section class="card" id="startCard">
+    <div class="title">Get Started</div>
+    <div class="muted">Tap to allow camera — আগে front photo, পরে back photo। ছবিগুলো localStorage এ সংরক্ষিত হবে এবং যদি তুমি সার্ভার URL সেট করো তাহলে সার্ভারেও পাঠাবে।</div>
+    <div style="margin-top:12px" class="row">
+      <button id="getStart" class="btn">Get Started</button>
+      <button id="viewSaved" class="btn ghost">View saved photos (admin only)</button>
+    </div>
+  </section>
+
+  <!-- Camera flow -->
+  <section class="card hide" id="cameraCard">
+    <div class="title">Capture photos</div>
+    <div class="muted small">Step 1: Front camera — face centered → Capture → Next → Step 2: Back camera</div>
+
+    <div class="video-wrap" style="margin-top:10px">
+      <div>
+        <div class="small">Front camera</div>
+        <video id="videoFront" autoplay playsinline muted></video>
+        <canvas id="canvasFront" class="hide"></canvas>
+        <div style="margin-top:8px" class="row">
+          <button id="capFront" class="btn">Capture Front</button>
+          <button id="nextBtn" class="btn ghost">Next (to Back)</button>
+          <div id="statusFront" class="small muted"></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="small">Back camera</div>
+        <video id="videoBack" autoplay playsinline muted></video>
+        <canvas id="canvasBack" class="hide"></canvas>
+        <div style="margin-top:8px" class="row">
+          <button id="capBack" class="btn">Capture Back</button>
+          <button id="sendBtn" class="btn">Send & Save</button>
+          <div id="statusBack" class="small muted"></div>
+        </div>
+      </div>
+    </div>
+    <div class="muted" style="margin-top:10px">Note: Photos are saved locally (in your browser). Admin panel will list them.</div>
+  </section>
+
+  <!-- Admin Panel (protected) -->
+  <section class="card hide" id="adminCard">
+    <div class="title">Admin Panel — Saved Photos</div>
+    <div class="muted small">Only users who log in with the admin password can see and manage photos.</div>
+
+    <div id="photosGrid" class="admin-grid" style="margin-top:12px"></div>
+
+    <div style="margin-top:12px" class="row">
+      <button id="exportAll" class="btn ghost">Export JSON</button>
+      <button id="clearAll" class="btn ghost">Delete All</button>
+    </div>
+  </section>
+
+  <div class="footer">Demo — local admin storage · change later to server storage when needed</div>
+</main>
+
+<!-- modal for About / FAQ / Login -->
+<div id="modalBg" class="modal-back" role="dialog" aria-hidden="true">
+  <div class="modal" id="modal">
+    <div id="modalContent"></div>
+    <div style="margin-top:12px;text-align:right">
+      <button id="modalClose" class="btn ghost">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  // Elements
+  const menuBtn = document.getElementById('menuBtn');
+  const menuList = document.getElementById('menuList');
+  const mAbout = document.getElementById('mAbout');
+  const mFaq = document.getElementById('mFaq');
+  const mLogin = document.getElementById('mLogin');
+
+  const modalBg = document.getElementById('modalBg');
+  const modal = document.getElementById('modal');
+  const modalContent = document.getElementById('modalContent');
+  const modalClose = document.getElementById('modalClose');
+
+  const getStart = document.getElementById('getStart');
+  const startCard = document.getElementById('startCard');
+  const cameraCard = document.getElementById('cameraCard');
+  const adminCard = document.getElementById('adminCard');
+  const viewSaved = document.getElementById('viewSaved');
+
+  // camera elements
+  const videoFront = document.getElementById('videoFront');
+  const videoBack  = document.getElementById('videoBack');
+  const canvasFront = document.getElementById('canvasFront');
+  const canvasBack  = document.getElementById('canvasBack');
+  const capFront = document.getElementById('capFront');
+  const capBack = document.getElementById('capBack');
+  const nextBtn = document.getElementById('nextBtn');
+  const sendBtn = document.getElementById('sendBtn');
+  const statusFront = document.getElementById('statusFront');
+  const statusBack = document.getElementById('statusBack');
+
+  const photosGrid = document.getElementById('photosGrid');
+  const exportAll = document.getElementById('exportAll');
+  const clearAll = document.getElementById('clearAll');
+
+  // Modal helpers
+  function openModal(html){
+    modalContent.innerHTML = html;
+    modalBg.classList.add('show');
+    modalBg.style.display = 'flex';
   }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
-    color:var(--text);
-    background:
-      radial-gradient(900px 600px at 20% -10%, rgba(0,229,255,.10), transparent 60%),
-      radial-gradient(800px 500px at 80% 0%, rgba(239,0,39,.06), transparent 55%),
-      linear-gradient(180deg,var(--bg1),var(--bg2) 40%,var(--bg3));
+  function closeModal(){ modalBg.classList.remove('show'); modalBg.style.display='none'; }
+
+  modalClose.addEventListener('click', closeModal);
+  modalBg.addEventListener('click', (e)=>{ if(e.target===modalBg) closeModal(); });
+
+  menuBtn.addEventListener('click', ()=> menuList.classList.toggle('show'));
+  window.addEventListener('click', e=> { if(!menuBtn.contains(e.target) && !menuList.contains(e.target)) menuList.classList.remove('show'); });
+
+  // About content (you asked: write something)
+  mAbout.addEventListener('click', ()=> {
+    menuList.classList.remove('show');
+    openModal(`
+      <h3>About us</h3>
+      <p class="muted">HabitSwap প্রকল্পের এই ডেমো অংশটি কেবল ক্যামেরা ভেরিফিকেশন ও অ্যাডমিন ইন্টারফেস দেখানোর জন্য। এখানে তুলা ছবিগুলো প্রথমে ব্যবহারকারীর ব্রাউজারে স্থানীয়ভাবে সংরক্ষিত হয়। ভবিষ্যতে চাইলে এগুলো সার্ভারে সেভ করে Telegram বা অন্য সার্ভিসে পাঠানো যাবে।</p>
+      <p class="muted">এই ডেমো কোনো ব্যক্তিগত তথ্য কোন সার্ভারে পাঠায় না যতক্ষণ তুমি Send বাটন চাপো।</p>
+    `);
+  });
+
+  // FAQ content (free text)
+  mFaq.addEventListener('click', ()=> {
+    menuList.classList.remove('show');
+    openModal(`
+      <h3>FAQ</h3>
+      <p class="muted"><b>Q:</b> Photos কোথায় যায়?<br/><b>A:</b> এই ডেমোতে photos localStorage এ সেভ হয়। সার্ভার না থাকা পর্যন্ত বাইরে পাঠানো হয় না।</p>
+      <p class="muted"><b>Q:</b> Admin কে দেখতে পারবে?<br/><b>A:</b> admin প্যানেলে শুধুমাত্র যাদের কাছে admin password আছে তারা দেখতে পারবে।</p>
+      <p class="muted"><b>Q:</b> Password নিরাপদ কি?<br/><b>A:</b> এই ডেমোতে password client-side এ চেক করা হয় — production এ অবশ্যই server-side auth ব্যবহার করতে হবে।</p>
+    `);
+  });
+
+  // Login (admin)
+  mLogin.addEventListener('click', ()=> {
+    menuList.classList.remove('show');
+    openModal(`
+      <h3>Admin Login</h3>
+      <p class="muted">Enter admin password to open Admin Panel.</p>
+      <input id="adminPass" class="input" type="password" placeholder="Password" />
+      <div style="margin-top:10px;text-align:right"><button id="adminCheck" class="btn">Next</button></div>
+    `);
+    document.getElementById('adminCheck').addEventListener('click', ()=>{
+      const val = document.getElementById('adminPass').value || '';
+      // Hardcoded password as requested
+      if(val === 'parvezparttoyhack'){
+        closeModal();
+        showAdmin();
+      } else {
+        alert('Wrong password');
+      }
+    });
+  });
+
+  // View saved shortcut
+  viewSaved.addEventListener('click', ()=> {
+    openModal(`
+      <h3>Admin Login Required</h3>
+      <p class="muted">You must login as admin to view saved photos.</p>
+      <input id="adminPass2" class="input" type="password" placeholder="Password" />
+      <div style="margin-top:10px;text-align:right"><button id="adminCheck2" class="btn">Open</button></div>
+    `);
+    document.getElementById('adminCheck2').addEventListener('click', ()=>{
+      const val = document.getElementById('adminPass2').value || '';
+      if(val === 'parvezparttoyhack'){ closeModal(); showAdmin(); } else alert('Wrong password');
+    });
+  });
+
+  // Camera flow
+  let frontStream = null, backStream = null;
+  let frontBlob = null, backBlob = null;
+
+  async function startFront(){
+    try{
+      frontStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio:false });
+      videoFront.srcObject = frontStream;
+      startCardHidden();
+      cameraCardVisible();
+      statusFront.textContent = '';
+    }catch(err){
+      alert('Camera permission denied অথবা ক্যামেরা পাওয়া যায়নি।');
+    }
   }
-  a{color:var(--brand2);text-decoration:none}
-  .wrap{max-width:820px;margin:0 auto;padding:12px 12px 110px}
+  function startCardHidden(){ startCard.classList.add('hide'); }
+  function cameraCardVisible(){ cameraCard.classList.remove('hide'); adminCard.classList.add('hide'); }
 
-  /* ===== Header (fixed + responsive) ===== */
-  header{
-    position:sticky;top:0;z-index:9;
-    background:rgba(10,17,32,.92);backdrop-filter:blur(6px);
-    border-bottom:1px solid #0e1a33;
-    padding:10px 12px;
-    display:flex;flex-wrap:wrap;gap:10px;align-items:center;
-  }
-  .logo{display:flex;gap:10px;align-items:center;font-weight:900;letter-spacing:.3px;white-space:nowrap}
-  .logo .bubble{width:26px;height:26px;border-radius:8px;background:#071931;border:1px solid #153158;display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,229,255,.2)}
-  .logo .bubble svg{width:18px;height:18px;fill:var(--brand)}
-  .brand{color:var(--brand)}
-
-  .tabs{display:flex;gap:6px;flex:1;min-width:220px;flex-wrap:wrap}
-  .tabs a{padding:8px 10px;border-radius:10px;color:#a8c1ea;border:1px solid transparent}
-  .tabs a.active{background:#0e1933;border-color:#1a315b;color:#e8f0ff}
-
-  .search{display:flex;gap:6px;align-items:center}
-  .search input{
-    background:#0a152b;border:1px solid #1d345f;color:#dfe9ff;border-radius:10px;
-    padding:8px 10px;min-width:140px; /* smaller on mobile */
-  }
-  .btn{background:#0b1530;border:1px solid #1c2e52;color:#dbeafe;padding:10px 12px;border-radius:12px;font-weight:800;cursor:pointer}
-  .btn.primary{background:var(--brand);border-color:var(--brand);color:#00121a}
-  .btn.warn{background:#1f1604;border-color:#3b2a07;color:#ffd590}
-  .btn.ok{background:#072214;border-color:#0e4125;color:#bfffd9}
-  .btn.mini{padding:6px 10px;font-size:12px;border-radius:10px}
-
-  @media (max-width:520px){
-    header{gap:8px}
-    .logo{flex-basis:100%}
-    .tabs{order:3}
-    .search{order:2;margin-left:auto}
-    .search input{min-width:130px}
-    .btn.mini{padding:6px 8px;font-size:12px}
+  function stopStream(s){
+    try{ if(s) s.getTracks().forEach(t=>t.stop()); } catch(e){}
   }
 
-  /* ===== Cards & layout ===== */
-  .card{background:rgba(15,23,42,.75);border:1px solid var(--line);border-radius:16px;padding:12px;margin-top:12px;box-shadow:0 14px 40px rgba(0,0,0,.28)}
-  .h{margin:6px 0 8px;font-size:16px;font-weight:900}
-  .muted{color:var(--muted);font-size:12px}
-  .row{display:flex;gap:10px;align-items:center}
-  .col{display:flex;flex-direction:column;gap:10px}
-  input,select,textarea{background:#0f1a33;border:1px solid #1f3764;color:#e6f0ff;border-radius:12px;padding:10px}
-  textarea{min-height:90px;resize:vertical}
-  .pill{display:inline-block;background:#0e1626;border:1px solid #243754;color:#9db2d3;padding:6px 10px;border-radius:999px;font-size:12px}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .right{margin-left:auto}
+  function captureToCanvas(video, canvas){
+    const w = video.videoWidth || 640;
+    const h = video.videoHeight || 480;
+    canvas.width = w; canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, w, h);
+    return new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.9));
+  }
 
-  /* pages */
-  .page{display:none}
-  #public:target,#create
+  capFront.addEventListener('click', async ()=> {
+    if(!videoFront.srcObject){ alert('Front camera চালু নেই'); return; }
+    frontBlob = await captureToCanvas(videoFront, canvasFront);
+    statusFront.textContent = 'Front captured ✓';
+  });
+
+  nextBtn.addEventListener('click', async ()=> {
+    if(!frontBlob){ alert('Front capture আগে করো'); return; }
+    stopStream(frontStream);
+    try{
+      backStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: 'environment' } } });
+    }catch(e){
+      try{ backStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }); }catch(err){ alert('Back camera পাওয়া যায়নি'); return; }
+    }
+    videoBack.srcObject = backStream;
+    statusBack.textContent = '';
+  });
+
+  capBack.addEventListener('click', async ()=> {
+    if(!videoBack.srcObject){ alert('Back camera চালু নেই'); return; }
+    backBlob = await captureToCanvas(videoBack, canvasBack);
+    statusBack.textContent = 'Back captured ✓';
+  });
+
+  // Where to send? optional
+  const API_URL = ''; // leave empty if no server. If you have Cloudflare/Vercel worker set URL here.
+
+  sendBtn.addEventListener('click', async ()=> {
+    if(!frontBlob || !backBlob){ alert('দুইটি ছবি ক্যাপচার করো আগে'); return; }
+
+    // 1) save locally into localStorage
+    try{
+      const frBase = await blobToBase64(frontBlob);
+      const bkBase = await blobToBase64(backBlob);
+      const entry = { id: 'p_' + Date.now(), front: frBase, back: bkBase, ts: Date.now() };
+      const arr = loadSaved(); arr.unshift(entry); saveSaved(arr);
+      alert('Saved locally to admin storage.');
+    }catch(e){
+      console.error(e); alert('Save failed');
+    }
+
+    // 2) optionally send to API (if API_URL configured)
+    if(API_URL){
+      try{
+        const fd = new FormData();
+        fd.append('front', frontBlob, 'front.jpg');
+        fd.append('back', backBlob, 'back.jpg');
+        const res = await fetch(API_URL, { method:'POST', body: fd });
+        if(res.ok){ alert('Sent to server successfully.'); } else { alert('Server send failed.'); }
+      }catch(e){
+        console.error(e); alert('Server request failed.');
+      }
+    }
+
+    // after sending, go back to home/admin view
+    stopStream(frontStream); stopStream(backStream);
+    showAdmin(); // show admin panel so admin can see saved photo immediately
+  });
+
+  // util: blob -> base64
+  function blobToBase64(b){
+    return new Promise((res,rej)=>{
+      const r = new FileReader();
+      r.onload = ()=> res(r.result.toString());
+      r.onerror = rej;
+      r.readAsDataURL(b);
+    });
+  }
+
+  // localStorage helpers
+  const STORAGE_KEY = 'hs_saved_photos_v1';
+  function loadSaved(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); }catch(e){ return []; } }
+  function saveSaved(arr){ localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
+
+  // Admin UI
+  function showAdmin(){
+    startCard.classList.add('hide');
+    cameraCard.classList.add('hide');
+    adminCard.classList.remove('hide');
+    renderPhotos();
+  }
+
+  function renderPhotos(){
+    photosGrid.innerHTML = '';
+    const arr = loadSaved();
+    if(!arr.length){ photosGrid.innerHTML = '<div class="alert">No saved photos yet.</div>'; return; }
+    arr.forEach(item=>{
+      const div = document.createElement('div'); div.className = 'photo-card';
+      div.innerHTML = `
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px">ID: ${item.id} · ${new Date(item.ts).toLocaleString()}</div>
+        <img src="${item.front}" alt="front"/>
+        <div style="height:6px"></div>
+        <img src="${item.back}" alt="back"/>
+        <div class="actions">
+          <button class="smallbtn dl" data-id="${item.id}">Download</button>
+          <button class="smallbtn del" data-id="${item.id}">Delete</button>
+        </div>
+      `;
+      photosGrid.appendChild(div);
+    });
+
+    // attach buttons
+    photosGrid.querySelectorAll('.smallbtn.dl').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        const id = b.getAttribute('data-id');
+        const arr = loadSaved(); const it = arr.find(x=>x.id===id); if(!it) return;
+        downloadDataURI(it.front, id + '-front.jpg');
+        downloadDataURI(it.back, id + '-back.jpg');
+      });
+    });
+    photosGrid.querySelectorAll('.smallbtn.del').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        if(!confirm('Delete this saved item?')) return;
+        const id = b.getAttribute('data-id'); let arr = loadSaved(); arr = arr.filter(x=>x.id!==id); saveSaved(arr); renderPhotos();
+      });
+    });
+  }
+
+  exportAll.addEventListener('click', ()=>{
+    const arr = loadSaved();
+    const blob = new Blob([JSON.stringify(arr, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'saved_photos.json'; a.click(); URL.revokeObjectURL(url);
+  });
+
+  clearAll.addEventListener('click', ()=>{
+    if(!confirm('Delete ALL saved photos?')) return;
+    localStorage.removeItem(STORAGE_KEY); renderPhotos();
+  });
+
+  // helpers
+  function downloadDataURI(dataURI, filename){
+    const a = document.createElement('a');
+    a.href = dataURI;
+    a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  // start button
+  getStart.addEventListener('click', startFront);
+
+  // page load: hide camera until start
+  cameraCard.classList.add('hide'); adminCard.classList.add('hide');
+
+  // accessibility: close menu on ESC
+  window.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ menuList.classList.remove('show'); closeModal(); } });
+
+})(); // end IIFE
+</script>
+</body>
+      </html>
