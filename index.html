@@ -1,77 +1,462 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Safe SMS Test Hub</title>
+<title>HabitSwap — Change Your Life Together</title>
 <style>
-  body{font-family:system-ui,Arial;background:#f4f7fb;color:#04263b;padding:20px}
-  .card{max-width:600px;margin:24px auto;padding:18px;border-radius:10px;background:#fff;box-shadow:0 6px 18px rgba(2,8,23,.08)}
-  label{display:block;margin:8px 0 4px;font-weight:700}
-  input,textarea,button{width:100%;padding:10px;border:1px solid #dbe7f0;border-radius:8px}
-  button{background:#0b6cff;color:#fff;border:0;margin-top:10px;cursor:pointer}
-  .hidden{display:none}
-  .note{font-size:13px;color:#556b7a;margin-top:8px}
+  :root{
+    --bg1:#0b1120; --bg2:#0a1228; --bg3:#07111c;
+    --card:#0f172a; --line:#182a4f;
+    --text:#e8f0ff; --muted:#9fb6da;
+    --brand:#00e5ff; --brand2:#7dd3fc; --accent:#ef0027;
+    --ok:#22c55e; --warn:#f59e0b; --err:#ef4444;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    color:var(--text);
+    background:
+      radial-gradient(900px 600px at 20% -10%, rgba(0,229,255,.10), transparent 60%),
+      radial-gradient(800px 500px at 80% 0%, rgba(239,0,39,.06), transparent 55%),
+      linear-gradient(180deg,var(--bg1),var(--bg2) 40%,var(--bg3));
+  }
+  a{color:var(--brand2);text-decoration:none}
+  .wrap{max-width:820px;margin:0 auto;padding:12px 12px 110px}
+  header{
+    position:sticky;top:0;z-index:9;
+    background:rgba(10,17,32,.9);backdrop-filter:blur(6px);
+    border-bottom:1px solid #0e1a33;padding:10px 12px;
+    display:flex;gap:8px;align-items:center;justify-content:space-between;
+  }
+  .logo{display:flex;gap:10px;align-items:center;font-weight:900;letter-spacing:.3px}
+  .logo .bubble{width:26px;height:26px;border-radius:8px;background:#071931;border:1px solid #153158;display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,229,255,.2)}
+  .logo .bubble svg{width:18px;height:18px;fill:var(--brand)}
+  .brand{color:var(--brand)}
+  .tabs a{padding:8px 10px;border-radius:10px;color:#a8c1ea}
+  .tabs a.active{background:#0e1933;border:1px solid #1a315b;color:#e8f0ff}
+  .search{display:flex;gap:8px}
+  .search input{background:#0a152b;border:1px solid #1d345f;color:#dfe9ff;border-radius:10px;padding:8px 10px;min-width:180px}
+  .btn{background:#0b1530;border:1px solid #1c2e52;color:#dbeafe;padding:10px 12px;border-radius:12px;font-weight:800;cursor:pointer}
+  .btn.primary{background:var(--brand);border-color:var(--brand);color:#00121a}
+  .btn.warn{background:#1f1604;border-color:#3b2a07;color:#ffd590}
+  .btn.ok{background:#072214;border-color:#0e4125;color:#bfffd9}
+  .btn.mini{padding:6px 8px;font-size:12px;border-radius:10px}
+  .card{background:rgba(15,23,42,.75);border:1px solid var(--line);border-radius:16px;padding:12px;margin-top:12px;box-shadow:0 14px 40px rgba(0,0,0,.28)}
+  .h{margin:6px 0 8px;font-size:16px;font-weight:900}
+  .muted{color:var(--muted);font-size:12px}
+  .row{display:flex;gap:10px;align-items:center}
+  .col{display:flex;flex-direction:column;gap:10px}
+  input,select,textarea{
+    background:#0f1a33;border:1px solid #1f3764;color:#e6f0ff;border-radius:12px;padding:10px;
+  }
+  textarea{min-height:90px;resize:vertical}
+  .pill{display:inline-block;background:#0e1626;border:1px solid #243754;color:#9db2d3;padding:6px 10px;border-radius:999px;font-size:12px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .right{margin-left:auto}
+  .center{text-align:center}
+
+  /* pages */
+  .page{display:none}
+  #public:target,#create:target,#profile:target,#auth:target{display:block}
+  body:not([data-hash]) #auth{display:block}
+
+  /* post */
+  .post{border:1px solid #1a2d57;border-radius:14px;padding:10px;background:#0e1730}
+  .post .meta{display:flex;gap:8px;align-items:center}
+  .avatar{width:36px;height:36px;border-radius:10px;background:#08142a;border:1px solid #18305a;display:grid;place-items:center;color:#7dd3fc;font-weight:900}
+  .meta .name{font-weight:800}
+  .meta .time{font-size:12px;color:#9fb6da}
+  .post .text{margin:8px 0;line-height:1.5}
+  .actions{display:flex;gap:8px;margin-top:6px}
+  .actions .btn{flex:1;text-align:center}
+  .cmt{margin-top:8px;border-top:1px dashed #23406f;padding-top:8px}
+  .cmt .item{padding:6px 8px;border-radius:8px;background:#0b1429;border:1px solid #1a2e58;margin-top:6px}
+
+  .stat{display:flex;gap:8px;align-items:center}
+  .stat .chip{font-size:12px;background:#0b1429;border:1px solid #1a2e58;border-radius:10px;padding:4px 8px;color:#9fb6da}
+
+  .toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);background:#0b1f33;border:1px solid #134063;color:#dff6ff;padding:8px 12px;border-radius:10px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .25s;z-index:99}
+  .toast.show{opacity:1}
 </style>
 </head>
 <body>
-  <div class="card" id="authCard">
-    <h2>Enter password</h2>
-    <input id="pw" type="password" placeholder="password">
-    <button id="pwBtn">Unlock</button>
-    <p class="note">This page is for safe testing only. Use only your whitelisted numbers.</p>
+
+<header>
+  <div class="logo">
+    <div class="bubble" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 1 16 0v5a2 2 0 0 1-2 2h-3l-3 3-3-3H6a2 2 0 0 1-2-2v-5z"/></svg>
+    </div>
+    <div> <span class="brand">HabitSwap</span> — Change Your Life Together</div>
   </div>
 
-  <div class="card hidden" id="appCard">
-    <h2>Safe SMS Test Hub (whitelist only)</h2>
-
-    <label>Phone number (whitelist only):</label>
-    <input id="phone" placeholder="+8801XXXXXXXXX">
-
-    <label>Message (one SMS per request):</label>
-    <textarea id="msg" rows="4" placeholder="Test message..."></textarea>
-
-    <button id="sendBtn">Send (one SMS)</button>
-
-    <p class="note">Only whitelisted numbers will receive SMS. Rate limits apply. Do not use for spamming.</p>
-
-    <pre id="log" style="background:#eef6ff;padding:8px;border-radius:6px;max-height:180px;overflow:auto"></pre>
+  <div class="tabs">
+    <a href="#public" data-tab="public">Public Habits</a>
+    <a href="#create" data-tab="create">Create Habit</a>
+    <a href="#profile" data-tab="profile">Profile</a>
   </div>
+
+  <div class="search">
+    <input id="search" placeholder="Search habit or user…">
+    <button id="searchBtn" class="btn mini">Search</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- AUTH -->
+  <section id="auth" class="page">
+    <div class="card">
+      <div class="h">Get Started</div>
+      <div class="muted">Create your account or sign in to continue.</div>
+      <div class="grid2" style="margin-top:10px">
+        <div>
+          <div class="pill">New here?</div>
+          <div class="col" style="margin-top:8px">
+            <input id="suEmail" type="email" placeholder="Email">
+            <input id="suPass" type="password" placeholder="Password (min 6)">
+            <select id="suGender">
+              <option value="">Select gender</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+            <button id="signup" class="btn primary">Create account</button>
+          </div>
+        </div>
+        <div>
+          <div class="pill">Already a member?</div>
+          <div class="col" style="margin-top:8px">
+            <input id="liEmail" type="email" placeholder="Email">
+            <input id="liPass" type="password" placeholder="Password">
+            <button id="login" class="btn ok">Sign in</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLIC -->
+  <section id="public" class="page">
+    <div class="card">
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <div class="h">Public Habits</div>
+        <div id="newBanner" class="pill" style="display:none">New accounts joined!</div>
+      </div>
+      <div id="publicList" class="col"></div>
+    </div>
+  </section>
+
+  <!-- CREATE -->
+  <section id="create" class="page">
+    <div class="card">
+      <div class="h">Create a Habit</div>
+      <div class="col">
+        <input id="habitTitle" placeholder="Habit title (e.g., Walk 10 minutes)">
+        <textarea id="habitDesc" placeholder="Short description (why/how)"></textarea>
+        <div class="row">
+          <button id="savePrivate" class="btn">Save (Private)</button>
+          <button id="savePublic" class="btn primary">Publish (Public)</button>
+        </div>
+        <div class="muted">Tip: Public করলে এটা সবার “Public Habits” লিস্টে পোস্ট হিসেবে যাবে (এই ব্রাউজার ডেমোতে)।</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="h">My Habits</div>
+      <div id="myList" class="col"></div>
+    </div>
+  </section>
+
+  <!-- PROFILE -->
+  <section id="profile" class="page">
+    <div class="card">
+      <div class="row" style="gap:12px">
+        <div class="avatar" id="pfAvatar"></div>
+        <div class="col" style="gap:4px">
+          <div class="h" id="pfName">Guest</div>
+          <div class="muted" id="pfEmail">—</div>
+          <div class="stat">
+            <span class="chip">Followers: <b id="pfFollowers">0</b></span>
+            <span class="chip">Following: <b id="pfFollowing">0</b></span>
+            <span class="chip">Total Likes: <b id="pfLikes">0</b></span>
+          </div>
+        </div>
+        <div class="right">
+          <button id="editProfile" class="btn mini">Edit Profile</button>
+          <button id="logout" class="btn mini warn">Log out</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="editBox" style="display:none">
+      <div class="h">Edit profile</div>
+      <div class="grid2">
+        <div class="col">
+          <label class="muted">Username</label>
+          <input id="edUsername" placeholder="Set a username">
+        </div>
+        <div class="col">
+          <label class="muted">Gender</label>
+          <select id="edGender">
+            <option>Male</option><option>Female</option><option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button id="saveProfile" class="btn ok">Save</button>
+        <button id="cancelEdit" class="btn">Cancel</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div id="toast" class="toast">Done</div>
 
 <script>
-  // CLIENT-SIDE PASSWORD (light protection). For strong security, do server-auth.
-  const PASSWORD = 'parvezXnexo'; // keep secret — production: move to server
-  const authCard = document.getElementById('authCard');
-  const appCard  = document.getElementById('appCard');
-  document.getElementById('pwBtn').addEventListener('click', ()=>{
-    const val=document.getElementById('pw').value;
-    if(val===PASSWORD){
-      authCard.classList.add('hidden'); appCard.classList.remove('hidden');
-    } else {
-      alert('Wrong password');
+(function(){
+  function $(q){return document.querySelector(q);}
+  function $all(q){return document.querySelectorAll(q);}
+  function toast(msg){ var t=$("#toast"); t.textContent=msg||"Done"; t.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("show"),1200); }
+  function setHashFlag(){ if(!location.hash){ document.body.removeAttribute('data-hash'); } else { document.body.setAttribute('data-hash','1'); } }
+  setHashFlag(); addEventListener('hashchange', setHashFlag);
+
+  // storage
+  const LS_USERS_KEY='hs_users_v1';
+  const LS_POSTS_KEY='hs_posts_v1';
+  const LS_ME_KEY='hs_current_v1';
+  function load(k,def){ try{ return JSON.parse(localStorage.getItem(k)||JSON.stringify(def)); }catch(e){ return def; } }
+  function save(k,v){ localStorage.setItem(k, JSON.stringify(v)); }
+
+  let users = load(LS_USERS_KEY, []);          // [{id,email,pass,gender,username,followers:[],following:[],likes:0,createdAt}]
+  let posts = load(LS_POSTS_KEY, []);          // [{id,uid,title,desc,createdAt,likes:[],comments:[{uid,text,ts}]}]
+  let meId  = load(LS_ME_KEY, null);           // current user id or null
+
+  const tabs=$all('header .tabs a');
+  function syncTabs(){
+    const h=(location.hash||'#auth').replace('#','');
+    for(const a of tabs){ a.classList.toggle('active', a.getAttribute('data-tab')===h); }
+  }
+  syncTabs(); addEventListener('hashchange', syncTabs);
+
+  function uid(){ return Math.random().toString(36).slice(2)+Date.now().toString(36); }
+
+  function getMe(){ return users.find(u=>u.id===meId)||null; }
+  function setMe(u){ meId = u?u.id:null; save(LS_ME_KEY, meId); renderAll(); }
+
+  // auth actions
+  $("#signup")?.addEventListener('click', ()=>{
+    const email=$("#suEmail").value.trim().toLowerCase();
+    const pass=$("#suPass").value.trim();
+    const gender=$("#suGender").value;
+    if(!email||!pass||!gender){ alert('Fill all fields'); return; }
+    if(pass.length<6){ alert('Password must be at least 6 chars'); return; }
+    if(users.some(u=>u.email===email)){ alert('Email already exists'); return; }
+    const u={ id:uid(), email, pass, gender, username:email.split('@')[0], followers:[], following:[], likes:0, createdAt:Date.now() };
+    users.push(u); save(LS_USERS_KEY, users);
+    setMe(u); location.hash='#public'; toast('Account created');
+    // banner for new account
+    $("#newBanner").style.display='inline-block';
+    setTimeout(()=> $("#newBanner").style.display='none', 3000);
+  });
+
+  $("#login")?.addEventListener('click', ()=>{
+    const email=$("#liEmail").value.trim().toLowerCase();
+    const pass=$("#liPass").value.trim();
+    const u=users.find(x=>x.email===email && x.pass===pass);
+    if(!u){ alert('Invalid email or password'); return; }
+    setMe(u); location.hash='#public'; toast('Signed in');
+  });
+
+  $("#logout")?.addEventListener('click', ()=>{ setMe(null); location.hash='#auth'; toast('Logged out'); });
+
+  // profile
+  $("#editProfile")?.addEventListener('click', ()=>{
+    const me=getMe(); if(!me) return;
+    $("#editBox").style.display='block';
+    $("#edUsername").value = me.username||'';
+    $("#edGender").value = me.gender||'Male';
+  });
+  $("#cancelEdit")?.addEventListener('click', ()=> $("#editBox").style.display='none');
+  $("#saveProfile")?.addEventListener('click', ()=>{
+    const me=getMe(); if(!me) return;
+    me.username = ($("#edUsername").value||me.username).trim() || me.username;
+    me.gender = $("#edGender").value||me.gender;
+    save(LS_USERS_KEY, users);
+    $("#editBox").style.display='none';
+    toast('Profile updated'); renderProfile();
+  });
+
+  // create habit
+  $("#savePrivate")?.addEventListener('click', ()=> saveHabit(false));
+  $("#savePublic")?.addEventListener('click', ()=> saveHabit(true));
+
+  function saveHabit(isPublic){
+    const me=getMe(); if(!me){ alert('Please sign in first'); return; }
+    const title=$("#habitTitle").value.trim();
+    const desc=$("#habitDesc").value.trim();
+    if(!title){ alert('Enter a title'); return; }
+    const h={ id:uid(), uid:me.id, title, desc, createdAt:Date.now(), likes:[], comments:[] };
+    if(isPublic){ posts.unshift(h); save(LS_POSTS_KEY, posts); toast('Published to Public'); }
+    else{
+      // private habits we just store under user as a pseudo-post with tag private
+      if(!me.private) me.private=[];
+      me.private.unshift({id:h.id,title,desc,createdAt:h.createdAt});
+      save(LS_USERS_KEY, users); toast('Saved (Private)');
     }
+    $("#habitTitle").value=""; $("#habitDesc").value="";
+    renderCreate(); if(isPublic) renderPublic();
+  }
+
+  // like/comment/share/follow
+  function toggleLike(postId){
+    const me=getMe(); if(!me){ alert('Sign in first'); return; }
+    const p=posts.find(x=>x.id===postId); if(!p) return;
+    const i=p.likes.indexOf(me.id);
+    if(i>-1) p.likes.splice(i,1); else p.likes.push(me.id);
+    // update author total likes
+    const author=users.find(u=>u.id===p.uid); if(author){
+      author.likes = posts.filter(x=>x.uid===author.id).reduce((s,x)=>s+(x.likes?.length||0),0);
+      save(LS_USERS_KEY, users);
+    }
+    save(LS_POSTS_KEY, posts); renderPublic(); renderProfile();
+  }
+  function addComment(postId, text){
+    const me=getMe(); if(!me){ alert('Sign in first'); return; }
+    const p=posts.find(x=>x.id===postId); if(!p) return;
+    if(!text.trim()) return;
+    p.comments.push({ uid: me.id, text: text.trim(), ts: Date.now() });
+    save(LS_POSTS_KEY, posts); renderPublic();
+  }
+  function sharePost(postId){
+    const url = location.origin + location.pathname + '#public?post='+postId;
+    navigator.clipboard?.writeText(url).then(()=>toast('Share link copied'), ()=>alert(url));
+  }
+  function toggleFollow(targetUid){
+    const me=getMe(); if(!me){ alert('Sign in first'); return; }
+    if(me.id===targetUid) return;
+    const target = users.find(u=>u.id===targetUid); if(!target) return;
+    const i=me.following.indexOf(targetUid);
+    if(i>-1){ me.following.splice(i,1); const j=target.followers.indexOf(me.id); if(j>-1) target.followers.splice(j,1); }
+    else { me.following.push(targetUid); if(!target.followers.includes(me.id)) target.followers.push(me.id); }
+    save(LS_USERS_KEY, users); renderPublic(); renderProfile();
+  }
+
+  // search
+  $("#searchBtn")?.addEventListener('click', ()=>{
+    const q=$("#search").value.trim().toLowerCase();
+    renderPublic(q);
   });
 
-  function log(txt){ const p=document.getElementById('log'); p.textContent = new Date().toLocaleTimeString() + ' — ' + txt + '\\n' + p.textContent; }
+  // renderers
+  function avatarText(name){ return (name||'?').slice(0,2).toUpperCase(); }
+  function timeAgo(ts){ const d=Math.floor((Date.now()-ts)/1000); if(d<60) return d+'s ago'; if(d<3600) return (d/60|0)+'m ago'; if(d<86400) return (d/3600|0)+'h ago'; return (d/86400|0)+'d ago'; }
 
-  document.getElementById('sendBtn').addEventListener('click', async ()=>{
-    const phone = document.getElementById('phone').value.trim();
-    const msg = document.getElementById('msg').value.trim();
-    if(!phone || !msg){ alert('Enter phone and message'); return; }
-
-    // call server endpoint
-    try{
-      log('Sending to ' + phone + ' ...');
-      const res = await fetch('/admin/send-to-whitelist', {
-        method:'POST',
-        headers:{ 'Content-Type':'application/json','x-admin-secret': 'REPLACE_WITH_ADMIN_SECRET_ON_SERVER' },
-        body: JSON.stringify({ phone, message: msg })
+  function renderPublic(query){
+    const me=getMe();
+    const box=$("#publicList"); box.innerHTML='';
+    let list=[...posts];
+    if(query){
+      list=list.filter(p=>{
+        const author=users.find(u=>u.id===p.uid);
+        return (p.title.toLowerCase().includes(query)|| (p.desc||'').toLowerCase().includes(query) || (author?.username||'').toLowerCase().includes(query));
       });
-      const j = await res.json();
-      log('Response: ' + JSON.stringify(j));
-      if(j.ok) alert('Request processed — check log');
-    }catch(e){ log('Error: ' + e.message); alert('Network error'); }
-  });
+    }
+    if(list.length===0){ box.innerHTML='<div class="muted">No public habits yet.</div>'; return; }
+    list.forEach(p=>{
+      const author=users.find(u=>u.id===p.uid)||{username:'Unknown',id:'?'};
+      const liked = me && p.likes.includes(me.id);
+      const followed = me && me.following.includes(author.id);
+      const card=document.createElement('div');
+      card.className='post';
+      card.innerHTML=`
+        <div class="meta">
+          <div class="avatar">${avatarText(author.username)}</div>
+          <div>
+            <div class="name">${author.username}</div>
+            <div class="time">${timeAgo(p.createdAt)}</div>
+          </div>
+          <div class="right">
+            <button class="btn mini" data-follow="${author.id}">${followed?'Unfollow':'Follow'}</button>
+          </div>
+        </div>
+        <div class="text"><b>${p.title}</b>${p.desc?'<br>'+p.desc:''}</div>
+        <div class="stat">
+          <span class="chip">Likes: ${p.likes.length}</span>
+          <span class="chip">Comments: ${p.comments.length}</span>
+        </div>
+        <div class="actions">
+          <button class="btn ${liked?'ok':''}" data-like="${p.id}">👍 Like</button>
+          <button class="btn" data-cmt="${p.id}">💬 Comment</button>
+          <button class="btn" data-share="${p.id}">↗ Share</button>
+        </div>
+        <div class="cmt">
+          <div class="row">
+            <input placeholder="Write a comment…" data-cmt-input="${p.id}">
+            <button class="btn mini" data-cmt-send="${p.id}">Post</button>
+          </div>
+          <div class="col" data-cmt-list="${p.id}">
+            ${p.comments.slice().reverse().map(c=>{
+              const u=users.find(x=>x.id===c.uid)||{username:'User'};
+              return `<div class="item"><b>${u.username}:</b> ${c.text} <span class="muted">· ${timeAgo(c.ts)}</span></div>`;
+            }).join('')}
+          </div>
+        </div>
+      `;
+      box.appendChild(card);
+    });
+
+    // bind actions
+    $all('[data-like]').forEach(b=> b.onclick=()=> toggleLike(b.getAttribute('data-like')));
+    $all('[data-share]').forEach(b=> b.onclick=()=> sharePost(b.getAttribute('data-share')));
+    $all('[data-cmt-send]').forEach(b=>{
+      b.onclick=()=>{
+        const id=b.getAttribute('data-cmt-send');
+        const inp=$(`[data-cmt-input="${id}"]`);
+        addComment(id, inp.value||''); inp.value='';
+      };
+    });
+    $all('[data-follow]').forEach(b=> b.onclick=()=> toggleFollow(b.getAttribute('data-follow')));
+  }
+
+  function renderCreate(){
+    const me=getMe();
+    const box=$("#myList"); box.innerHTML='';
+    if(!me){ box.innerHTML='<div class="muted">Sign in to see your private habits.</div>'; return; }
+    const list=(me.private||[]);
+    if(list.length===0){ box.innerHTML='<div class="muted">No private habits yet.</div>'; return; }
+    list.forEach(h=>{
+      const div=document.createElement('div');
+      div.className='post';
+      div.innerHTML=`<div class="text"><b>${h.title}</b>${h.desc?'<br>'+h.desc:''}</div>
+      <div class="muted">${timeAgo(h.createdAt)}</div>`;
+      box.appendChild(div);
+    });
+  }
+
+  function renderProfile(){
+    const me=getMe();
+    $("#pfAvatar").textContent = avatarText(me?.username||'GU');
+    $("#pfName").textContent = me? (me.username||'User') : 'Guest';
+    $("#pfEmail").textContent = me? me.email : '—';
+    $("#pfFollowers").textContent = me? (me.followers?.length||0) : 0;
+    $("#pfFollowing").textContent = me? (me.following?.length||0) : 0;
+    $("#pfLikes").textContent = me? (me.likes||0) : 0;
+  }
+
+  function renderAll(){
+    renderProfile(); renderCreate(); renderPublic();
+  }
+
+  // boot
+  renderAll();
+
+  // if logged in, go to public
+  if(getMe()){ if(!location.hash) location.hash='#public'; }
+})();
 </script>
 </body>
-      </html>
+  </html>
