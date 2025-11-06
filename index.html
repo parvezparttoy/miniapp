@@ -29,25 +29,40 @@ body{
   background:linear-gradient(180deg,var(--card),#0b1a3d);
   border:2px solid var(--border);border-radius:30px;
   box-shadow:0 30px 80px rgba(0,0,0,.45), inset 0 0 0 8px #0b122b;
+  overflow:hidden;               /* keep all inside rounded frame */
 }
-.meteor{position:absolute;width:12px;height:12px;border-radius:50%;
-  background:#ffd8e1;box-shadow:0 0 16px 6px rgba(255,210,220,.6);
-  animation:fly 2.8s linear infinite;transform:rotate(-20deg)}
-.meteor:after{content:'';position:absolute;right:8px;top:3px;width:80px;height:6px;
-  background:linear-gradient(90deg,rgba(255,140,160,.9),transparent);
-  border-radius:100px;filter:blur(1px)}
-.m1{top:14%;left:18%}.m2{top:26%;left:44%}.m3{top:12%;left:70%}
-@keyframes fly{0%{transform:translate(0,0)rotate(-20deg)}100%{transform:translate(120px,40px)rotate(-20deg)}}
 
-h1{font-size:42px;margin-top:8px}
+/* ====== Top ANIME DUEL mini-animation ====== */
+.duel{
+  position:relative;height:72px;margin-bottom:6px;overflow:hidden;border-radius:18px;
+}
+.spark{
+  position:absolute;width:18px;height:18px;border-radius:50%;
+  filter:blur(0.5px);opacity:.95;
+  box-shadow:0 0 22px 8px currentColor;
+}
+.f1{background:#fff;color:#7dd3fc;left:-20px;top:30px;animation:f1 2.4s linear infinite}
+.f2{background:#fff;color:#fb7185;right:-20px;top:12px;animation:f2 2.4s linear infinite}
+.beam{
+  position:absolute;height:4px;border-radius:6px;filter:blur(.3px);opacity:.85
+}
+.b1{background:linear-gradient(90deg,#7dd3fc,rgba(125,211,252,0));left:-120px;top:38px;width:140px;animation:f1 2.4s linear infinite}
+.b2{background:linear-gradient(270deg,#fb7185,rgba(251,113,133,0));right:-120px;top:20px;width:140px;animation:f2 2.4s linear infinite}
+@keyframes f1{0%{transform:translateX(0)}100%{transform:translateX(320px)}}
+@keyframes f2{0%{transform:translateX(0)}100%{transform:translateX(-320px)}}
+
+/* text */
+h1{font-size:42px;margin-top:2px}
 .sub{color:#b8c9ee;margin-top:6px}
 .desc{margin:18px auto 18px;line-height:1.6;color:var(--muted);font-size:15px}
 
+/* social icons */
 .social{display:flex;gap:14px;justify-content:center;margin-top:4px}
 .sbtn{width:52px;height:52px;border-radius:999px;display:grid;place-items:center;
   background:#0a183d;border:1px solid #1a2f66;transition:.15s}
 .sbtn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.35)}
 
+/* download buttons */
 .dl-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
 .dl{display:flex;align-items:center;justify-content:center;gap:10px;
   padding:14px 12px;border-radius:14px;border:1px solid #233a70;
@@ -59,8 +74,11 @@ h1{font-size:42px;margin-top:8px}
 <body>
 <div class="page">
   <div class="card">
-    <div style="position:relative;height:32px">
-      <div class="meteor m1"></div><div class="meteor m2"></div><div class="meteor m3"></div>
+
+    <!-- anime duel header -->
+    <div class="duel" aria-hidden="true">
+      <div class="spark f1"></div><div class="beam b1"></div>
+      <div class="spark f2"></div><div class="beam b2"></div>
     </div>
 
     <main>
@@ -68,72 +86,62 @@ h1{font-size:42px;margin-top:8px}
       <p class="sub">The Internet Fast Lane</p>
 
       <p class="desc">
-        <b>Anime VPN</b> is a next-generation VPN built for anime lovers. Enjoy secure, ultra-fast streaming
-        from anywhere with optimized routes and privacy-first infrastructure.<br><br>
-        We’re moving fast — full public launch in <b>2026</b>.<br>
-        Follow our official channels for updates and early access.
+        <b>Anime VPN</b> is a next-generation VPN built for anime lovers. Enjoy secure, ultra-fast
+        streaming from anywhere with optimized routes and privacy-first infrastructure.<br><br>
+        We’re moving fast — full public launch in <b>2026</b>. Follow our official channels
+        for updates and early access.
       </p>
 
-      <!-- Social links -->
+      <!-- socials -->
       <div class="social">
         <a class="sbtn" href="https://www.facebook.com/animevpn_facebook" target="_blank" aria-label="Facebook">
-          <!-- Facebook -->
           <svg width="22" height="22" viewBox="0 0 24 24" fill="#1877F2"><path d="M22 12.06C22 6.49 17.52 2 12 2S2 6.49 2 12.06c0 5 3.66 9.14 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.45h-1.26c-1.24 0-1.63.77-1.63 1.56v1.86h2.77l-.44 2.91h-2.33v7.03C18.34 21.2 22 17.07 22 12.06z"/></svg>
         </a>
         <a class="sbtn" href="http://x.me/animevpn_x" target="_blank" aria-label="Twitter">
-          <!-- X/Twitter -->
           <svg width="22" height="22" viewBox="0 0 24 24" fill="#1D9BF0"><path d="M17.53 3H21l-7.48 8.55L22 21h-6.02l-4.71-5.64L5.84 21H2.37l7.9-9.03L2 3h6.14l4.29 5.19L17.53 3z"/></svg>
         </a>
         <a class="sbtn" href="https://t.me/animevpn_telegram" target="_blank" aria-label="Telegram">
-          <!-- Telegram -->
           <svg width="22" height="22" viewBox="0 0 24 24" fill="#27A7E7"><path d="M9.04 15.21 8.9 19.28c.4 0 .57-.17.77-.38l1.86-1.78 3.86 2.82c.71.39 1.21.18 1.41-.66l2.55-11.94h.01c.22-1.03-.37-1.43-1.06-1.18L3.46 10.49c-1 .39-.99.95-.17 1.2l4.83 1.51 11.2-7.07c.53-.33 1.02-.15.62.21"/></svg>
         </a>
         <a class="sbtn" href="https://youtube.com/@animevpn_youtube" target="_blank" aria-label="YouTube">
-          <!-- YouTube -->
           <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF0033"><path d="M23.5 7.2s-.23-1.62-.94-2.34c-.9-.94-1.9-.95-2.36-1C16.9 3.5 12 3.5 12 3.5s-4.9 0-8.2.36c-.46.05-1.46.06-2.36 1-.71.72-.94 2.34-.94 2.34S0 9.03 0 10.86v1.48C0 14.17.5 16.5.5 16.5s.23 1.62.94 2.34c.9.94 2.08.91 2.61 1.01C6.2 20.19 12 20.25 12 20.25s4.9 0 8.2-.36c.46-.05 1.46-.06 2.36-1 .71-.72.94-2.34.94-2.34s.5-2.33.5-4.16v-1.48C24 9.03 23.5 7.2 23.5 7.2zM9.6 15.4V8.8l6.4 3.3-6.4 3.3z"/></svg>
         </a>
       </div>
 
-      <!-- Download buttons -->
+      <!-- download buttons -->
       <div class="dl-row">
-        <!-- Google Play (real style logo) -->
+        <!-- Google Play: accurate triangle in official colors -->
         <a class="dl" href="https://play.google.com/store/apps/details?id=com.google.android.play.games" target="_blank" rel="noopener">
           <svg width="24" height="24" viewBox="0 0 512 512" aria-hidden="true">
-            <!-- simplified real-color Google Play logo -->
             <defs>
-              <linearGradient id="gp-a" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0" stop-color="#00A0FF"/><stop offset=".3" stop-color="#00A0FF"/>
-                <stop offset=".7" stop-color="#00D2FF"/><stop offset="1" stop-color="#00E3FF"/>
+              <linearGradient id="gp-blue" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#00A0FF"/><stop offset="1" stop-color="#00E3FF"/>
               </linearGradient>
-              <linearGradient id="gp-b" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0" stop-color="#FFE000"/><stop offset=".4" stop-color="#FFBD00"/>
-                <stop offset=".8" stop-color="#FFA500"/><stop offset="1" stop-color="#FF9C00"/>
+              <linearGradient id="gp-yellow" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#FFE000"/><stop offset="1" stop-color="#FFA500"/>
               </linearGradient>
-              <linearGradient id="gp-c" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient id="gp-red" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0" stop-color="#FF3A44"/><stop offset="1" stop-color="#C31162"/>
               </linearGradient>
-              <linearGradient id="gp-d" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient id="gp-green" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0" stop-color="#32A071"/><stop offset="1" stop-color="#00A552"/>
               </linearGradient>
             </defs>
-            <path fill="url(#gp-a)" d="M57 69c-7-4-15 1-15 9v356c0 8 8 13 15 9l239-179z"/>
-            <path fill="url(#gp-b)" d="M306 256 443 177c14-8 14-30 0-38L296 57c-6-3-13-3-18 1z"/>
-            <path fill="url(#gp-c)" d="M306 256 278 238 57 443c-7 4-15-1-15-9V256z"/>
-            <path fill="url(#gp-d)" d="M443 335c14-8 14-30 0-38L306 218l-28 38 28 38z"/>
+            <path fill="url(#gp-blue)"  d="M57 69c-7-4-15 1-15 9v356c0 8 8 13 15 9l239-179z"/>
+            <path fill="url(#gp-yellow)" d="M306 256 443 177c14-8 14-30 0-38L296 57c-6-3-13-3-18 1z"/>
+            <path fill="url(#gp-red)"   d="M306 256 278 238 57 443c-7 4-15-1-15-9V256z"/>
+            <path fill="url(#gp-green)" d="M443 335c14-8 14-30 0-38L306 218l-28 38 28 38z"/>
           </svg>
           Download Now
         </a>
 
-        <!-- Google Chrome (real style logo) -->
+        <!-- Google Chrome: official color wheel -->
         <a class="dl" href="https://play.google.com/store/apps/details?id=com.google.android.play.games" target="_blank" rel="noopener">
           <svg width="24" height="24" viewBox="0 0 256 256" aria-hidden="true">
-            <!-- outer circle -->
             <circle cx="128" cy="128" r="120" fill="#FFFFFF"/>
-            <!-- red/yellow/green arcs -->
             <path d="M128 20a108 108 0 0 1 93 54h-93a46 46 0 0 0-40 23L58 56A108 108 0 0 1 128 20z" fill="#EA4335"/>
             <path d="M221 74a108 108 0 0 1-9 124l-46-80a46 46 0 0 0-40-23h95z" fill="#FBBC05"/>
             <path d="M212 198A108 108 0 0 1 44 200l47-80a46 46 0 0 0 40 23h84l-3 55z" fill="#34A853"/>
-            <!-- blue center -->
             <circle cx="128" cy="128" r="42" fill="#4285F4"/>
           </svg>
           Download Now
