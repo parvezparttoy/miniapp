@@ -9,6 +9,7 @@
 :root{
   --bg1:#6a00f4; --bg2:#ff2e63; --bg3:#ff8a00;
   --card:#0f1f4a; --border:#1c2f66; --text:#ecf3ff; --muted:#a9c0ea;
+  --cyan:#7dd3fc; --rose:#fb7185;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -32,92 +33,83 @@ body{
   overflow:hidden;
 }
 
-/* === Tiny Katana Duel (top) === */
+/* ===== Top Katana Duel ===== */
 .arena{
-  position:relative; height:86px; margin-bottom:6px; overflow:hidden; border-radius:18px;
-  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  position:relative; height:110px; margin-bottom:6px; overflow:hidden;
+  border-radius:18px; background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
   border:1px solid #1b2d5f;
 }
-.char{
-  position:absolute; width:26px; height:26px; top:28px;
-  filter:drop-shadow(0 6px 10px rgba(0,0,0,.45));
+.fighter{
+  position:absolute; width:40px; height:54px; top:44px;
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.45));
+  transform:translateX(0); transition:transform .7s ease, opacity .5s ease;
 }
-.char .head{width:12px;height:12px;border-radius:50%; margin:0 auto; background:#e8ecff}
-.char .body{
-  width:6px;height:18px;background:#cfd8ff;margin:0 auto;border-radius:4px;
-  position:relative; top:2px;
+.tag{
+  position:absolute; top:6px; left:50%; transform:translateX(-50%);
+  padding:3px 8px; border:1px solid #2a3f7a; background:#0b1736; color:#cfe1ff;
+  border-radius:999px; font-size:11px; white-space:nowrap;
 }
+.fighter .head{width:14px;height:14px;border-radius:50%;margin:0 auto;background:#e8ecff}
+.fighter .body{width:8px;height:24px;background:#cfd8ff;margin:0 auto;border-radius:5px;position:relative;top:2px}
+
+/* arms + hands */
+.arm{position:absolute; width:18px; height:3px; background:#cfd8ff; top:12px; left:11px; border-radius:3px; transform-origin:2px 1.5px}
+.hand{position:absolute; width:6px; height:6px; border-radius:50%; background:#e8ecff; top:9px; left:26px;}
+
+/* katana (more realistic) */
 .katana{
-  position:absolute; width:28px; height:2px; background:linear-gradient(90deg,#e5e9ff,#b7c3ff);
-  top:8px; left:-4px; border-radius:2px; transform-origin:6px 1px;
-  box-shadow:0 0 8px rgba(200,220,255,.4);
+  position:absolute; top:8px; left:28px; width:28px; height:2px; transform-origin:2px 1px;
 }
-.katana:after{ /* blade shine */
-  content:""; position:absolute; right:-2px; top:-1px; width:6px; height:4px;
-  background:linear-gradient(90deg,rgba(255,255,255,.8),rgba(255,255,255,0));
-  border-radius:2px; filter:blur(.5px);
+.blade{
+  position:absolute; left:6px; top:0; height:2px; width:22px;
+  background:linear-gradient(90deg, #e9edf7 0%, #cfd5e3 35%, #ffffff 80%);
+  border-radius:2px; box-shadow:0 0 10px rgba(220,230,255,.5);
+}
+.tsuba{
+  position:absolute; left:4px; top:-1px; width:4px; height:4px; border-radius:50%;
+  background:#a08d6f; box-shadow:0 0 4px rgba(160,141,111,.6);
+}
+.hilt{
+  position:absolute; left:0; top:-1px; width:7px; height:4px; border-radius:2px;
+  background:linear-gradient(90deg,#3a3a3a,#111);
 }
 
-/* left fighter (cyan) */
-.fighter-l{left:-18px; animation:advanceL 2.4s linear infinite}
-.fighter-l .head{background:#bff3ff}
-.fighter-l .body{background:#7dd3fc}
-.fighter-l .katana{background:linear-gradient(90deg,#aee4ff,#5cc8ff)}
-/* right fighter (rose) */
-.fighter-r{right:-18px; animation:advanceR 2.4s linear infinite}
-.fighter-r .head{background:#ffd7e1}
-.fighter-r .body{background:#fb7185}
-.fighter-r .katana{background:linear-gradient(90deg,#ffc1cd,#ff7a94)}
+/* Left = Virus (cyan) */
+.left{left:-26px}
+.left .tag{background:#07263b;color:#bff3ff;border-color:#244c73}
+.left .body,.left .arm{background:var(--cyan)}
+.left .hand{background:#c7f0ff}
 
-/* sword motions */
-.fighter-l .katana{animation:slashL 2.4s linear infinite}
-.fighter-r .katana{animation:slashR 2.4s linear infinite}
+/* Right = Anime VPN (rose) */
+.right{right:-26px}
+.right .tag{background:#330c1a;color:#ffd7e1;border-color:#5b2136}
+.right .body,.right .arm{background:var(--rose)}
+.right .hand{background:#ffd1db}
 
-/* clash spark */
+/* States */
+.advanceL{transform:translateX(190px)}
+.advanceR{transform:translateX(-190px)}
+.clash .left .katana{transform:rotate(-35deg)}
+.clash .right .katana{transform:rotate(35deg)}
+.dead{opacity:0; transform:translateX(170px) translateY(26px) rotate(-35deg)!important}
+
+/* spark */
 .spark{
-  position:absolute; top:40px; left:50%; transform:translateX(-50%);
-  width:10px;height:10px;border-radius:50%; background:#fff; opacity:0;
-  box-shadow:0 0 18px 8px rgba(255,255,255,.7);
-  animation:spark 2.4s linear infinite;
+  position:absolute; top:64px; left:50%; transform:translateX(-50%); width:12px;height:12px;border-radius:50%;
+  background:#fff; box-shadow:0 0 24px 10px rgba(255,255,255,.8); opacity:0; pointer-events:none;
 }
+.spark.show{opacity:1; animation:sparkfade .6s ease forwards}
+@keyframes sparkfade{0%{opacity:1} 60%{opacity:.25} 100%{opacity:0}}
 
-/* keyframes */
-@keyframes advanceL{
-  0%{transform:translateX(0)}
-  35%{transform:translateX(180px)}
-  50%{transform:translateX(200px)}
-  65%{transform:translateX(180px)}
-  100%{transform:translateX(0)}
+/* Win text */
+.win{
+  position:absolute; left:50%; top:36px; transform:translateX(-50%); font-weight:900; font-size:12px;
+  color:#e9f2ff; background:#0b1736; border:1px solid #34518d; padding:4px 10px; border-radius:999px;
+  opacity:0; transition:opacity .35s ease;
 }
-@keyframes advanceR{
-  0%{transform:translateX(0)}
-  35%{transform:translateX(-180px)}
-  50%{transform:translateX(-200px)}
-  65%{transform:translateX(-180px)}
-  100%{transform:translateX(0)}
-}
-@keyframes slashL{
-  0%,30%{transform:rotate(20deg)}
-  40%{transform:rotate(-35deg)}
-  50%{transform:rotate(10deg)}
-  65%{transform:rotate(30deg)}
-  100%{transform:rotate(20deg)}
-}
-@keyframes slashR{
-  0%,30%{transform:rotate(-20deg)}
-  40%{transform:rotate(35deg)}
-  50%{transform:rotate(-10deg)}
-  65%{transform:rotate(-30deg)}
-  100%{transform:rotate(-20deg)}
-}
-@keyframes spark{
-  0%,34%{opacity:0; transform:translate(-50%,-2px) scale(.6)}
-  40%{opacity:1; transform:translate(-50%,-2px) scale(1)}
-  52%{opacity:.2; transform:translate(-50%,-2px) scale(1.4)}
-  60%,100%{opacity:0}
-}
+.win.show{opacity:1}
 
-/* text */
+/* body text */
 h1{font-size:42px;margin-top:2px}
 .sub{color:#b8c9ee;margin-top:6px}
 .desc{margin:18px auto 18px;line-height:1.6;color:var(--muted);font-size:15px}
@@ -141,19 +133,34 @@ h1{font-size:42px;margin-top:2px}
 <div class="page">
   <div class="card">
 
-    <!-- Tiny katana duel -->
-    <div class="arena" aria-hidden="true">
-      <div class="char fighter-l">
+    <!-- Arena with fighters -->
+    <div class="arena" id="arena" aria-live="polite">
+      <div class="win" id="winTxt">Anime VPN wins — Virus killed</div>
+      <div class="spark" id="spark"></div>
+
+      <!-- Virus (left) -->
+      <div class="fighter left" id="virus">
+        <div class="tag">Virus</div>
         <div class="head"></div>
         <div class="body"></div>
-        <div class="katana"></div>
+        <div class="arm" style="transform:rotate(8deg)"></div>
+        <div class="hand"></div>
+        <div class="katana">
+          <div class="hilt"></div><div class="tsuba"></div><div class="blade"></div>
+        </div>
       </div>
-      <div class="char fighter-r">
+
+      <!-- Anime VPN (right) -->
+      <div class="fighter right" id="anime">
+        <div class="tag">Anime VPN</div>
         <div class="head"></div>
         <div class="body"></div>
-        <div class="katana"></div>
+        <div class="arm" style="transform:rotate(-8deg)"></div>
+        <div class="hand"></div>
+        <div class="katana">
+          <div class="hilt"></div><div class="tsuba"></div><div class="blade"></div>
+        </div>
       </div>
-      <div class="spark"></div>
     </div>
 
     <main>
@@ -167,27 +174,23 @@ h1{font-size:42px;margin-top:2px}
         for updates and early access.
       </p>
 
-      <!-- socials -->
+      <!-- Socials -->
       <div class="social">
         <a class="sbtn" href="https://www.facebook.com/animevpn_facebook" target="_blank" aria-label="Facebook">
-          <!-- Facebook -->
           <svg width="22" height="22" viewBox="0 0 24 24" fill="#1877F2"><path d="M22 12.06C22 6.49 17.52 2 12 2S2 6.49 2 12.06c0 5 3.66 9.14 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.45h-1.26c-1.24 0-1.63.77-1.63 1.56v1.86h2.77l-.44 2.91h-2.33v7.03C18.34 21.2 22 17.07 22 12.06z"/></svg>
         </a>
         <a class="sbtn" href="http://x.me/animevpn_x" target="_blank" aria-label="Twitter">
-          <!-- X/Twitter -->
           <svg width="22" height="22" viewBox="0 0 24 24" fill="#1D9BF0"><path d="M17.53 3H21l-7.48 8.55L22 21h-6.02l-4.71-5.64L5.84 21H2.37l7.9-9.03L2 3h6.14l4.29 5.19L17.53 3z"/></svg>
         </a>
         <a class="sbtn" href="https://t.me/animevpn_telegram" target="_blank" aria-label="Telegram">
-          <!-- Telegram -->
           <svg width="22" height="22" viewBox="0 0 24 24" fill="#27A7E7"><path d="M9.04 15.21 8.9 19.28c.4 0 .57-.17.77-.38l1.86-1.78 3.86 2.82c.71.39 1.21.18 1.41-.66l2.55-11.94h.01c.22-1.03-.37-1.43-1.06-1.18L3.46 10.49c-1 .39-.99.95-.17 1.2l4.83 1.51 11.2-7.07c.53-.33 1.02-.15.62.21"/></svg>
         </a>
         <a class="sbtn" href="https://youtube.com/@animevpn_youtube" target="_blank" aria-label="YouTube">
-          <!-- YouTube -->
           <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF0033"><path d="M23.5 7.2s-.23-1.62-.94-2.34c-.9-.94-1.9-.95-2.36-1C16.9 3.5 12 3.5 12 3.5s-4.9 0-8.2.36c-.46.05-1.46.06-2.36 1-.71.72-.94 2.34-.94 2.34S0 9.03 0 10.86v1.48C0 14.17.5 16.5.5 16.5s.23 1.62.94 2.34c.9.94 2.08.91 2.61 1.01C6.2 20.19 12 20.25 12 20.25s4.9 0 8.2-.36c.46-.05 1.46-.06 2.36-1 .71-.72.94-2.34.94-2.34s.5-2.33.5-4.16v-1.48C24 9.03 23.5 7.2 23.5 7.2zM9.6 15.4V8.8l6.4 3.3-6.4 3.3z"/></svg>
         </a>
       </div>
 
-      <!-- downloads -->
+      <!-- Downloads -->
       <div class="dl-row">
         <!-- Google Play -->
         <a class="dl" href="https://play.google.com/store/apps/details?id=com.google.android.play.games" target="_blank" rel="noopener">
@@ -233,5 +236,48 @@ h1{font-size:42px;margin-top:2px}
     <div style="height:8px"></div>
   </div>
 </div>
+
+<script>
+/* Simple duel loop: advance → clash → virus dies → reset */
+const arena  = document.getElementById('arena');
+const virus  = document.getElementById('virus');
+const anime  = document.getElementById('anime');
+const spark  = document.getElementById('spark');
+const winTxt = document.getElementById('winTxt');
+
+function resetFighters(){
+  arena.classList.remove('clash');
+  winTxt.classList.remove('show');
+  spark.classList.remove('show');
+  virus.classList.remove('advanceL','dead'); virus.style.opacity = '1';
+  anime.classList.remove('advanceR');
+  // Force layout to re-apply transitions cleanly
+  void virus.offsetWidth;
+}
+
+function startRound(){
+  resetFighters();
+  // advance
+  requestAnimationFrame(()=>{
+    virus.classList.add('advanceL');
+    anime.classList.add('advanceR');
+  });
+  // clash moment
+  setTimeout(()=>{
+    arena.classList.add('clash');
+    spark.classList.add('show');
+  }, 700);
+  // kill virus + win message
+  setTimeout(()=>{
+    virus.classList.add('dead');
+    winTxt.classList.add('show');
+  }, 980);
+  // reset for next loop
+  setTimeout(startRound, 2800);
+}
+
+// kick off
+startRound();
+</script>
 </body>
           </html>
