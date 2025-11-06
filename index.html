@@ -8,115 +8,137 @@
 <style>
 :root{
   --bg1:#6a00f4; --bg2:#ff2e63; --bg3:#ff8a00;
-  --card:#0e1b3d; --brand:#00e5ff; --text:#ecf3ff; --muted:#a9c0ea;
+  --card:#0f1f4a; --border:#1c2f66; --text:#ecf3ff; --muted:#a9c0ea;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
-  font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
-  color:var(--text);
+  font-family:Inter,system-ui,Segoe UI,Roboto,Arial;color:var(--text);
   background:
     radial-gradient(1000px 700px at -10% 10%, var(--bg1), transparent 60%),
     radial-gradient(900px 600px at 110% 20%, var(--bg2), transparent 60%),
     radial-gradient(900px 600px at 50% 110%, var(--bg3), transparent 60%),
     linear-gradient(180deg,#120b2b,#0a1024 55%, #050913);
-  display:flex;align-items:center;justify-content:center;padding:24px;
+  min-height:100%;
 }
 
+/* Full-screen card */
+.page{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+}
 .card{
-  width:min(480px,92vw);
-  background:linear-gradient(180deg,#0f1f4a,#0b1a3d);
-  border:2px solid #1c2f66;
-  border-radius:30px;
+  width:100%;
+  max-width:520px;
+  height:100vh;                 /* take full viewport */
+  max-height:920px;             /* avoid crazy tall on tablets */
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
   padding:28px 22px;
+  background:linear-gradient(180deg,var(--card),#0b1a3d);
+  border:2px solid var(--border);
+  border-radius:30px;
   box-shadow:0 30px 80px rgba(0,0,0,.45), inset 0 0 0 8px #0b122b;
   text-align:center;
 }
-h1{font-size:40px;margin-top:16px}
-.sub{color:#b8c9ee;margin-top:8px}
-.desc{margin:20px auto 26px;line-height:1.6;color:var(--muted);font-size:15px}
-.social{display:flex;gap:14px;justify-content:center;margin-top:16px}
-.sbtn{width:52px;height:52px;border-radius:999px;display:grid;place-items:center;
-  background:#0a183d;border:1px solid #1a2f66;transition:.15s}
-.sbtn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.35)}
-.shareBtn{margin:20px auto 0;display:inline-flex;align-items:center;gap:8px;
-  padding:12px 20px;border-radius:14px;background:#fff;color:#0e1430;
-  font-weight:900;border:0;cursor:pointer}
-.note{font-size:12px;color:#9bb4dc;margin-top:16px}
+
+/* Meteor deco */
 .meteor{position:absolute;width:12px;height:12px;border-radius:50%;
   background:#ffd8e1;box-shadow:0 0 16px 6px rgba(255,210,220,.6);
   animation:fly 2.8s linear infinite;transform:rotate(-20deg)}
 .meteor:after{content:'';position:absolute;right:8px;top:3px;width:80px;height:6px;
   background:linear-gradient(90deg,rgba(255,140,160,.9),transparent);
   border-radius:100px;filter:blur(1px)}
-.m1{top:12%;left:18%}.m2{top:26%;left:44%}.m3{top:14%;left:70%}
+.m1{top:14%;left:18%}.m2{top:26%;left:44%}.m3{top:12%;left:70%}
 @keyframes fly{0%{transform:translate(0,0)rotate(-20deg)}100%{transform:translate(120px,40px)rotate(-20deg)}}
+
+/* Text */
+h1{font-size:42px;margin-top:8px}
+.sub{color:#b8c9ee;margin-top:6px}
+.desc{margin:18px auto 18px;line-height:1.6;color:var(--muted);font-size:15px}
+
+/* Social icons */
+.social{display:flex;gap:14px;justify-content:center;margin-top:4px}
+.sbtn{width:52px;height:52px;border-radius:999px;display:grid;place-items:center;
+  background:#0a183d;border:1px solid #1a2f66;transition:.15s}
+.sbtn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.35)}
+
+/* Download buttons row */
+.dl-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:10px;
+}
+.dl{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:14px 12px;border-radius:14px;border:1px solid #233a70;
+  background:#ffffff;color:#0e1430;font-weight:900;text-decoration:none;
+}
+.dl svg{display:block}
+
+/* Footer note */
+.note{font-size:12px;color:#9bb4dc;margin-top:10px}
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="meteors">
-    <div class="meteor m1"></div>
-    <div class="meteor m2"></div>
-    <div class="meteor m3"></div>
+<div class="page">
+  <div class="card">
+    <!-- top spacing with small meteor decoration -->
+    <div style="position:relative;height:32px">
+      <div class="meteor m1"></div><div class="meteor m2"></div><div class="meteor m3"></div>
+    </div>
+
+    <!-- main -->
+    <main>
+      <h1>Anime VPN</h1>
+      <p class="sub">The Internet Fast Lane</p>
+
+      <p class="desc">
+        <b>Anime VPN</b> হলো অ্যানিমে প্রেমীদের জন্য বিশেষভাবে বানানো একটি পরবর্তী-প্রজন্মের VPN।
+        দ্রুতগতিতে এবং নিরাপদে যে কোনো স্থান থেকে প্রিয় অ্যানিমে স্ট্রিম করতে সাহায্য করবে।
+        <br><br>
+        খুব শীঘ্রই কাজ শুরু হচ্ছে — অফিসিয়াল লঞ্চ <b>২০২৬</b> সালে।
+        আপডেট ও আর্লি-অ্যাক্সেস খবরের জন্য নিচের অফিসিয়াল চ্যানেলগুলো অনুসরণ করুন।
+      </p>
+
+      <div class="social">
+        <a class="sbtn" href="https://www.facebook.com/animevpn_facebook" target="_blank" aria-label="Facebook">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#3b82f6"><path d="M22 12.06C22 6.49 17.52 2 12 2S2 6.49 2 12.06c0 5 3.66 9.14 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.45h-1.26c-1.24 0-1.63.77-1.63 1.56v1.86h2.77l-.44 2.91h-2.33v7.03C18.34 21.2 22 17.07 22 12.06z"/></svg>
+        </a>
+        <a class="sbtn" href="http://x.me/animevpn_x" target="_blank" aria-label="Twitter">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#60a5fa"><path d="M17.53 3H21l-7.48 8.55L22 21h-6.02l-4.71-5.64L5.84 21H2.37l7.9-9.03L2 3h6.14l4.29 5.19L17.53 3z"/></svg>
+        </a>
+        <a class="sbtn" href="https://t.me/animevpn_telegram" target="_blank" aria-label="Telegram">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#38bdf8"><path d="M9.04 15.21 8.9 19.28c.4 0 .57-.17.77-.38l1.86-1.78 3.86 2.82c.71.39 1.21.18 1.41-.66l2.55-11.94h.01c.22-1.03-.37-1.43-1.06-1.18L3.46 10.49c-1 .39-.99.95-.17 1.2l4.83 1.51 11.2-7.07c.53-.33 1.02-.15.62.21"/></svg>
+        </a>
+        <a class="sbtn" href="https://youtube.com/@animevpn_youtube" target="_blank" aria-label="YouTube">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#ef4444"><path d="M23.5 7.2s-.23-1.62-.94-2.34c-.9-.94-1.9-.95-2.36-1C16.9 3.5 12 3.5 12 3.5s-4.9 0-8.2.36c-.46.05-1.46.06-2.36 1-.71.72-.94 2.34-.94 2.34S0 9.03 0 10.86v1.48C0 14.17.5 16.5.5 16.5s.23 1.62.94 2.34c.9.94 2.08.91 2.61 1.01C6.2 20.19 12 20.25 12 20.25s4.9 0 8.2-.36c.46-.05 1.46-.06 2.36-1 .71-.72.94-2.34.94-2.34s.5-2.33.5-4.16v-1.48C24 9.03 23.5 7.2 23.5 7.2zM9.6 15.4V8.8l6.4 3.3-6.4 3.3z"/></svg>
+        </a>
+      </div>
+
+      <!-- Download buttons -->
+      <div class="dl-row">
+        <a class="dl" href="https://play.google.com/store/apps/details?id=com.google.android.play.games" target="_blank" rel="noopener">
+          <!-- Play Store icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#34d399"><path d="M3.2 1.7 13 11.5 9.6 15 2.4 4.1c-.3-.5.1-1.2.8-1.2zM14.1 12.6 19.9 16c.8.4.9 1.5.1 1.9l-3.3 1.8-2.6-7.1zM13.5 10.8 16.7 4c.4-.8 1.5-.9 1.9-.1l1.8 3.3-6.9 3.6zM2 5.1 9.1 16.2 5.8 18c-.8.4-1.7-.2-1.7-1.1V5.1z"/></svg>
+          Download Now
+        </a>
+        <a class="dl" href="https://play.google.com/store/apps/details?id=com.google.android.play.games" target="_blank" rel="noopener">
+          <!-- Chrome/Download icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#60a5fa"><path d="M12 3a9 9 0 1 1 0 18 9 9 0 0 1 0-18zm1 5v4h2l-3 4-3-4h2V8h2z"/></svg>
+          Download Now
+        </a>
+      </div>
+
+      <p class="note">Downloading redirects to Google Play. iOS & direct APK coming soon.</p>
+    </main>
+
+    <!-- bottom spacer -->
+    <div style="height:8px"></div>
   </div>
-  <h1>Anime VPN</h1>
-  <p class="sub">The Internet Fast Lane</p>
-
-  <p class="desc">
-    <b>Anime VPN</b> is a next-generation VPN designed especially for anime lovers.
-    It helps you stream your favorite anime securely and lightning-fast from anywhere.
-    <br><br>
-    The official launch is coming soon — <b>in 2026!</b>  
-    Until then, stay tuned for updates and early access news.
-    <br><br>
-    Follow our official communities below 👇
-  </p>
-
-  <div class="social">
-    <a class="sbtn" href="https://www.facebook.com/animevpn_facebook" target="_blank" aria-label="Facebook">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="#3b82f6"><path d="M22 12.06C22 6.49 17.52 2 12 2S2 6.49 2 12.06c0 5 3.66 9.14 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.45h-1.26c-1.24 0-1.63.77-1.63 1.56v1.86h2.77l-.44 2.91h-2.33v7.03C18.34 21.2 22 17.07 22 12.06z"/></svg>
-    </a>
-    <a class="sbtn" href="http://x.me/animevpn_x" target="_blank" aria-label="Twitter">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="#60a5fa"><path d="M17.53 3H21l-7.48 8.55L22 21h-6.02l-4.71-5.64L5.84 21H2.37l7.9-9.03L2 3h6.14l4.29 5.19L17.53 3z"/></svg>
-    </a>
-    <a class="sbtn" href="https://t.me/animevpn_telegram" target="_blank" aria-label="Telegram">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="#38bdf8"><path d="M9.04 15.21 8.9 19.28c.4 0 .57-.17.77-.38l1.86-1.78 3.86 2.82c.71.39 1.21.18 1.41-.66l2.55-11.94h.01c.22-1.03-.37-1.43-1.06-1.18L3.46 10.49c-1 .39-.99.95-.17 1.2l4.83 1.51 11.2-7.07c.53-.33 1.02-.15.62.21"/></svg>
-    </a>
-    <a class="sbtn" href="https://youtube.com/@animevpn_youtube" target="_blank" aria-label="YouTube">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="#ef4444"><path d="M23.5 7.2s-.23-1.62-.94-2.34c-.9-.94-1.9-.95-2.36-1C16.9 3.5 12 3.5 12 3.5s-4.9 0-8.2.36c-.46.05-1.46.06-2.36 1-.71.72-.94 2.34-.94 2.34S0 9.03 0 10.86v1.48C0 14.17.5 16.5.5 16.5s.23 1.62.94 2.34c.9.94 2.08.91 2.61 1.01C6.2 20.19 12 20.25 12 20.25s4.9 0 8.2-.36c.46-.05 1.46-.06 2.36-1 .71-.72.94-2.34.94-2.34s.5-2.33.5-4.16v-1.48C24 9.03 23.5 7.2 23.5 7.2zM9.6 15.4V8.8l6.4 3.3-6.4 3.3z"/></svg>
-    </a>
-  </div>
-
-  <button id="share" class="shareBtn">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="#0e1430"><path d="M18 8a3 3 0 1 0-2.83-4H8.83a3 3 0 1 0 0 2h6.34A3 3 0 0 0 18 8ZM6 20a3 3 0 1 1 2.83-4h6.34a3 3 0 1 1 0 2H8.83A3 3 0 0 1 6 20Z"/></svg>
-    Share
-  </button>
-
-  <p class="note">
-    Share this page with your friends to get free Anime VPN data rewards when they join!  
-    Powered by the Anime VPN Team © 2025 — 2026.
-  </p>
 </div>
-
-<script>
-const REFERRAL_LINK = 'https://animevpn.example/ref?code=yourcode';
-document.getElementById('share').addEventListener('click', async () => {
-  const data = {
-    title: 'Anime VPN — The Internet Fast Lane',
-    text: 'Get ready for Anime VPN — launching 2026! Join early to earn free data.',
-    url: REFERRAL_LINK
-  };
-  if (navigator.share) {
-    try { await navigator.share(data); }
-    catch(e) { console.log('Share canceled'); }
-  } else {
-    await navigator.clipboard.writeText(REFERRAL_LINK);
-    const btn=document.getElementById('share');
-    btn.textContent='Copied!';
-    setTimeout(()=>btn.textContent='Share',1200);
-  }
-});
-</script>
 </body>
-</html>
+  </html>
