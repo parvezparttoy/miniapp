@@ -1,250 +1,158 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Claim First 100$</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Anime VPN — Share & Get Free Data</title>
+<meta name="theme-color" content="#0b1120"/>
 <style>
-  :root{--bg1:#0b1120;--bg2:#0a1228;--accent:#00e5ff;--text:#eaf2ff;--muted:#9fb6da}
-  *{box-sizing:border-box}
-  html,body{height:100%} body{
-    margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;color:var(--text);
-    background:radial-gradient(900px 600px at 20% -10%, rgba(0,229,255,.08), transparent 60%),
-               linear-gradient(180deg,var(--bg1),var(--bg2));
+  :root{
+    --bg1:#6a00f4; --bg2:#ff2e63; --bg3:#ff8a00; --deep:#0b1120;
+    --card:#0e1b3d; --line:#2a3f7a; --brand:#00e5ff; --text:#ecf3ff; --muted:#a9c0ea;
   }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; color:var(--text); font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    background:
+      radial-gradient(1000px 700px at -10% 10%, var(--bg1), transparent 60%),
+      radial-gradient(900px 600px at 110% 20%, var(--bg2), transparent 60%),
+      radial-gradient(900px 600px at 50% 110%, var(--bg3), transparent 60%),
+      linear-gradient(180deg,#120b2b,#0a1024 55%, #050913);
+  }
+  .wrap{min-height:100%;display:grid;place-items:center;padding:20px}
+  .phone{
+    width:min(480px,92vw); border-radius:30px; padding:22px 18px 26px;
+    background:linear-gradient(180deg,#0f1f4a,#0b1a3d); border:2px solid #1c2f66;
+    box-shadow:0 30px 80px rgba(0,0,0,.45), inset 0 0 0 8px #0b122b;
+    position:relative; isolation:isolate;
+  }
+  .status{position:absolute; top:10px; left:18px; font-size:12px; color:#9fb6de}
+  .screen{
+    background:radial-gradient(900px 600px at 50% -10%, rgba(255,255,255,.08), transparent 60%),
+               #0c1c47; border:1px solid #1a306b; border-radius:20px; padding:22px; text-align:center;
+    min-height:520px; display:flex; flex-direction:column; justify-content:space-between;
+  }
+  h1{font-size:46px; margin:10px 0 0; letter-spacing:.5px}
+  .sub{color:#b8c9ee; margin-top:6px}
+  .topText{position:absolute; top:-72px; left:0; right:0; text-align:center;
+    font-weight:900; font-size:28px; color:#fff; text-shadow:0 6px 22px rgba(0,0,0,.4)}
+  .meteors{position:absolute; inset:0; pointer-events:none; opacity:.9}
+  .meteor{position:absolute; width:12px; height:12px; border-radius:50%;
+    background:#ffd8e1; box-shadow:0 0 16px 6px rgba(255,210,220,.6);
+    transform:rotate(-20deg); animation:fly 2.6s linear infinite;}
+  .meteor:after{content:''; position:absolute; right:8px; top:3px; width:80px; height:6px;
+    background:linear-gradient(90deg, rgba(255,140,160,.9), transparent);
+    border-radius:100px; filter:blur(1px);}
+  .m1{top:12%; left:18%} .m2{top:26%; left:44%} .m3{top:14%; left:70%}
+  @keyframes fly { 0%{transform:translate(0,0) rotate(-20deg)} 100%{transform:translate(120px,40px) rotate(-20deg)} }
 
-  /* Top bar */
-  .top{position:sticky;top:0;z-index:9;display:flex;align-items:center;gap:8px;
-       padding:12px 14px;background:rgba(7,13,25,.6);backdrop-filter:blur(6px);
-       border-bottom:1px solid rgba(255,255,255,.05)}
-  .brand{font-weight:900;letter-spacing:.3px;color:var(--accent)}
-  .menu{margin-left:auto;position:relative}
-  .icon{background:transparent;border:0;color:var(--text);font-size:22px;cursor:pointer;padding:6px;border-radius:8px}
-  .dd{position:absolute;right:0;top:36px;background:#071427;border:1px solid rgba(255,255,255,.05);
-      border-radius:10px;display:none;min-width:160px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
-  .dd.show{display:block}
-  .ddi{padding:10px 12px;cursor:pointer;border-radius:8px}
-  .ddi:hover{background:rgba(255,255,255,.05)}
+  .social{display:flex; gap:12px; justify-content:center}
+  .sbtn{width:52px;height:52px;border-radius:999px;display:grid;place-items:center;
+    background:#0a183d;border:1px solid #1a2f66; cursor:pointer; transition:.15s}
+  .sbtn:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,.35)}
+  .shareBtn{margin:12px auto 0; display:inline-flex; align-items:center; gap:8px;
+    padding:12px 18px; border-radius:14px; background:#ffffff; color:#0e1430; font-weight:900; border:0; cursor:pointer}
+  .note{font-size:12px; color:#9bb4dc}
+  .title{font-size:18px; font-weight:900; letter-spacing:.4px}
 
-  /* Main */
-  .wrap{max-width:900px;margin:0 auto;padding:22px 14px}
-  .card{background:rgba(12,18,36,.65);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px;
-        box-shadow:0 16px 40px rgba(0,0,0,.45)}
-  .center{text-align:center}
-  .title{font-size:22px;font-weight:900;margin:0 0 6px}
-  .muted{color:var(--muted);font-size:13px}
-  .btn{display:inline-block;background:var(--accent);border:0;color:#02131b;font-weight:900;
-       padding:12px 16px;border-radius:12px;cursor:pointer}
-  .btn.ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.08)}
-  .hide{display:none}
-
-  /* Admin */
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-  .p{background:rgba(8,12,20,.6);border:1px solid rgba(255,255,255,.05);border-radius:10px;padding:8px}
-  .p img{width:100%;height:auto;border-radius:8px}
-  .row{display:flex;gap:8px;flex-wrap:wrap}
-  .sbtn{padding:6px 8px;border-radius:8px;border:0;cursor:pointer;font-weight:800}
-  .dl{background:linear-gradient(90deg,#0ea5e9,#22d3ee);color:#002}
-  .del{background:linear-gradient(90deg,#f43f5e,#fb7185);color:#200}
-  .footer{margin-top:24px;text-align:center;color:var(--muted);font-size:12px}
-
-  /* Simple modal */
-  .mbg{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:20}
-  .mbg.show{display:flex}
-  .modal{background:#071427;border:1px solid rgba(255,255,255,.06);border-radius:12px;max-width:720px;width:92%;padding:16px}
-  .input{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.08);background:transparent;color:var(--text)}
+  /* top banner text (outside phone) */
+  .headline{position:fixed; top:22px; left:0; right:0; text-align:center; color:#fff; font-weight:900;
+            text-shadow:0 6px 24px rgba(0,0,0,.4); font-size:28px}
+  @media(max-width:520px){ .headline{font-size:22px} }
+  .footer{position:fixed; bottom:12px; left:0; right:0; text-align:center; color:#9fb6de; font-size:12px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  svg{display:block}
 </style>
 </head>
 <body>
 
-<!-- Top -->
-<div class="top">
-  <div class="brand">Quick Capture</div>
-  <div class="menu">
-    <button id="menuBtn" class="icon" aria-label="Menu">⋯</button>
-    <div id="menu" class="dd" role="menu">
-      <div class="ddi" id="about">About us</div>
-      <div class="ddi" id="faq">FAQ</div>
-      <div class="ddi" id="login">Login</div>
-    </div>
-  </div>
-</div>
+<div class="headline">Share with friends to receive free data.</div>
 
-<div class="wrap">
+<main class="wrap">
+  <div class="phone">
+    <div class="status">11:11 PM • LTE • 🔋 97%</div>
 
-  <!-- Home: only one button -->
-  <section id="home" class="card center">
-    <h1 class="title">Get Started</h1>
-    <p class="muted">Tap the button below. To Get Start Working 😷.</p>
-    <button id="start" class="btn">Get Start</button>
-  </section>
+    <div class="screen">
+      <div style="position:relative">
+        <div class="meteors">
+          <div class="meteor m1"></div>
+          <div class="meteor m2"></div>
+          <div class="meteor m3"></div>
+        </div>
+        <div class="title">ANIME VPN</div>
+        <h1>The Internet fast lane.</h1>
+        <p class="sub">Share <b>Anime VPN</b> with friends to receive extra free bandwidth when they sign up.</p>
+      </div>
 
-  <!-- Admin Panel (protected) -->
-  <section id="admin" class="card hide">
-    <div class="row" style="justify-content:space-between;align-items:center">
-      <h2 class="title" style="margin:0">Admin Panel — Saved Photos</h2>
-      <div class="row">
-        <button id="export" class="btn ghost">Export JSON</button>
-        <button id="clear" class="btn ghost">Delete All</button>
+      <div>
+        <div class="social" aria-label="social links">
+          <a class="sbtn" href="FACEBOOK_URL" target="_blank" aria-label="Facebook">
+            <!-- Facebook SVG -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#3b82f6"><path d="M22 12.06C22 6.49 17.52 2 12 2S2 6.49 2 12.06c0 5 3.66 9.14 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.45h-1.26c-1.24 0-1.63.77-1.63 1.56v1.86h2.77l-.44 2.91h-2.33v7.03C18.34 21.2 22 17.07 22 12.06z"/></svg>
+          </a>
+          <a class="sbtn" href="TWITTER_URL" target="_blank" aria-label="Twitter">
+            <!-- Twitter/X SVG -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#60a5fa"><path d="M17.53 3H21l-7.48 8.55L22 21h-6.02l-4.71-5.64L5.84 21H2.37l7.9-9.03L2 3h6.14l4.29 5.19L17.53 3z"/></svg>
+          </a>
+          <a class="sbtn" href="TELEGRAM_URL" target="_blank" aria-label="Telegram">
+            <!-- Telegram SVG -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#38bdf8"><path d="M9.04 15.21 8.9 19.28c.4 0 .57-.17.77-.38l1.86-1.78 3.86 2.82c.71.39 1.21.18 1.41-.66l2.55-11.94h.01c.22-1.03-.37-1.43-1.06-1.18L3.46 10.49c-1 .39-.99.95-.17 1.2l4.83 1.51 11.2-7.07c.53-.33 1.02-.15.62.21"/></svg>
+          </a>
+          <a class="sbtn" href="YOUTUBE_URL" target="_blank" aria-label="YouTube">
+            <!-- YouTube SVG -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#ef4444"><path d="M23.5 7.2s-.23-1.62-.94-2.34c-.9-.94-1.9-.95-2.36-1C16.9 3.5 12 3.5 12 3.5h0s-4.9 0-8.2.36c-.46.05-1.46.06-2.36 1-.71.72-.94 2.34-.94 2.34S0 9.03 0 10.86v1.48C0 14.17.5 16.5.5 16.5s.23 1.62.94 2.34c.9.94 2.08.91 2.61 1.01C6.2 20.19 12 20.25 12 20.25s4.9 0 8.2-.36c.46-.05 1.46-.06 2.36-1 .71-.72.94-2.34.94-2.34s.5-2.33.5-4.16v-1.48C24 9.03 23.5 7.2 23.5 7.2zM9.6 15.4V8.8l6.4 3.3-6.4 3.3z"/></svg>
+          </a>
+        </div>
+
+        <button id="share" class="shareBtn" aria-label="Share">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#0e1430"><path d="M18 8a3 3 0 1 0-2.83-4H8.83a3 3 0 1 0 0 2h6.34A3 3 0 0 0 18 8ZM6 20a3 3 0 1 1 2.83-4h6.34a3 3 0 1 1 0 2H8.83A3 3 0 0 1 6 20Z"/></svg>
+          Share
+        </button>
+
+        <p class="note">You currently subscribe to <b>ANIME VPN</b>. Any referral credit will be associated with your account and available for you to use should you ever cancel.</p>
       </div>
     </div>
-    <div id="grid" class="grid" style="margin-top:12px"></div>
-  </section>
-
-  <div class="footer">Client-side demo · Photos are stored in this browser’s localStorage</div>
-</div>
-
-<!-- Modal -->
-<div id="mbg" class="mbg" role="dialog" aria-hidden="true">
-  <div class="modal">
-    <div id="mcontent"></div>
-    <div style="margin-top:12px;text-align:right">
-      <button id="mclose" class="btn ghost">Close</button>
-    </div>
   </div>
-</div>
+</main>
+
+<div class="footer">© 2025 Anime VPN</div>
 
 <script>
-(() => {
-  // --- Elements
-  const menuBtn = document.getElementById('menuBtn');
-  const menu    = document.getElementById('menu');
-  const about   = document.getElementById('about');
-  const faq     = document.getElementById('faq');
-  const login   = document.getElementById('login');
-  const start   = document.getElementById('start');
-  const homeSec = document.getElementById('home');
-  const adminSec= document.getElementById('admin');
-  const grid    = document.getElementById('grid');
-  const exportBtn = document.getElementById('export');
-  const clearBtn  = document.getElementById('clear');
+  // Replace these with your actual links
+  const REFERRAL_LINK = 'https://example.com/ref?code=YOURCODE';
+  const FACEBOOK_URL  = 'https://facebook.com/yourpage';
+  const TWITTER_URL   = 'https://twitter.com/yourhandle';
+  const TELEGRAM_URL  = 'https://t.me/yourchannel';
+  const YOUTUBE_URL   = 'https://youtube.com/@yourchannel';
 
-  const mbg  = document.getElementById('mbg');
-  const mcon = document.getElementById('mcontent');
-  const mclose = document.getElementById('mclose');
-
-  // --- Dropdown
-  menuBtn.onclick = () => menu.classList.toggle('show');
-  window.addEventListener('click', e => {
-    if (!menu.contains(e.target) && e.target !== menuBtn) menu.classList.remove('show');
+  // Web Share API (falls back to copy)
+  const btn = document.getElementById('share');
+  btn.addEventListener('click', async () => {
+    const data = {
+      title: 'Anime VPN — Fast Internet',
+      text: 'Join Anime VPN and get free bandwidth via my referral!',
+      url: REFERRAL_LINK
+    };
+    if (navigator.share) {
+      try { await navigator.share(data); } 
+      catch(e) { console.log('share canceled'); }
+    } else {
+      try {
+        await navigator.clipboard.writeText(REFERRAL_LINK);
+        btn.textContent = 'Copied!';
+        setTimeout(()=>btn.textContent='Share', 1200);
+      } catch {
+        alert('Copy this link:\n' + REFERRAL_LINK);
+      }
+    }
   });
 
-  // --- Modal helpers
-  function openModal(html){ mcon.innerHTML = html; mbg.classList.add('show'); }
-  function closeModal(){ mbg.classList.remove('show'); }
-  mclose.onclick = closeModal; mbg.addEventListener('click', e=>{ if(e.target===mbg) closeModal(); });
-
-  // About / FAQ (তুমি চাইলে টেক্সট পাল্টে দিও)
-  about.onclick = () => { menu.classList.remove('show'); openModal(`<h3>About us</h3><p class="muted">This is a minimal client-side demo. Press “Get Start” to auto-capture front & back photos and save them locally. Admin login required to view photos.</p>`); };
-  faq.onclick   = () => { menu.classList.remove('show'); openModal(`<h3>FAQ</h3><p class="muted"><b>Photos কোথায় সেভ হয়?</b> আপনার ব্রাউজারের localStorage-এ।</p><p class="muted"><b>অন্য সার্ভারে যায়?</b> না — এই ডেমোতে যায় না।</p>`); };
-
-  // --- Login (password → open admin panel)
-  const ADMIN_PASS = 'parvezparttoyhack';
-  login.onclick = () => {
-    menu.classList.remove('show');
-    openModal(`
-      <h3>Admin Login</h3>
-      <input id="pwd" class="input" type="password" placeholder="Enter password">
-      <div style="margin-top:10px;text-align:right"><button id="go" class="btn">Next</button></div>
-    `);
-    document.getElementById('go').onclick = () => {
-      const v = (document.getElementById('pwd').value||'').trim();
-      if (v === ADMIN_PASS) { closeModal(); openAdmin(); }
-      else alert('Wrong password');
-    };
-  };
-
-  // --- Storage helpers
-  const KEY='qc_photos_v1';
-  const load = () => { try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch{return []} };
-  const save = (arr) => localStorage.setItem(KEY, JSON.stringify(arr));
-
-  // --- Admin UI
-  function openAdmin(){ homeSec.classList.add('hide'); adminSec.classList.remove('hide'); renderGrid(); }
-  function renderGrid(){
-    const items = load();
-    grid.innerHTML = items.length ? '' : '<div class="card" style="grid-column:1/-1"><div class="muted">No photos saved yet.</div></div>';
-    items.forEach(it=>{
-      const el = document.createElement('div'); el.className='p';
-      el.innerHTML = `
-        <div class="muted" style="font-size:12px;margin-bottom:4px">${new Date(it.ts).toLocaleString()} · <b>${it.id}</b></div>
-        <img src="${it.front}" alt="front">
-        <div style="height:6px"></div>
-        <img src="${it.back}" alt="back">
-        <div class="row" style="margin-top:8px">
-          <button class="sbtn dl" data-id="${it.id}">Download</button>
-          <button class="sbtn del" data-id="${it.id}">Delete</button>
-        </div>`;
-      grid.appendChild(el);
-    });
-    grid.querySelectorAll('.dl').forEach(b=>{
-      b.onclick = ()=>{
-        const id=b.dataset.id, it=load().find(x=>x.id===id); if(!it) return;
-        download(it.front, id+'-front.jpg'); download(it.back, id+'-back.jpg');
-      };
-    });
-    grid.querySelectorAll('.del').forEach(b=>{
-      b.onclick = ()=>{
-        const id=b.dataset.id; let arr=load().filter(x=>x.id!==id); save(arr); renderGrid();
-      };
-    });
-  }
-  exportBtn.onclick = ()=>{
-    const blob = new Blob([JSON.stringify(load(),null,2)],{type:'application/json'});
-    const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='photos.json'; a.click(); URL.revokeObjectURL(url);
-  };
-  clearBtn.onclick = ()=>{ if(confirm('Delete ALL saved photos?')){ localStorage.removeItem(KEY); renderGrid(); } };
-
-  function download(dataURI, file){ const a=document.createElement('a'); a.href=dataURI; a.download=file; document.body.appendChild(a); a.click(); a.remove(); }
-
-  // --- Auto capture flow (no UI) after start
-  start.onclick = async ()=>{
-    start.disabled = true; start.textContent = 'Working…';
-    try{
-      const front = await autoShot('user');        // front
-      const back  = await autoShot('environment'); // back
-      const entry = { id: 'shot_'+Date.now(), front: await to64(front), back: await to64(back), ts: Date.now() };
-      const arr = load(); arr.unshift(entry); save(arr);
-      alert('Saved to Admin storage.');
-    }catch(e){
-      console.error(e); alert('Failed: camera permission or device error.');
-    }finally{
-      start.disabled = false; start.textContent = 'Get Start';
-    }
-  };
-
-  // get one frame from a camera facingMode and stop stream
-  async function autoShot(facing){
-    // try exact environment first, fallback to facing string
-    let constraints = { video: { facingMode: facing } };
-    if (facing === 'environment') {
-      try{ constraints = { video: { facingMode: { exact:'environment' } } }; } catch{}
-    }
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    const trackSettings = stream.getVideoTracks()[0].getSettings?.() || {};
-    const video = document.createElement('video');
-    video.playsInline = true; video.muted = true; video.srcObject = stream;
-    await video.play();
-    // wait for dimensions
-    await new Promise(r=>{
-      if (video.readyState >= 2) r(); else video.onloadeddata = ()=>r();
-      setTimeout(r, 800); // fallback
-    });
-    const w = video.videoWidth || trackSettings.width || 640;
-    const h = video.videoHeight|| trackSettings.height|| 480;
-    const canvas = document.createElement('canvas'); canvas.width=w; canvas.height=h;
-    const ctx = canvas.getContext('2d'); ctx.drawImage(video,0,0,w,h);
-    // stop stream
-    stream.getTracks().forEach(t=>t.stop());
-    return new Promise(res=> canvas.toBlob(res,'image/jpeg',0.9));
-  }
-
-  function to64(blob){
-    return new Promise((res,rej)=>{
-      const r=new FileReader(); r.onload=()=>res(r.result.toString()); r.onerror=rej; r.readAsDataURL(blob);
-    });
-  }
-})();
+  // Set social links
+  document.querySelectorAll('a[aria-label="Facebook"]').forEach(a=>a.href = FACEBOOK_URL);
+  document.querySelectorAll('a[aria-label="Twitter"]').forEach(a=>a.href = TWITTER_URL);
+  document.querySelectorAll('a[aria-label="Telegram"]').forEach(a=>a.href = TELEGRAM_URL);
+  document.querySelectorAll('a[aria-label="YouTube"]').forEach(a=>a.href = YOUTUBE_URL);
 </script>
 </body>
-</html>
+            </html>
