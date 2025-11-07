@@ -21,7 +21,7 @@ body{
     radial-gradient(900px 600px at 50% 110%, var(--bg3), transparent 60%),
     linear-gradient(180deg,#120b2b,#0a1024 55%, #050913);
   display:flex;align-items:center;justify-content:center;
-  text-align:center;
+  text-align:center;overflow:hidden;
 }
 
 .panel{
@@ -30,6 +30,7 @@ body{
   justify-content:center;align-items:center;
   padding:30px 20px;
   background:linear-gradient(180deg,var(--panel),#0b1a3d);
+  position:relative;
 }
 
 h1{font-size:clamp(38px,6vw,56px);line-height:1.05}
@@ -48,25 +49,24 @@ h1{font-size:clamp(38px,6vw,56px);line-height:1.05}
 }
 .sbtn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.35)}
 
-.badges{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:25px;
-  margin-top:30px;
-  flex-wrap:wrap;
-}
+.note{font-size:12px;color:#9bb4dc;margin-top:20px}
+svg{display:block}
 
-.badge{
-  width:190px;
-  height:70px;
+/* Side buttons */
+.download-buttons{
+  position:absolute;
+  bottom:40px;
+  left:0;
+  width:100%;
   display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  text-decoration:none;
-  background:#111;
-  color:#fff;
+  justify-content:space-between;
+  padding:0 60px;
+}
+.badge{
+  width:200px;height:70px;
+  display:flex;align-items:center;justify-content:center;
+  gap:12px;text-decoration:none;
+  background:#111;color:#fff;
   border:1.5px solid #3b3b3b;
   border-radius:14px;
   box-shadow:0 6px 16px rgba(0,0,0,.35);
@@ -76,9 +76,6 @@ h1{font-size:clamp(38px,6vw,56px);line-height:1.05}
 .badge .txt{display:flex;flex-direction:column;line-height:1}
 .small{font-size:12px;opacity:.85}
 .big{font-weight:800;font-size:18px;letter-spacing:.1px}
-
-.note{font-size:12px;color:#9bb4dc;margin-top:20px}
-svg{display:block}
 </style>
 </head>
 <body>
@@ -109,20 +106,22 @@ svg{display:block}
       </a>
     </div>
 
-    <!-- Two Equal Buttons Side by Side -->
-    <div class="badges">
-      <!-- Google Play -->
+    <p class="note">Downloads currently redirect to Google Play / App Store. iOS & direct APK links coming soon.</p>
+
+    <!-- Buttons on 2 sides -->
+    <div class="download-buttons">
+      <!-- Left: Play Store -->
       <a class="badge" href="https://play.google.com/store/apps/details?id=com.google.android.play.games" target="_blank" rel="noopener">
         <svg width="28" height="28" viewBox="0 0 64 64" fill="#fff" aria-hidden="true">
           <path d="M12 8c-1.1 0-2 .9-2 2v44c0 1.1.9 2 2 2 .4 0 .9-.1 1.2-.4l34.7-22.1c1.3-.8 1.3-2.7 0-3.4L13.2 8.4c-.3-.3-.8-.4-1.2-.4z"/>
         </svg>
         <span class="txt">
           <span class="small">GET IT ON</span>
-          <span class="big">Google Play</span>
+          <span class="big">Play Store</span>
         </span>
       </a>
 
-      <!-- App Store -->
+      <!-- Right: App Store -->
       <a class="badge" href="https://www.apple.com/app-store/" target="_blank" rel="noopener">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
           <path d="M16.365 13.53c.032 3.45 3.04 4.6 3.074 4.615-.026.085-.48 1.65-1.584 3.27-0.954 1.4-1.947 2.8-3.51 2.83-1.54.03-2.03-.91-3.79-.91-1.76 0-2.33.88-3.8.94-1.52.06-2.68-1.51-3.65-2.9-1.98-2.84-3.5-8.02-1.46-11.52.99-1.71 2.75-2.78 4.68-2.81 1.46-.03 2.84.99 3.79.99.95 0 2.6-1.22 4.39-1.04.75.03 2.86.3 4.2 2.25-.11.07-2.51 1.47-2.44 4.27z"/>
@@ -134,8 +133,6 @@ svg{display:block}
         </span>
       </a>
     </div>
-
-    <p class="note">Downloads currently redirect to Google Play / App Store. iOS & direct APK links coming soon.</p>
   </div>
 </body>
-  </html>
+      </html>
