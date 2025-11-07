@@ -21,21 +21,25 @@ body{
     radial-gradient(900px 600px at 50% 110%, var(--bg3), transparent 60%),
     linear-gradient(180deg,#120b2b,#0a1024 55%, #050913);
   display:flex;align-items:center;justify-content:center;
-}
-.panel{
-  width:100%;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
   text-align:center;
+}
+
+.panel{
+  width:100%;height:100%;
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
   padding:30px 20px;
   background:linear-gradient(180deg,var(--panel),#0b1a3d);
 }
+
 h1{font-size:clamp(38px,6vw,56px);line-height:1.05}
 .sub{color:#b8c9ee;margin-top:8px;font-size:clamp(16px,2vw,20px)}
-.desc{margin:20px auto;max-width:620px;line-height:1.7;color:var(--muted);font-size:clamp(14px,1.7vw,16px)}
+.desc{
+  margin:20px auto;max-width:640px;
+  line-height:1.7;color:var(--muted);
+  font-size:clamp(14px,1.7vw,16px)
+}
+
 .social{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:4px}
 .sbtn{
   width:50px;height:50px;display:grid;place-items:center;
@@ -43,18 +47,33 @@ h1{font-size:clamp(38px,6vw,56px);line-height:1.05}
   transition:.15s;text-decoration:none;
 }
 .sbtn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.35)}
-.badges{display:grid;grid-template-columns:1fr;gap:16px;margin-top:18px}
-@media(min-width:560px){.badges{grid-template-columns:1fr 1fr}}
+
+.badges{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  width:min(450px,90%);
+  margin-top:30px;
+}
+
 .badge{
-  display:flex;align-items:center;gap:12px;text-decoration:none;
-  background:#111;color:#fff;border:1.5px solid #3b3b3b;
-  padding:12px 16px;border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.35);
+  flex:1;
+  display:flex;align-items:center;justify-content:center;
+  gap:12px;text-decoration:none;
+  background:#111;color:#fff;
+  border:1.5px solid #3b3b3b;
+  padding:12px 16px;
+  border-radius:14px;
+  box-shadow:0 6px 16px rgba(0,0,0,.35);
+  transition:.2s;
 }
 .badge:hover{transform:translateY(-2px)}
 .badge .txt{display:flex;flex-direction:column;line-height:1}
 .small{font-size:12px;opacity:.85}
 .big{font-weight:800;font-size:20px;letter-spacing:.1px}
-.note{font-size:12px;color:#9bb4dc;margin-top:14px}
+
+.note{font-size:12px;color:#9bb4dc;margin-top:20px}
 svg{display:block}
 </style>
 </head>
@@ -86,7 +105,7 @@ svg{display:block}
       </a>
     </div>
 
-    <!-- Store Badges -->
+    <!-- Buttons side by side -->
     <div class="badges">
       <!-- Google Play -->
       <a class="badge" href="https://play.google.com/store/apps/details?id=com.google.android.play.games" target="_blank" rel="noopener">
