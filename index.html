@@ -4,134 +4,119 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Anime VPN — The Internet Fast Lane</title>
-<meta name="theme-color" content="#0b1120" />
+<meta name="theme-color" content="#080d1a" />
 <style>
 :root{
-  --bg1:#6a00f4; --bg2:#ff2e63; --bg3:#ff8a00;
-  --ink:#eaf1ff; --muted:#a9c0ea; --panel:#0b183a; --line:#213a72;
-  --radius:20px;
+  --bg1:#3a0ca3;
+  --bg2:#7209b7;
+  --bg3:#4361ee;
+  --glow:#f72585;
+  --panel:#0b122b;
+  --ink:#eaf1ff;
+  --muted:#a9b8df;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;scroll-behavior:smooth}
 body{
-  font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+  font-family: "Poppins",system-ui,sans-serif;
   color:var(--ink);
   background:
-    radial-gradient(900px 600px at -10% 10%, var(--bg1), transparent 60%),
-    radial-gradient(900px 600px at 110% 20%, var(--bg2), transparent 60%),
-    radial-gradient(900px 600px at 50% 110%, var(--bg3), transparent 60%),
-    linear-gradient(180deg,#120b2b,#0a1024 55%, #050913);
+    radial-gradient(1000px 700px at 0% 10%, var(--bg1), transparent 60%),
+    radial-gradient(800px 600px at 100% 10%, var(--bg2), transparent 60%),
+    radial-gradient(900px 600px at 50% 120%, var(--bg3), transparent 70%),
+    linear-gradient(180deg,#060b18,#090d20 55%, #050913);
+  background-size:300% 300%;
+  animation:bgmove 12s ease-in-out infinite alternate;
   overflow-x:hidden;
 }
-
-/* Sticky header */
+@keyframes bgmove{
+  0%{background-position:0% 50%}
+  100%{background-position:100% 50%}
+}
 .topbar{
-  position:sticky; top:0; z-index:50;
-  backdrop-filter:saturate(140%) blur(10px);
-  background:linear-gradient(180deg,rgba(6,12,32,.75),rgba(6,12,32,.35));
-  border-bottom:1px solid #162e62;
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:blur(10px) saturate(140%);
+  background:rgba(8,12,25,.7);
+  border-bottom:1px solid rgba(255,255,255,.05);
   padding:10px 18px;
 }
-.brand{
-  max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;
-}
-.brand svg{filter:drop-shadow(0 6px 16px rgba(0,0,0,.35))}
-.brand h1{font-size:18px;letter-spacing:.3px}
+.brand{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.brand h1{font-size:20px;letter-spacing:.5px}
 
-/* Layout */
-.container{max-width:1100px;margin:0 auto;padding:26px 18px 170px}
+.container{max-width:1100px;margin:0 auto;padding:26px 18px 180px}
 
-/* Lift animation shared */
+/* LIFT animation stronger */
 .hero,.section{
-  will-change: transform, box-shadow;
-  transition: transform .25s cubic-bezier(.2,.8,.2,1),
-              box-shadow .25s cubic-bezier(.2,.8,.2,1);
+  transition:transform .35s cubic-bezier(.19,1,.22,1),box-shadow .35s;
+  will-change:transform,box-shadow;
 }
-.hero:hover,.section:hover,.hero.hovering,.section.hovering{
-  transform: translateY(-8px);
-  box-shadow: 0 18px 48px rgba(0,0,0,.45),
-              inset 0 1px 0 rgba(255,255,255,.04);
+.hero:hover,.section:hover,
+.hero.hovering,.section.hovering{
+  transform:translateY(-12px) scale(1.02);
+  box-shadow:0 25px 60px rgba(0,0,0,.6),0 0 18px rgba(247,37,133,.3);
 }
 
 /* Hero card */
 .hero{
   text-align:center;
-  background:linear-gradient(180deg,var(--panel),#0b1a3d);
-  border:1.5px solid var(--line);
-  border-radius:var(--radius);
-  padding:34px 18px;
-  box-shadow:0 26px 64px rgba(0,0,0,.45), inset 0 0 0 6px #0b122b;
-  position:relative;overflow:hidden;
+  background:linear-gradient(180deg,rgba(15,20,50,.8),rgba(10,14,35,.9));
+  border:1.5px solid rgba(255,255,255,.08);
+  border-radius:20px;
+  padding:40px 20px;
+  box-shadow:0 25px 60px rgba(0,0,0,.55), inset 0 0 0 6px #0b122b;
+  position:relative;
+  overflow:hidden;
 }
-.hero::after{
-  content:""; position:absolute; inset:-40% -60% auto -60%; height:220px;
-  background:radial-gradient(closest-side,rgba(255,255,255,.08),transparent 70%);
-  transform:translateX(-40%) rotate(8deg);
-  animation:sweep 12s linear infinite;
-}
-@keyframes sweep{to{transform:translateX(140%) rotate(8deg)}}
+h2.title{font-size:clamp(40px,6vw,56px);line-height:1.05}
+.sub{color:#d1e0ff;margin-top:8px;font-size:clamp(16px,2vw,20px)}
+.desc{margin:18px auto 16px;max-width:760px;line-height:1.75;color:var(--muted);font-size:clamp(14px,1.7vw,16px)}
 
-h2.title{font-size:clamp(38px,6vw,56px);line-height:1.05}
-.sub{color:#cfe1ff;margin-top:8px;font-size:clamp(16px,2vw,20px)}
-.desc{
-  margin:18px auto 16px; max-width:760px; line-height:1.75; color:var(--muted);
-  font-size:clamp(14px,1.7vw,16px)
-}
+/* Social buttons */
+.social{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.sbtn{width:50px;height:50px;display:grid;place-items:center;border-radius:999px;background:#0a183d;border:1px solid #1a2f66;transition:.25s}
+.sbtn:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.4)}
 
-/* Socials */
-.social{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:8px}
-.sbtn{
-  width:50px;height:50px;display:grid;place-items:center;border-radius:999px;
-  background:#0a183d;border:1px solid #1a2f66; text-decoration:none;
-  transition:.2s; transform:translateY(0);
-}
-.sbtn:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.35)}
-svg{display:block}
-
-/* Sections + reveal */
 .section{
-  margin:22px 0; padding:22px 20px;
-  background:linear-gradient(180deg, rgba(10,16,40,.60), rgba(10,16,40,.42));
-  border:1px solid #1b3070; border-radius:16px;
-  transform:translateY(14px); opacity:0; transition:all .65s cubic-bezier(.2,.8,.2,1);
+  margin:22px 0;
+  padding:24px 22px;
+  background:linear-gradient(180deg,rgba(10,16,40,.65),rgba(10,16,40,.45));
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:18px;
+  opacity:0;transform:translateY(20px);
+  transition:all .65s cubic-bezier(.2,.8,.2,1);
 }
-.section.revealed{transform:none; opacity:1}
-.section h3{font-size:24px;margin-bottom:10px}
+.section.revealed{opacity:1;transform:none}
+.section h3{font-size:24px;margin-bottom:10px;color:#fff}
+.section p,.section li{color:#cdd3e6;line-height:1.7;margin:6px 0}
 .section ul{padding-left:18px;margin:6px 0}
-.section li{color:#cdd3e6;margin:4px 0}
-.section p{color:#cdd3e6;line-height:1.75;margin:6px 0}
 .section a{color:#9fc2ff;text-decoration:none;border-bottom:1px dashed #3d64c9}
-.section a:hover{opacity:.9}
 
-/* Bottom download buttons (equal size, sides) */
+/* Bottom fixed download buttons */
 .download-bar{
-  position:fixed; left:0; right:0; bottom:24px; z-index:40;
-  display:flex; justify-content:space-between; align-items:center;
+  position:fixed;left:0;right:0;bottom:30px;z-index:40;
+  display:flex;justify-content:space-between;align-items:center;
   padding:0 clamp(14px,6vw,60px);
   pointer-events:none;
 }
-.badge{pointer-events:auto;
-  width:180px; height:60px; display:flex; align-items:center; justify-content:center;
-  gap:10px; text-decoration:none; color:#fff;
-  background:#0f1115; border:1.5px solid #3b3b3b; border-radius:14px;
+.badge{
+  pointer-events:auto;width:180px;height:60px;display:flex;align-items:center;justify-content:center;
+  gap:10px;text-decoration:none;color:#fff;
+  background:#0f1115;border:1.5px solid #3b3b3b;border-radius:14px;
   box-shadow:0 12px 28px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
-  transition:.2s;
+  transition:.25s;
 }
-.badge:hover{transform:translateY(-4px)}
+.badge:hover{transform:translateY(-5px) scale(1.04)}
 .badge .txt{display:flex;flex-direction:column;line-height:1;text-align:left}
-.small{font-size:12px;opacity:.85}
-.big{font-weight:800;font-size:18px;letter-spacing:.1px}
+.small{font-size:12px;opacity:.8}.big{font-weight:800;font-size:18px}
 
 footer{text-align:center;color:#9aa8c7;font-size:12px;margin-top:14px}
 
-@media (max-width:420px){
+@media(max-width:480px){
+  .badge{width:160px;height:54px;font-size:14px}
   .download-bar{bottom:16px;padding:0 12px}
-  .badge{width:160px;height:56px}
 }
 </style>
 </head>
 <body>
-  <!-- Sticky header -->
   <div class="topbar">
     <div class="brand">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="#66e5ff"><path d="M3 12l6-9 12 9-12 9-6-9zM9 12l6-4v8l-6-4z"/></svg>
@@ -140,16 +125,13 @@ footer{text-align:center;color:#9aa8c7;font-size:12px;margin-top:14px}
   </div>
 
   <main class="container">
-    <!-- HERO -->
     <section class="hero sr">
       <h2 class="title">Anime VPN</h2>
       <div class="sub">The Internet Fast Lane</div>
       <p class="desc">
-        <b>Anime VPN</b> is a next-generation VPN built for anime lovers. Enjoy secure, ultra-fast
-        streaming from anywhere with optimized routes and privacy-first infrastructure.<br><br>
-        We’re moving fast — full public launch in <b>2026</b>. Follow our official channels for updates and early access.
+        <b>Anime VPN</b> is a next-gen VPN for anime fans. Secure, ultra-fast streaming anywhere — optimized routes, privacy-first design.<br><br>
+        Full public launch in <b>2026</b>. Follow our official channels for updates and early access.
       </p>
-
       <div class="social">
         <a class="sbtn" href="https://www.facebook.com/animevpn_facebook" target="_blank" aria-label="Facebook">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="#1877F2"><path d="M22 12.06C22 6.49 17.52 2 12 2S2 6.49 2 12.06c0 5 3.66 9.14 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.45h-1.26c-1.24 0-1.63.77-1.63 1.56v1.86h2.77l-.44 2.91h-2.33v7.03C18.34 21.2 22 17.07 22 12.06z"/></svg>
@@ -164,117 +146,69 @@ footer{text-align:center;color:#9aa8c7;font-size:12px;margin-top:14px}
           <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF0033"><path d="M23.5 7.2s-.23-1.62-.94-2.34c-.9-.94-1.9-.95-2.36-1C16.9 3.5 12 3.5 12 3.5s-4.9 0-8.2.36c-.46.05-1.46.06-2.36 1-.71.72-.94 2.34-.94 2.34S0 9.03 0 10.86v1.48C0 14.17.5 16.5.5 16.5s.23 1.62.94 2.34c.9.94 2.08.91 2.61 1.01C6.2 20.19 12 20.25 12 20.25s4.9 0 8.2-.36c.46-.05 1.46-.06 2.36-1 .71-.72.94-2.34.94-2.34s.5-2.33.5-4.16v-1.48C24 9.03 23.5 7.2 23.5 7.2zM9.6 15.4V8.8l6.4 3.3-6.4 3.3z"/></svg>
         </a>
       </div>
-      <p class="desc" style="margin-top:10px;color:#9bb4dc;font-size:12px">
-        Downloads currently redirect to Google Play / App Store. iOS & direct APK links coming soon.
-      </p>
     </section>
 
-    <!-- CONTENT SECTIONS -->
-    <section class="section sr">
-      <h3>About Anime VPN</h3>
-      <p>Anime VPN is a next-generation virtual private network designed for anime fans. We optimize routes to popular streaming regions, reduce buffering during peak hours, and protect your identity with privacy-first architecture. Our goal is simple: watch what you love—fast, safe, anywhere.</p>
+    <section class="section sr"><h3>About Anime VPN</h3>
+      <p>Anime VPN is designed for anime lovers—optimized streaming, privacy-first connections, and blazing speed worldwide.</p>
     </section>
-
-    <section class="section sr">
-      <h3>Core Features</h3>
+    <section class="section sr"><h3>Core Features</h3>
       <ul>
-        <li>Global servers in multiple regions [JP / US / EU / SEA].</li>
-        <li>WireGuard® & OpenVPN with modern ciphers.</li>
-        <li>No-Logs Policy (diagnostics opt-in).</li>
-        <li>Kill Switch & Auto-Reconnect.</li>
-        <li>Split Tunneling & Private DNS.</li>
-        <li>Multi-device support; one-tap latency test.</li>
+        <li>Global servers (JP/US/EU/SEA)</li>
+        <li>WireGuard® & OpenVPN protocols</li>
+        <li>No Logs, Private DNS, Kill Switch</li>
+        <li>Split tunneling, multi-device support</li>
       </ul>
     </section>
-
-    <section class="section sr">
-      <h3>Security & Privacy</h3>
+    <section class="section sr"><h3>Roadmap</h3>
       <ul>
-        <li>ChaCha20-Poly1305 / AES-256-GCM encryption.</li>
-        <li>Perfect Forward Secrecy on handshakes.</li>
-        <li>DNS / IPv6 / WebRTC leak mitigations.</li>
-        <li>Independent security review planned pre-launch.</li>
+        <li>Q4 2025: Android beta</li>
+        <li>Q1 2026: iOS & desktop</li>
+        <li>Mid 2026: Public launch</li>
       </ul>
     </section>
-
-    <section class="section sr">
-      <h3>Roadmap</h3>
-      <ul>
-        <li><b>Q4 2025</b>: Closed beta (Android), limited regions.</li>
-        <li><b>Q1 2026</b>: iOS & desktop beta, more regions, latency map.</li>
-        <li><b>Mid-2026</b>: Public launch, smart unblocking, 24/7 support.</li>
-      </ul>
-    </section>
-
-    <section class="section sr">
-      <h3>FAQ</h3>
-      <p><b>Is Anime VPN legal?</b> VPN use is legal in most countries; follow local laws and platform terms.</p>
-      <p><b>Will it unblock streaming?</b> We optimize routes, but platforms evolve. We update frequently.</p>
-      <p><b>Do you log my activity?</b> No activity logs. Optional diagnostics only.</p>
-      <p><b>How many devices?</b> Up to 5 per account at launch.</p>
-    </section>
-
-    <section class="section sr">
-      <h3>Contact</h3>
-      <p>Telegram: <a href="https://t.me/animevpn_telegram" target="_blank" rel="noopener">t.me/animevpn_telegram</a></p>
-      <p>Email: support@animevpn.example (placeholder)</p>
-      <p>Status: status.animevpn.example (placeholder)</p>
+    <section class="section sr"><h3>Contact</h3>
+      <p>Telegram: <a href="https://t.me/animevpn_telegram" target="_blank">t.me/animevpn_telegram</a></p>
+      <p>Email: support@animevpn.example</p>
       <footer>© 2025 Anime VPN. All rights reserved.</footer>
     </section>
   </main>
 
-  <!-- Bottom pinned download buttons -->
-  <div class="download-bar" aria-label="Download buttons">
-    <a class="badge" href="https://play.google.com/store/apps/details?id=com.google.android.play.games" target="_blank" rel="noopener" aria-label="Play Store">
-      <!-- generic triangle icon (non-trademark) -->
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M3 22V2l18 10L3 22z"/></svg>
+  <div class="download-bar">
+    <a class="badge" href="https://play.google.com/store/apps/details?id=com.google.android.play.games" target="_blank">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M3 22V2l18 10L3 22z"/></svg>
       <span class="txt"><span class="small">GET IT ON</span><span class="big">Play Store</span></span>
     </a>
-    <a class="badge" href="https://www.apple.com/app-store/" target="_blank" rel="noopener" aria-label="App Store">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
-        <path d="M16.365 13.53c.032 3.45 3.04 4.6 3.074 4.615-.026.085-.48 1.65-1.584 3.27-0.954 1.4-1.947 2.8-3.51 2.83-1.54.03-2.03-.91-3.79-.91-1.76 0-2.33.88-3.8.94-1.52.06-2.68-1.51-3.65-2.9-1.98-2.84-3.5-8.02-1.46-11.52.99-1.71 2.75-2.78 4.68-2.81 1.46-.03 2.84.99 3.79.99.95 0 2.6-1.22 4.39-1.04.75.03 2.86.3 4.2 2.25-.11.07-2.51 1.47-2.44 4.27z"/>
-        <path d="M13.99 4.33c.8-.97 1.34-2.33 1.19-3.68-1.15.05-2.55.77-3.37 1.74-.74.85-1.38 2.22-1.21 3.54 1.28.1 2.6-.64 3.39-1.6z"/>
-      </svg>
-      <span class="txt"><span class="small">Download on the</span><span class="big">App Store</span></span>
+    <a class="badge" href="https://www.apple.com/app-store/" target="_blank">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M16.365 13.53c.032 3.45 3.04 4.6 3.074 4.615-.026.085-.48 1.65-1.584 3.27-0.954 1.4-1.947 2.8-3.51 2.83-1.54.03-2.03-.91-3.79-.91-1.76 0-2.33.88-3.8.94-1.52.06-2.68-1.51-3.65-2.9-1.98-2.84-3.5-8.02-1.46-11.52.99-1.71 2.75-2.78 4.68-2.81 1.46-.03 2.84.99 3.79.99.95 0 2.6-1.22 4.39-1.04.75.03 2.86.3 4.2 2.25-.11.07-2.51 1.47-2.44 4.27z"/></svg>
+      <span class="txt"><span class="small">Download on</span><span class="big">App Store</span></span>
     </a>
   </div>
 
 <script>
-/* Scroll reveal */
-const revealEls = document.querySelectorAll('.sr');
-const obs = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){ e.target.classList.add('revealed'); obs.unobserve(e.target); }
-  });
-},{threshold:.14});
-revealEls.forEach(el=>obs.observe(el));
+/* reveal on scroll */
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('revealed');obs.unobserve(x.target)}}),{threshold:.15});
+document.querySelectorAll('.sr').forEach(el=>obs.observe(el));
 
-/* Parallax background (desktop only) */
-const body = document.body;
-let lastX=0,lastY=0;
-function parallax(e){
-  const x = (e.clientX / innerWidth - .5) * 6;
-  const y = (e.clientY / innerHeight - .5) * 6;
-  lastX = lastX + (x-lastX)*.08;
-  lastY = lastY + (y-lastY)*.08;
-  body.style.backgroundPosition =
-    `${-10+lastX}% ${10+lastY}% , ${110+lastX}% ${20-lastY}% , ${50-lastX}% ${110+lastY}% , center`;
-}
+/* slight parallax desktop */
 if(matchMedia('(pointer:fine)').matches){
-  window.addEventListener('mousemove', parallax);
+ let bx=0,by=0;
+ window.addEventListener('mousemove',ev=>{
+   const x=(ev.clientX/innerWidth-.5)*8, y=(ev.clientY/innerHeight-.5)*8;
+   bx+= (x-bx)*.08; by+=(y-by)*.08;
+   document.body.style.backgroundPosition=
+     `${bx}% ${10+by}% , ${110+bx}% ${20-by}% , ${50-bx}% ${110+by}% , center`;
+ });
 }
 
-/* Touch lift effect for hero & sections */
-function addTouchLift(selector){
-  document.querySelectorAll(selector).forEach(el=>{
-    el.addEventListener('touchstart', ()=>{
-      el.classList.add('hovering');
-      setTimeout(()=> el.classList.remove('hovering'), 180);
-    }, {passive:true});
-  });
-}
-addTouchLift('.hero');
-addTouchLift('.section');
+/* touch lift effect */
+['.hero','.section'].forEach(sel=>{
+ document.querySelectorAll(sel).forEach(el=>{
+   el.addEventListener('touchstart',()=>{
+     el.classList.add('hovering');
+     setTimeout(()=>el.classList.remove('hovering'),180);
+   },{passive:true});
+ });
+});
 </script>
 </body>
-      </html>
+                     </html>
