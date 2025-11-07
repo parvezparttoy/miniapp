@@ -20,27 +20,34 @@ body{
     radial-gradient(900px 600px at 110% 20%, var(--bg2), transparent 60%),
     radial-gradient(900px 600px at 50% 110%, var(--bg3), transparent 60%),
     linear-gradient(180deg,#120b2b,#0a1024 55%, #050913);
-  display:flex;align-items:center;justify-content:center;
-  text-align:center;overflow:hidden;
+  display:flex;align-items:flex-start;justify-content:center;
 }
 
-.panel{
-  width:100%;height:100%;
-  display:flex;flex-direction:column;
-  justify-content:center;align-items:center;
-  padding:30px 20px;
+/* Main wrapper */
+.container{
+  width:min(1100px,100%);
+  padding:32px 20px 160px; /* bottom padding so content clears bottom buttons */
+}
+
+/* Header block */
+.header{
+  text-align:center;
   background:linear-gradient(180deg,var(--panel),#0b1a3d);
-  position:relative;
+  border:1.5px solid var(--line);
+  border-radius:20px;
+  padding:28px 18px;
+  box-shadow:0 26px 64px rgba(0,0,0,.45), inset 0 0 0 6px #0b122b;
 }
-
 h1{font-size:clamp(38px,6vw,56px);line-height:1.05}
 .sub{color:#b8c9ee;margin-top:8px;font-size:clamp(16px,2vw,20px)}
 .desc{
-  margin:20px auto;max-width:640px;
+  margin:16px auto 14px;
+  max-width:760px;
   line-height:1.7;color:var(--muted);
   font-size:clamp(14px,1.7vw,16px)
 }
 
+/* Socials */
 .social{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:4px}
 .sbtn{
   width:50px;height:50px;display:grid;place-items:center;
@@ -48,82 +55,176 @@ h1{font-size:clamp(38px,6vw,56px);line-height:1.05}
   transition:.15s;text-decoration:none;
 }
 .sbtn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.35)}
-
-.note{font-size:12px;color:#9bb4dc;margin-top:20px}
 svg{display:block}
 
-/* Side buttons */
-.download-buttons{
-  position:absolute;
-  bottom:40px;
-  left:0;
-  width:100%;
-  display:flex;
-  justify-content:space-between;
-  padding:0 60px;
+/* Content sections */
+.section{
+  margin:22px 0;
+  background:linear-gradient(180deg, rgba(10,16,40,.60), rgba(10,16,40,.40));
+  border:1px solid #1b3070;
+  border-radius:16px;
+  padding:18px 18px;
+}
+.section h2{
+  font-size:24px;margin-bottom:10px
+}
+.section h3{
+  font-size:18px;margin:16px 0 8px;color:#cfe1ff
+}
+.section p{
+  color:#cdd3e6;line-height:1.7;margin:6px 0
+}
+.section ul{
+  padding-left:18px;margin:6px 0
+}
+.section li{
+  color:#cdd3e6;margin:4px 0
+}
+.section a{color:#9fc2ff;text-decoration:none;border-bottom:1px dashed #3d64c9}
+.section a:hover{opacity:.9}
+
+/* Bottom note above buttons */
+.note{font-size:12px;color:#9bb4dc;margin-top:10px;text-align:center}
+
+/* Two side buttons pinned to bottom */
+.download-bar{
+  position:fixed; /* pinned */
+  left:0; right:0; bottom:24px;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:0 clamp(14px,6vw,60px);
+  pointer-events:none; /* bar passes clicks except buttons */
 }
 .badge{
-  width:200px;height:70px;
-  display:flex;align-items:center;justify-content:center;
-  gap:12px;text-decoration:none;
-  background:#111;color:#fff;
-  border:1.5px solid #3b3b3b;
-  border-radius:14px;
+  width:180px; height:60px;            /* exact requested size */
+  display:flex; align-items:center; justify-content:center;
+  gap:10px; text-decoration:none; color:#fff;
+  background:#111; border:1.5px solid #3b3b3b; border-radius:12px;
   box-shadow:0 6px 16px rgba(0,0,0,.35);
-  transition:.2s;
+  transition:.2s; pointer-events:auto; /* clickable */
 }
 .badge:hover{transform:translateY(-2px)}
-.badge .txt{display:flex;flex-direction:column;line-height:1}
+.badge .txt{display:flex;flex-direction:column;line-height:1;text-align:left}
 .small{font-size:12px;opacity:.85}
 .big{font-weight:800;font-size:18px;letter-spacing:.1px}
+
+/* Left & right containers to keep gap consistent on all screens */
+.badge-left{display:flex;justify-content:flex-start}
+.badge-right{display:flex;justify-content:flex-end}
+
+/* Small screens: keep side-by-side but pull up a bit */
+@media (max-width:420px){
+  .download-bar{bottom:16px;padding:0 12px}
+  .badge{width:160px;height:56px}
+}
+footer{
+  text-align:center;color:#9aa8c7;font-size:12px;margin-top:10px
+}
 </style>
 </head>
 <body>
-  <div class="panel">
-    <h1>Anime VPN</h1>
-    <div class="sub">The Internet Fast Lane</div>
+  <main class="container">
+    <header class="header">
+      <h1>Anime VPN</h1>
+      <div class="sub">The Internet Fast Lane</div>
 
-    <p class="desc">
-      <b>Anime VPN</b> is a next-generation VPN built for anime lovers. Enjoy secure, ultra-fast
-      streaming from anywhere with optimized routes and privacy-first infrastructure.<br><br>
-      We’re moving fast — full public launch in <b>2026</b>. Follow our official channels for
-      updates and early access.
-    </p>
+      <p class="desc">
+        <b>Anime VPN</b> is a next-generation VPN built for anime lovers. Enjoy secure, ultra-fast
+        streaming from anywhere with optimized routes and privacy-first infrastructure.<br><br>
+        We’re moving fast — full public launch in <b>2026</b>. Follow our official channels for
+        updates and early access.
+      </p>
 
-    <!-- Social Links -->
-    <div class="social">
-      <a class="sbtn" href="https://www.facebook.com/animevpn_facebook" target="_blank" aria-label="Facebook">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#1877F2"><path d="M22 12.06C22 6.49 17.52 2 12 2S2 6.49 2 12.06c0 5 3.66 9.14 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.45h-1.26c-1.24 0-1.63.77-1.63 1.56v1.86h2.77l-.44 2.91h-2.33v7.03C18.34 21.2 22 17.07 22 12.06z"/></svg>
-      </a>
-      <a class="sbtn" href="http://x.me/animevpn_x" target="_blank" aria-label="Twitter">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#1D9BF0"><path d="M17.53 3H21l-7.48 8.55L22 21h-6.02l-4.71-5.64L5.84 21H2.37l7.9-9.03L2 3h6.14l4.29 5.19L17.53 3z"/></svg>
-      </a>
-      <a class="sbtn" href="https://t.me/animevpn_telegram" target="_blank" aria-label="Telegram">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#27A7E7"><path d="M9.04 15.21 8.9 19.28c.4 0 .57-.17.77-.38l1.86-1.78 3.86 2.82c.71.39 1.21.18 1.41-.66l2.55-11.94h.01c.22-1.03-.37-1.43-1.06-1.18L3.46 10.49c-1 .39-.99.95-.17 1.2l4.83 1.51 11.2-7.07c.53-.33 1.02-.15.62.21"/></svg>
-      </a>
-      <a class="sbtn" href="https://youtube.com/@animevpn_youtube" target="_blank" aria-label="YouTube">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF0033"><path d="M23.5 7.2s-.23-1.62-.94-2.34c-.9-.94-1.9-.95-2.36-1C16.9 3.5 12 3.5 12 3.5s-4.9 0-8.2.36c-.46.05-1.46.06-2.36 1-.71.72-.94 2.34-.94 2.34S0 9.03 0 10.86v1.48C0 14.17.5 16.5.5 16.5s.23 1.62.94 2.34c.9.94 2.08.91 2.61 1.01C6.2 20.19 12 20.25 12 20.25s4.9 0 8.2-.36c.46-.05 1.46-.06 2.36-1 .71-.72.94-2.34.94-2.34s.5-2.33.5-4.16v-1.48C24 9.03 23.5 7.2 23.5 7.2zM9.6 15.4V8.8l6.4 3.3-6.4 3.3z"/></svg>
-      </a>
-    </div>
+      <!-- Social links -->
+      <div class="social">
+        <a class="sbtn" href="https://www.facebook.com/animevpn_facebook" target="_blank" aria-label="Facebook">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#1877F2"><path d="M22 12.06C22 6.49 17.52 2 12 2S2 6.49 2 12.06c0 5 3.66 9.14 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.45h-1.26c-1.24 0-1.63.77-1.63 1.56v1.86h2.77l-.44 2.91h-2.33v7.03C18.34 21.2 22 17.07 22 12.06z"/></svg>
+        </a>
+        <a class="sbtn" href="http://x.me/animevpn_x" target="_blank" aria-label="Twitter / X">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#1D9BF0"><path d="M17.53 3H21l-7.48 8.55L22 21h-6.02l-4.71-5.64L5.84 21H2.37l7.9-9.03L2 3h6.14l4.29 5.19L17.53 3z"/></svg>
+        </a>
+        <a class="sbtn" href="https://t.me/animevpn_telegram" target="_blank" aria-label="Telegram">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#27A7E7"><path d="M9.04 15.21 8.9 19.28c.4 0 .57-.17.77-.38l1.86-1.78 3.86 2.82c.71.39 1.21.18 1.41-.66l2.55-11.94h.01c.22-1.03-.37-1.43-1.06-1.18L3.46 10.49c-1 .39-.99.95-.17 1.2l4.83 1.51 11.2-7.07c.53-.33 1.02-.15.62.21"/></svg>
+        </a>
+        <a class="sbtn" href="https://youtube.com/@animevpn_youtube" target="_blank" aria-label="YouTube">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF0033"><path d="M23.5 7.2s-.23-1.62-.94-2.34c-.9-.94-1.9-.95-2.36-1C16.9 3.5 12 3.5 12 3.5s-4.9 0-8.2.36c-.46.05-1.46.06-2.36 1-.71.72-.94 2.34-.94 2.34S0 9.03 0 10.86v1.48C0 14.17.5 16.5.5 16.5s.23 1.62.94 2.34c.9.94 2.08.91 2.61 1.01C6.2 20.19 12 20.25 12 20.25s4.9 0 8.2-.36c.46-.05 1.46-.06 2.36-1 .71-.72.94-2.34.94-2.34s.5-2.33.5-4.16v-1.48C24 9.03 23.5 7.2 23.5 7.2zM9.6 15.4V8.8l6.4 3.3-6.4 3.3z"/></svg>
+        </a>
+      </div>
+      <p class="note">Downloads currently redirect to Google Play / App Store. iOS & direct APK links coming soon.</p>
+    </header>
 
-    <p class="note">Downloads currently redirect to Google Play / App Store. iOS & direct APK links coming soon.</p>
+    <!-- Content sections -->
+    <section class="section">
+      <h2>About Anime VPN</h2>
+      <p>Anime VPN is a next-generation virtual private network designed for anime fans. We optimize routes to popular streaming regions, reduce buffering during peak hours, and protect your identity with privacy-first architecture. Our goal is simple: watch what you love—fast, safe, anywhere.</p>
+    </section>
 
-    <!-- Buttons on 2 sides -->
-    <div class="download-buttons">
-      <!-- Left: Play Store -->
-      <a class="badge" href="https://play.google.com/store/apps/details?id=com.google.android.play.games" target="_blank" rel="noopener">
-        <svg width="28" height="28" viewBox="0 0 64 64" fill="#fff" aria-hidden="true">
-          <path d="M12 8c-1.1 0-2 .9-2 2v44c0 1.1.9 2 2 2 .4 0 .9-.1 1.2-.4l34.7-22.1c1.3-.8 1.3-2.7 0-3.4L13.2 8.4c-.3-.3-.8-.4-1.2-.4z"/>
-        </svg>
+    <section class="section">
+      <h2>Core Features</h2>
+      <ul>
+        <li>Global servers in multiple regions [JP / US / EU / SEA].</li>
+        <li>WireGuard® &amp; OpenVPN with modern ciphers.</li>
+        <li>No-Logs Policy (connection diagnostics opt-in).</li>
+        <li>Kill Switch &amp; Auto-Reconnect.</li>
+        <li>Split Tunneling (choose which apps use VPN).</li>
+        <li>Private DNS (prevents ISP tracking &amp; DNS leaks).</li>
+        <li>Multi-device support (phone, tablet, desktop, TV).</li>
+        <li>One-tap Latency Test to pick the fastest server.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Security &amp; Privacy</h2>
+      <ul>
+        <li>Encryption: ChaCha20-Poly1305 / AES-256-GCM.</li>
+        <li>Perfect Forward Secrecy on handshakes.</li>
+        <li>DNS / IPv6 / WebRTC leak mitigations.</li>
+        <li>Independent security review planned pre-launch.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Roadmap</h2>
+      <ul>
+        <li><b>Q4 2025</b>: Closed beta (Android), limited regions.</li>
+        <li><b>Q1 2026</b>: iOS &amp; desktop beta, more regions, latency map.</li>
+        <li><b>Mid-2026</b>: Public launch, smart unblocking, 24/7 support.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>FAQ</h2>
+      <p><b>Is Anime VPN legal?</b> VPN use is legal in most countries, but local laws vary. Always follow your country’s rules and the platforms’ terms.</p>
+      <p><b>Will it unblock streaming?</b> We optimize for streaming, but platforms can change detection methods. We update routes frequently.</p>
+      <p><b>Do you log my activity?</b> No activity logs. Minimal diagnostics only if you opt in to help improve reliability.</p>
+      <p><b>How many devices can I use?</b> Up to 5 devices per account at launch (subject to change).</p>
+    </section>
+
+    <section class="section">
+      <h2>Contact</h2>
+      <p>Telegram: <a href="https://t.me/animevpn_telegram" target="_blank" rel="noopener">t.me/animevpn_telegram</a></p>
+      <p>Email: support@animevpn.example (placeholder)</p>
+      <p>Status: status.animevpn.example (placeholder)</p>
+    </section>
+
+    <footer>© 2025 Anime VPN. All rights reserved.</footer>
+  </main>
+
+  <!-- Bottom pinned buttons (equal size, two sides, 15px natural gap from padding) -->
+  <div class="download-bar" aria-label="Download buttons">
+    <div class="badge-left">
+      <a class="badge" href="https://play.google.com/store/apps/details?id=com.google.android.play.games" target="_blank" rel="noopener" aria-label="Play Store">
+        <!-- generic play icon (monochrome, non-trademark) -->
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M3 22V2l18 10L3 22z"/></svg>
         <span class="txt">
           <span class="small">GET IT ON</span>
           <span class="big">Play Store</span>
         </span>
       </a>
+    </div>
 
-      <!-- Right: App Store -->
-      <a class="badge" href="https://www.apple.com/app-store/" target="_blank" rel="noopener">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
+    <div class="badge-right">
+      <a class="badge" href="https://www.apple.com/app-store/" target="_blank" rel="noopener" aria-label="App Store">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
           <path d="M16.365 13.53c.032 3.45 3.04 4.6 3.074 4.615-.026.085-.48 1.65-1.584 3.27-0.954 1.4-1.947 2.8-3.51 2.83-1.54.03-2.03-.91-3.79-.91-1.76 0-2.33.88-3.8.94-1.52.06-2.68-1.51-3.65-2.9-1.98-2.84-3.5-8.02-1.46-11.52.99-1.71 2.75-2.78 4.68-2.81 1.46-.03 2.84.99 3.79.99.95 0 2.6-1.22 4.39-1.04.75.03 2.86.3 4.2 2.25-.11.07-2.51 1.47-2.44 4.27z"/>
           <path d="M13.99 4.33c.8-.97 1.34-2.33 1.19-3.68-1.15.05-2.55.77-3.37 1.74-.74.85-1.38 2.22-1.21 3.54 1.28.1 2.6-.64 3.39-1.6z"/>
         </svg>
@@ -135,4 +236,4 @@ svg{display:block}
     </div>
   </div>
 </body>
-      </html>
+  </html>
