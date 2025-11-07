@@ -33,21 +33,31 @@ body{
   overflow:hidden;
 }
 
-/* ===== Top Katana Duel ===== */
+/* ===== Top Katana Duel (no name tags) ===== */
 .arena{
   position:relative; height:110px; margin-bottom:6px; overflow:hidden;
   border-radius:18px; background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
   border:1px solid #1b2d5f;
 }
+.win{
+  position:absolute; left:50%; top:8px; transform:translateX(-50%);
+  font-weight:900; font-size:12px; letter-spacing:.2px;
+  color:#e9f2ff; background:#0b1736; border:1px solid #34518d;
+  padding:4px 10px; border-radius:999px; opacity:0; transition:opacity .45s ease;
+}
+.win.show{opacity:1}
+.spark{
+  position:absolute; top:64px; left:50%; transform:translateX(-50%); width:12px;height:12px;border-radius:50%;
+  background:#fff; box-shadow:0 0 24px 10px rgba(255,255,255,.8); opacity:0; pointer-events:none;
+}
+.spark.show{opacity:1; animation:sparkfade .6s ease forwards}
+@keyframes sparkfade{0%{opacity:1} 60%{opacity:.25} 100%{opacity:0}}
+
+/* fighter figure */
 .fighter{
   position:absolute; width:40px; height:54px; top:44px;
   filter:drop-shadow(0 8px 14px rgba(0,0,0,.45));
-  transform:translateX(0); transition:transform .7s ease, opacity .5s ease;
-}
-.tag{
-  position:absolute; top:6px; left:50%; transform:translateX(-50%);
-  padding:3px 8px; border:1px solid #2a3f7a; background:#0b1736; color:#cfe1ff;
-  border-radius:999px; font-size:11px; white-space:nowrap;
+  transform:translateX(0); transition:transform .8s ease, opacity .6s ease;
 }
 .fighter .head{width:14px;height:14px;border-radius:50%;margin:0 auto;background:#e8ecff}
 .fighter .body{width:8px;height:24px;background:#cfd8ff;margin:0 auto;border-radius:5px;position:relative;top:2px}
@@ -56,14 +66,12 @@ body{
 .arm{position:absolute; width:18px; height:3px; background:#cfd8ff; top:12px; left:11px; border-radius:3px; transform-origin:2px 1.5px}
 .hand{position:absolute; width:6px; height:6px; border-radius:50%; background:#e8ecff; top:9px; left:26px;}
 
-/* katana (more realistic) */
-.katana{
-  position:absolute; top:8px; left:28px; width:28px; height:2px; transform-origin:2px 1px;
-}
+/* katana (realistic blade/tsuba/hilt) */
+.katana{ position:absolute; top:8px; left:28px; width:28px; height:2px; transform-origin:2px 1px; }
 .blade{
   position:absolute; left:6px; top:0; height:2px; width:22px;
   background:linear-gradient(90deg, #e9edf7 0%, #cfd5e3 35%, #ffffff 80%);
-  border-radius:2px; box-shadow:0 0 10px rgba(220,230,255,.5);
+  border-radius:2px; box-shadow:0 0 10px rgba(220,230,255,.55);
 }
 .tsuba{
   position:absolute; left:4px; top:-1px; width:4px; height:4px; border-radius:50%;
@@ -74,47 +82,34 @@ body{
   background:linear-gradient(90deg,#3a3a3a,#111);
 }
 
-/* Left = Virus (cyan) */
+/* colors */
 .left{left:-26px}
-.left .tag{background:#07263b;color:#bff3ff;border-color:#244c73}
 .left .body,.left .arm{background:var(--cyan)}
 .left .hand{background:#c7f0ff}
 
-/* Right = Anime VPN (rose) */
 .right{right:-26px}
-.right .tag{background:#330c1a;color:#ffd7e1;border-color:#5b2136}
 .right .body,.right .arm{background:var(--rose)}
 .right .hand{background:#ffd1db}
 
-/* States */
+/* enter center positions */
 .advanceL{transform:translateX(190px)}
 .advanceR{transform:translateX(-190px)}
-.clash .left .katana{transform:rotate(-35deg)}
-.clash .right .katana{transform:rotate(35deg)}
+
+/* sword swings */
+.left .katana{animation:swingL .75s ease-in-out infinite}
+.right .katana{animation:swingR .75s ease-in-out infinite .1s}
+@keyframes swingL{0%{transform:rotate(18deg)}50%{transform:rotate(-36deg)}100%{transform:rotate(18deg)}}
+@keyframes swingR{0%{transform:rotate(-18deg)}50%{transform:rotate(36deg)}100%{transform:rotate(-18deg)}}
+
+/* death */
 .dead{opacity:0; transform:translateX(170px) translateY(26px) rotate(-35deg)!important}
-
-/* spark */
-.spark{
-  position:absolute; top:64px; left:50%; transform:translateX(-50%); width:12px;height:12px;border-radius:50%;
-  background:#fff; box-shadow:0 0 24px 10px rgba(255,255,255,.8); opacity:0; pointer-events:none;
-}
-.spark.show{opacity:1; animation:sparkfade .6s ease forwards}
-@keyframes sparkfade{0%{opacity:1} 60%{opacity:.25} 100%{opacity:0}}
-
-/* Win text */
-.win{
-  position:absolute; left:50%; top:36px; transform:translateX(-50%); font-weight:900; font-size:12px;
-  color:#e9f2ff; background:#0b1736; border:1px solid #34518d; padding:4px 10px; border-radius:999px;
-  opacity:0; transition:opacity .35s ease;
-}
-.win.show{opacity:1}
 
 /* body text */
 h1{font-size:42px;margin-top:2px}
 .sub{color:#b8c9ee;margin-top:6px}
-.desc{margin:18px auto 18px;line-height:1.6;color:var(--muted);font-size:15px}
+.desc{margin:18px auto 18px;line-height:1.6;color:#a9c0ea;font-size:15px}
 
-/* social icons */
+/* socials */
 .social{display:flex;gap:14px;justify-content:center;margin-top:4px}
 .sbtn{width:52px;height:52px;border-radius:999px;display:grid;place-items:center;
   background:#0a183d;border:1px solid #1a2f66;transition:.15s}
@@ -133,14 +128,13 @@ h1{font-size:42px;margin-top:2px}
 <div class="page">
   <div class="card">
 
-    <!-- Arena with fighters -->
+    <!-- Arena (10s fight, then win message) -->
     <div class="arena" id="arena" aria-live="polite">
-      <div class="win" id="winTxt">Anime VPN wins — Virus killed</div>
+      <div class="win" id="winTxt">Anime VPN wins — Virus died</div>
       <div class="spark" id="spark"></div>
 
       <!-- Virus (left) -->
       <div class="fighter left" id="virus">
-        <div class="tag">Virus</div>
         <div class="head"></div>
         <div class="body"></div>
         <div class="arm" style="transform:rotate(8deg)"></div>
@@ -152,7 +146,6 @@ h1{font-size:42px;margin-top:2px}
 
       <!-- Anime VPN (right) -->
       <div class="fighter right" id="anime">
-        <div class="tag">Anime VPN</div>
         <div class="head"></div>
         <div class="body"></div>
         <div class="arm" style="transform:rotate(-8deg)"></div>
@@ -238,46 +231,33 @@ h1{font-size:42px;margin-top:2px}
 </div>
 
 <script>
-/* Simple duel loop: advance → clash → virus dies → reset */
-const arena  = document.getElementById('arena');
+/* 10-second duel:
+   - 0s: fighters advance to center
+   - 1s–9s: keep swinging swords (CSS keyframes)
+   - 9.5s: clash spark
+   - 10s: Virus dies + show win text
+*/
 const virus  = document.getElementById('virus');
 const anime  = document.getElementById('anime');
 const spark  = document.getElementById('spark');
 const winTxt = document.getElementById('winTxt');
 
-function resetFighters(){
-  arena.classList.remove('clash');
-  winTxt.classList.remove('show');
-  spark.classList.remove('show');
-  virus.classList.remove('advanceL','dead'); virus.style.opacity = '1';
-  anime.classList.remove('advanceR');
-  // Force layout to re-apply transitions cleanly
-  void virus.offsetWidth;
-}
-
-function startRound(){
-  resetFighters();
-  // advance
+function startDuel(){
+  // move to center
   requestAnimationFrame(()=>{
     virus.classList.add('advanceL');
     anime.classList.add('advanceR');
   });
-  // clash moment
-  setTimeout(()=>{
-    arena.classList.add('clash');
-    spark.classList.add('show');
-  }, 700);
-  // kill virus + win message
+  // clash spark near the end
+  setTimeout(()=>{ spark.classList.add('show'); }, 9500);
+  // finish: virus dies + message
   setTimeout(()=>{
     virus.classList.add('dead');
+    winTxt.textContent = 'Anime VPN wins — Virus died';
     winTxt.classList.add('show');
-  }, 980);
-  // reset for next loop
-  setTimeout(startRound, 2800);
+  }, 10000);
 }
-
-// kick off
-startRound();
+startDuel();
 </script>
 </body>
-          </html>
+  </html>
