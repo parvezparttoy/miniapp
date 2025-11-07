@@ -6,11 +6,9 @@
 <title>Anime VPN — The Internet Fast Lane</title>
 <meta name="theme-color" content="#0b1120" />
 <style>
-/* ============ Design tokens ============ */
 :root{
   --bg1:#6a00f4; --bg2:#ff2e63; --bg3:#ff8a00;
   --ink:#eaf1ff; --muted:#a9c0ea; --panel:#0b183a; --line:#213a72;
-  --shadow:0 26px 64px rgba(0,0,0,.45), inset 0 0 0 6px #0b122b;
   --radius:20px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -18,7 +16,6 @@ html,body{height:100%;scroll-behavior:smooth}
 body{
   font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
   color:var(--ink);
-  /* layered gradient + soft parallax stars */
   background:
     radial-gradient(900px 600px at -10% 10%, var(--bg1), transparent 60%),
     radial-gradient(900px 600px at 110% 20%, var(--bg2), transparent 60%),
@@ -27,7 +24,7 @@ body{
   overflow-x:hidden;
 }
 
-/* ======= Sticky glass header ======= */
+/* Sticky header */
 .topbar{
   position:sticky; top:0; z-index:50;
   backdrop-filter:saturate(140%) blur(10px);
@@ -41,21 +38,32 @@ body{
 .brand svg{filter:drop-shadow(0 6px 16px rgba(0,0,0,.35))}
 .brand h1{font-size:18px;letter-spacing:.3px}
 
-/* ======= Wrapper ======= */
+/* Layout */
 .container{max-width:1100px;margin:0 auto;padding:26px 18px 170px}
 
-/* ======= Hero card ======= */
+/* Lift animation shared */
+.hero,.section{
+  will-change: transform, box-shadow;
+  transition: transform .25s cubic-bezier(.2,.8,.2,1),
+              box-shadow .25s cubic-bezier(.2,.8,.2,1);
+}
+.hero:hover,.section:hover,.hero.hovering,.section.hovering{
+  transform: translateY(-8px);
+  box-shadow: 0 18px 48px rgba(0,0,0,.45),
+              inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+/* Hero card */
 .hero{
   text-align:center;
   background:linear-gradient(180deg,var(--panel),#0b1a3d);
   border:1.5px solid var(--line);
   border-radius:var(--radius);
   padding:34px 18px;
-  box-shadow:var(--shadow);
-  position:relative;
-  overflow:hidden;
+  box-shadow:0 26px 64px rgba(0,0,0,.45), inset 0 0 0 6px #0b122b;
+  position:relative;overflow:hidden;
 }
-.hero::after{ /* soft highlight sweep */
+.hero::after{
   content:""; position:absolute; inset:-40% -60% auto -60%; height:220px;
   background:radial-gradient(closest-side,rgba(255,255,255,.08),transparent 70%);
   transform:translateX(-40%) rotate(8deg);
@@ -70,17 +78,17 @@ h2.title{font-size:clamp(38px,6vw,56px);line-height:1.05}
   font-size:clamp(14px,1.7vw,16px)
 }
 
-/* ======= Socials ======= */
+/* Socials */
 .social{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:8px}
 .sbtn{
   width:50px;height:50px;display:grid;place-items:center;border-radius:999px;
   background:#0a183d;border:1px solid #1a2f66; text-decoration:none;
   transition:.2s; transform:translateY(0);
 }
-.sbtn:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.35)}
+.sbtn:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.35)}
 svg{display:block}
 
-/* ======= Sections (scroll-reveal) ======= */
+/* Sections + reveal */
 .section{
   margin:22px 0; padding:22px 20px;
   background:linear-gradient(180deg, rgba(10,16,40,.60), rgba(10,16,40,.42));
@@ -89,14 +97,13 @@ svg{display:block}
 }
 .section.revealed{transform:none; opacity:1}
 .section h3{font-size:24px;margin-bottom:10px}
-.section h4{font-size:18px;margin:16px 0 8px;color:#cfe1ff}
-.section p{color:#cdd3e6;line-height:1.75;margin:6px 0}
 .section ul{padding-left:18px;margin:6px 0}
 .section li{color:#cdd3e6;margin:4px 0}
+.section p{color:#cdd3e6;line-height:1.75;margin:6px 0}
 .section a{color:#9fc2ff;text-decoration:none;border-bottom:1px dashed #3d64c9}
 .section a:hover{opacity:.9}
 
-/* ======= Download badges (equal size, sides) ======= */
+/* Bottom download buttons (equal size, sides) */
 .download-bar{
   position:fixed; left:0; right:0; bottom:24px; z-index:40;
   display:flex; justify-content:space-between; align-items:center;
@@ -110,14 +117,13 @@ svg{display:block}
   box-shadow:0 12px 28px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
   transition:.2s;
 }
-.badge:hover{transform:translateY(-2px)}
+.badge:hover{transform:translateY(-4px)}
 .badge .txt{display:flex;flex-direction:column;line-height:1;text-align:left}
-.small{font-size:12px;opacity:.85} .big{font-weight:800;font-size:18px;letter-spacing:.1px}
+.small{font-size:12px;opacity:.85}
+.big{font-weight:800;font-size:18px;letter-spacing:.1px}
 
-/* ======= Footer ======= */
-footer{ text-align:center;color:#9aa8c7;font-size:12px;margin-top:14px }
+footer{text-align:center;color:#9aa8c7;font-size:12px;margin-top:14px}
 
-/* ======= Responsive tweaks ======= */
 @media (max-width:420px){
   .download-bar{bottom:16px;padding:0 12px}
   .badge{width:160px;height:56px}
@@ -128,9 +134,7 @@ footer{ text-align:center;color:#9aa8c7;font-size:12px;margin-top:14px }
   <!-- Sticky header -->
   <div class="topbar">
     <div class="brand">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="#66e5ff" aria-hidden="true">
-        <path d="M3 12l6-9 12 9-12 9-6-9zM9 12l6-4v8l-6-4z"/>
-      </svg>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="#66e5ff"><path d="M3 12l6-9 12 9-12 9-6-9zM9 12l6-4v8l-6-4z"/></svg>
       <h1>Anime VPN</h1>
     </div>
   </div>
@@ -165,12 +169,14 @@ footer{ text-align:center;color:#9aa8c7;font-size:12px;margin-top:14px }
       </p>
     </section>
 
-    <!-- CONTENT: revealed on scroll -->
-    <section class="section sr"><h3>About Anime VPN</h3>
+    <!-- CONTENT SECTIONS -->
+    <section class="section sr">
+      <h3>About Anime VPN</h3>
       <p>Anime VPN is a next-generation virtual private network designed for anime fans. We optimize routes to popular streaming regions, reduce buffering during peak hours, and protect your identity with privacy-first architecture. Our goal is simple: watch what you love—fast, safe, anywhere.</p>
     </section>
 
-    <section class="section sr"><h3>Core Features</h3>
+    <section class="section sr">
+      <h3>Core Features</h3>
       <ul>
         <li>Global servers in multiple regions [JP / US / EU / SEA].</li>
         <li>WireGuard® & OpenVPN with modern ciphers.</li>
@@ -181,7 +187,8 @@ footer{ text-align:center;color:#9aa8c7;font-size:12px;margin-top:14px }
       </ul>
     </section>
 
-    <section class="section sr"><h3>Security & Privacy</h3>
+    <section class="section sr">
+      <h3>Security & Privacy</h3>
       <ul>
         <li>ChaCha20-Poly1305 / AES-256-GCM encryption.</li>
         <li>Perfect Forward Secrecy on handshakes.</li>
@@ -190,7 +197,8 @@ footer{ text-align:center;color:#9aa8c7;font-size:12px;margin-top:14px }
       </ul>
     </section>
 
-    <section class="section sr"><h3>Roadmap</h3>
+    <section class="section sr">
+      <h3>Roadmap</h3>
       <ul>
         <li><b>Q4 2025</b>: Closed beta (Android), limited regions.</li>
         <li><b>Q1 2026</b>: iOS & desktop beta, more regions, latency map.</li>
@@ -198,14 +206,16 @@ footer{ text-align:center;color:#9aa8c7;font-size:12px;margin-top:14px }
       </ul>
     </section>
 
-    <section class="section sr"><h3>FAQ</h3>
+    <section class="section sr">
+      <h3>FAQ</h3>
       <p><b>Is Anime VPN legal?</b> VPN use is legal in most countries; follow local laws and platform terms.</p>
       <p><b>Will it unblock streaming?</b> We optimize routes, but platforms evolve. We update frequently.</p>
       <p><b>Do you log my activity?</b> No activity logs. Optional diagnostics only.</p>
       <p><b>How many devices?</b> Up to 5 per account at launch.</p>
     </section>
 
-    <section class="section sr"><h3>Contact</h3>
+    <section class="section sr">
+      <h3>Contact</h3>
       <p>Telegram: <a href="https://t.me/animevpn_telegram" target="_blank" rel="noopener">t.me/animevpn_telegram</a></p>
       <p>Email: support@animevpn.example (placeholder)</p>
       <p>Status: status.animevpn.example (placeholder)</p>
@@ -213,9 +223,10 @@ footer{ text-align:center;color:#9aa8c7;font-size:12px;margin-top:14px }
     </section>
   </main>
 
-  <!-- Bottom pinned download buttons (equal size, opposite sides) -->
+  <!-- Bottom pinned download buttons -->
   <div class="download-bar" aria-label="Download buttons">
     <a class="badge" href="https://play.google.com/store/apps/details?id=com.google.android.play.games" target="_blank" rel="noopener" aria-label="Play Store">
+      <!-- generic triangle icon (non-trademark) -->
       <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M3 22V2l18 10L3 22z"/></svg>
       <span class="txt"><span class="small">GET IT ON</span><span class="big">Play Store</span></span>
     </a>
@@ -229,7 +240,7 @@ footer{ text-align:center;color:#9aa8c7;font-size:12px;margin-top:14px }
   </div>
 
 <script>
-/* Simple scroll-reveal using IntersectionObserver */
+/* Scroll reveal */
 const revealEls = document.querySelectorAll('.sr');
 const obs = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{
@@ -238,7 +249,7 @@ const obs = new IntersectionObserver((entries)=>{
 },{threshold:.14});
 revealEls.forEach(el=>obs.observe(el));
 
-/* Soft parallax on mouse move (desktop only) */
+/* Parallax background (desktop only) */
 const body = document.body;
 let lastX=0,lastY=0;
 function parallax(e){
@@ -246,11 +257,24 @@ function parallax(e){
   const y = (e.clientY / innerHeight - .5) * 6;
   lastX = lastX + (x-lastX)*.08;
   lastY = lastY + (y-lastY)*.08;
-  body.style.backgroundPosition = `${-10+lastX}% ${10+lastY}% , ${110+lastX}% ${20-lastY}% , ${50-lastX}% ${110+lastY}% , center`;
+  body.style.backgroundPosition =
+    `${-10+lastX}% ${10+lastY}% , ${110+lastX}% ${20-lastY}% , ${50-lastX}% ${110+lastY}% , center`;
 }
 if(matchMedia('(pointer:fine)').matches){
   window.addEventListener('mousemove', parallax);
 }
+
+/* Touch lift effect for hero & sections */
+function addTouchLift(selector){
+  document.querySelectorAll(selector).forEach(el=>{
+    el.addEventListener('touchstart', ()=>{
+      el.classList.add('hovering');
+      setTimeout(()=> el.classList.remove('hovering'), 180);
+    }, {passive:true});
+  });
+}
+addTouchLift('.hero');
+addTouchLift('.section');
 </script>
 </body>
-  </html>
+      </html>
