@@ -19,7 +19,7 @@
     body{margin:0;background:
       radial-gradient(1200px 600px at 10% -10%,#0f1f3e 0%,transparent 60%),
       radial-gradient(900px 420px at 95% -15%,#052b36 0%,transparent 60%),
-      var(--bg2);color:var(--txt);font:14px/1.5 ui-sans-serif,system-ui}
+      var(--bg2);color:#e5e7eb;font:14px/1.5 ui-sans-serif,system-ui}
     .wrap{max-width:960px;margin:0 auto;padding:18px 14px 110px}
     h2{margin:6px 0 12px;font-size:22px;font-weight:900}
     .view{display:none}.view.active{display:block}
@@ -150,11 +150,13 @@
 
 <script>
 /* ========= CONFIG ========= */
-const JOIN_URL = "https://t.me/+JQdsBNK6nE1kNTg1";
+// All posts use same reward/join link now:
+const JOIN_URL = "https://t.me/+DsGQQrNOqjZiNzkx";
 const REQUIRED = 10;
 
 /* ========= DATA ========= */
 const POSTS = [
+  // existing
   { id:"p1", title:"Jannat Toha Vairal Video 🥵", names:["Jannat Toha","জান্নাত তোহা"],
     desc:"জান্নাত তোহার ভাইরাল ভিডিও লিংক 😍",
     img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_193741_659.jpg", join:JOIN_URL,
@@ -169,6 +171,28 @@ const POSTS = [
     desc:"ইরা মনি ভাইরাল ভিডিও লিংক 😍💦",
     img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251016_155725_290.jpg", join:JOIN_URL,
     kw:"era moni ira ইরা মনি video viral"
+  },
+  // new p4–p6
+  { id:"p4", title:"Othoi TikToker 💬", names:["Othoi","অথৈ"],
+    desc:"অথৈয় ভাইরাল ভিডিও 🔥",
+    img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251112_172356_482.jpg", join:JOIN_URL,
+    kw:"othoy othoi অথৈ viral tiktok video"
+  },
+  { id:"p5", title:"Riddhi TikToker 💬", names:["Riddhi","রিধি"],
+    desc:"শসা রিধির ভাইরাল ভিডিও লিংক 🥒🥵",
+    img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251112_173647_302.jpg", join:JOIN_URL,
+    kw:"riddhi ridhi রিধি viral tiktok video"
+  },
+  { id:"p6", title:"Afrin Moni TikTok 💗", names:["Afrin Moni","আফরিন মনি"],
+    desc:"আফরিন ভাইরাল ভিডিও 🥵🔥",
+    img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251112_174614_584.jpg", join:JOIN_URL,
+    kw:"afrin moni আফরিন মনি viral tiktok video"
+  },
+  // safe p7
+  { id:"p7", title:"Kids TikTok 💬", names:["Kids","বাচ্চারা"],
+    desc:"বাচ্চাদের মজার ভিডিও ক্লিপ 😂🔥",
+    img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/images%20(86).jpeg", join:JOIN_URL,
+    kw:"kids funny মজার ভিডিও tiktok"
   }
 ];
 
@@ -355,4 +379,4 @@ async function openAd(cardId){
 renderHome("");
 </script>
 </body>
-        </html>
+  </html>
