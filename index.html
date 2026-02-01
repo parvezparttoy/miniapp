@@ -1,39 +1,80 @@
 <!doctype html>
 <html lang="bn">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Unlimited Viral Video – Ads Unlock</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Viral Zone</title>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://adexora.com/cdn/ads.js?id=650"></script>
 
 <style>
-body{margin:0;background:#0b1220;color:#fff;font-family:sans-serif}
-.card{background:#0d1426;border:1px solid #1f2a44;border-radius:16px;padding:14px;margin:14px}
-.thumb{width:100%;border-radius:12px}
-.btn{padding:10px;border-radius:10px;border:0;font-weight:700}
-.watch{background:#22d3ee}
-.join{background:#22c55e}
-.join[disabled]{background:#334155}
-.progress{height:6px;background:#111;border-radius:99px;margin:8px 0}
-.bar{height:100%;background:#22c55e;width:0}
+body{
+  margin:0;
+  background:#0b0a1a;
+  color:#fff;
+  font-family:system-ui;
+}
+.header{
+  padding:16px;
+  background:linear-gradient(90deg,#6d28d9,#9333ea);
+  border-radius:0 0 22px 22px;
+}
+.header h2{margin:0}
+.header p{opacity:.85;margin:4px 0 0}
+.card{
+  margin:16px;
+  background:#11102a;
+  border-radius:20px;
+  padding:14px;
+}
+.card img{
+  width:100%;
+  border-radius:16px;
+}
+.unlock{
+  margin-top:12px;
+  width:100%;
+  padding:14px;
+  border-radius:16px;
+  border:0;
+  font-weight:900;
+  background:linear-gradient(90deg,#fb7185,#facc15);
+}
+.unlock[disabled]{
+  background:#334155;
+  color:#94a3b8;
+}
+.toast{
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#22c55e;
+  color:#062012;
+  padding:10px 16px;
+  border-radius:12px;
+  display:none;
+}
 </style>
 </head>
 
 <body>
 
+<div class="header">
+  <h2>🔥 VIRAL ZONE</h2>
+  <p>Exclusive Premium Access</p>
+</div>
+
 <div id="posts"></div>
 
-<div id="toast" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
-background:#22c55e;color:#000;padding:8px 12px;border-radius:8px;display:none">
-</div>
+<div id="toast" class="toast"></div>
 
 <script>
 /* ================= CONFIG ================= */
-const REQUIRED = 10;
+const REQUIRED = 5;
+let adBusy = false;
 
-/* আলাদা আলাদা DEMO reward link */
+/* আলাদা আলাদা demo reward link */
 const REWARD_LINKS = {
   p1:"https://example.com/demo1",
   p2:"https://example.com/demo2",
@@ -47,28 +88,25 @@ const REWARD_LINKS = {
 
 /* ================= POSTS ================= */
 const POSTS = [
- {id:"p1",title:"Jannat Toha",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/images%20(99).jpeg"},
- {id:"p2",title:"Ridhii Moni",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_194758_066.jpg"},
- {id:"p3",title:"Era Moni",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251016_155725_290.jpg"},
- {id:"p4",title:"Othoi",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251112_172356_482.jpg"},
- {id:"p5",title:"Riddhi",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251112_173647_302.jpg"},
- {id:"p6",title:"Afrin Moni",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251112_174614_584.jpg"},
- {id:"p7",title:"Kids",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251015_011606_673.jpg"},
- {id:"p8",title:"Nadiya",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251119_084017_616.jpg"}
+ {id:"p1",title:"Jannat Toha Viral Video",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/images%20(99).jpeg"},
+ {id:"p2",title:"Ridhii Moni Viral Video",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_194758_066.jpg"},
+ {id:"p3",title:"Era Moni Viral Video",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251016_155725_290.jpg"},
+ {id:"p4",title:"Othoi TikToker",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251112_172356_482.jpg"},
+ {id:"p5",title:"Riddhi TikToker",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251112_173647_302.jpg"},
+ {id:"p6",title:"Afrin Moni TikTok",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251112_174614_584.jpg"},
+ {id:"p7",title:"Kids Viral Video",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251015_011606_673.jpg"},
+ {id:"p8",title:"Nadiya Viral Video",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251119_084017_616.jpg"}
 ];
 
 /* ================= HELPERS ================= */
-const qs = s => document.querySelector(s);
 function toast(msg){
- const t=qs("#toast");
+ const t=document.getElementById("toast");
  t.innerText=msg;
  t.style.display="block";
  setTimeout(()=>t.style.display="none",1500);
 }
 
 /* ================= ADS LOGIC ================= */
-let adBusy=false;
-
 function waitForAdexora(){
  return new Promise((res,rej)=>{
   let t=0;
@@ -82,57 +120,53 @@ function waitForAdexora(){
  });
 }
 
-async function showAd(cardId){
+async function showAd(id){
  if(adBusy) return;
  adBusy=true;
 
  try{
   await waitForAdexora();
-  await window.showAdexora(); // MUST COMPLETE
+  await window.showAdexora(); // must complete
 
-  let c = Number(localStorage.getItem("coin_"+cardId)||0);
-  c++;
-  localStorage.setItem("coin_"+cardId,c);
-
-  updateUI(cardId,c);
-  toast("+1 Ads Completed ✅");
-
+  let key="ads_"+id;
+  let c=Number(localStorage.getItem(key)||0);
+  if(c<REQUIRED){
+    c++;
+    localStorage.setItem(key,c);
+    toast("+1 Ads Completed ✅");
+    updateCard(id,c);
+  }
  }catch{
-  toast("Ad failed ❌");
+  toast("Ad not completed ❌");
  }
+
  adBusy=false;
 }
 
 /* ================= UI ================= */
-function updateUI(id,c){
- const bar=qs("#bar_"+id);
- const w=qs("#watch_"+id);
- const j=qs("#join_"+id);
- bar.style.width=(c/REQUIRED*100)+"%";
- w.innerText=`Watch Ads (${c}/${REQUIRED})`;
+function updateCard(id,c){
+ const btn=document.getElementById("btn_"+id);
+ btn.innerText=`UNLOCK – ${c}/${REQUIRED} ADS`;
  if(c>=REQUIRED){
-  w.disabled=true;
-  j.disabled=false;
+  btn.innerText="UNLOCKED ✅";
+  btn.disabled=true;
+  window.open(REWARD_LINKS[id],"_blank");
  }
 }
 
 function render(){
- const box=qs("#posts");
+ const box=document.getElementById("posts");
  box.innerHTML="";
  POSTS.forEach(p=>{
-  const c=Number(localStorage.getItem("coin_"+p.id)||0);
+  const c=Number(localStorage.getItem("ads_"+p.id)||0);
   box.innerHTML+=`
    <div class="card">
-    <img class="thumb" src="${p.img}">
+    <img src="${p.img}">
     <h3>${p.title}</h3>
-    <div class="progress"><div class="bar" id="bar_${p.id}" style="width:${c/REQUIRED*100}%"></div></div>
-    <button class="btn watch" id="watch_${p.id}" onclick="showAd('${p.id}')">
-     Watch Ads (${c}/${REQUIRED})
-    </button>
-    <br><br>
-    <button class="btn join" id="join_${p.id}" ${c<REQUIRED?"disabled":""}
-     onclick="window.open(REWARD_LINKS['${p.id}'],'_blank')">
-     Join / Reward
+    <p>Unlock এ ক্লিক করে Ads দেখে আনলক করুন</p>
+    <button id="btn_${p.id}" class="unlock" ${c>=REQUIRED?"disabled":""}
+      onclick="showAd('${p.id}')">
+      ${c>=REQUIRED?"UNLOCKED ✅":`UNLOCK – ${c}/${REQUIRED} ADS`}
     </button>
    </div>
   `;
