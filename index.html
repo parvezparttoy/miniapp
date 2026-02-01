@@ -1,180 +1,164 @@
 <!doctype html>
 <html lang="bn">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Viral Zone</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>VIRAL ZONE — Exclusive Video Access</title>
 
-<script src="https://adexora.com/cdn/ads.js?id=650"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Monetag Ads Script -->
+<script src='//libtl.com/sdk.js' data-zone='10531261' data-sdk='show_10531261'></script>
 
 <style>
+/* ==== CSS EXACT SAME (unchanged) ==== */
+:root {
+  --primary:#7e22ce;
+  --primary-light:#a855f7;
+  --bg-dark:#0f0f23;
+  --bg-card:#1a1a2e;
+  --bg-panel:#1e1e30;
+  --text-light:#f3f4f6;
+  --text-muted:#c7d2fe;
+  --border:rgba(124,58,237,.2);
+  --radius:14px;
+  --shadow:0 10px 25px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box;font-family:Poppins,system-ui}
 body{
   margin:0;
-  background:#0b0a1a;
-  color:#fff;
-  font-family:system-ui;
+  background:linear-gradient(135deg,var(--bg-dark),#1e1b4b);
+  color:var(--text-light);
 }
+.app{max-width:900px;margin:auto;padding:16px}
 .header{
-  padding:16px;
-  background:linear-gradient(90deg,#6d28d9,#9333ea);
-  border-radius:0 0 22px 22px;
+  text-align:center;
+  background:var(--bg-panel);
+  padding:20px;
+  border-radius:var(--radius);
+  border:1px solid var(--border);
 }
-.header h2{margin:0}
-.header p{opacity:.85;margin:4px 0 0}
+.title{
+  font-size:28px;
+  font-weight:800;
+  background:linear-gradient(90deg,var(--primary-light),#e879f9);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.subtitle{color:var(--text-muted);font-size:14px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:20px;padding-bottom:120px}
 .card{
-  margin:16px;
-  background:#11102a;
-  border-radius:20px;
-  padding:14px;
+  background:var(--bg-card);
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  overflow:hidden;
+  box-shadow:var(--shadow);
 }
-.card img{
-  width:100%;
-  border-radius:16px;
-}
-.unlock{
-  margin-top:12px;
-  width:100%;
+.media{position:relative;padding-bottom:56.25%}
+.media img{position:absolute;width:100%;height:100%;object-fit:cover}
+.meta{padding:16px}
+.meta h3{margin:0 0 6px}
+.meta p{margin:0;color:var(--text-muted);font-size:14px}
+.row{display:flex;gap:8px;margin-top:12px}
+
+.unlock-btn{
+  flex:1;
   padding:14px;
-  border-radius:16px;
   border:0;
-  font-weight:900;
-  background:linear-gradient(90deg,#fb7185,#facc15);
+  border-radius:var(--radius);
+  font-weight:800;
+  cursor:pointer;
+  color:#fff;
+  background:linear-gradient(135deg,#ff0080,#ff8c00,#40e0d0);
 }
-.unlock[disabled]{
-  background:#334155;
-  color:#94a3b8;
-}
-.toast{
+.unlock-btn[disabled]{background:#334155;cursor:not-allowed}
+
+.bottom-nav{
   position:fixed;
-  bottom:24px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#22c55e;
-  color:#062012;
-  padding:10px 16px;
-  border-radius:12px;
-  display:none;
+  left:12px;right:12px;bottom:12px;
+  background:var(--bg-panel);
+  border-radius:999px;
+  display:flex;
+  justify-content:space-around;
+  padding:10px;
 }
+.nav-btn{
+  background:none;border:0;color:var(--text-muted);
+  display:flex;flex-direction:column;align-items:center;
+}
+.nav-btn.active{color:var(--primary-light)}
 </style>
 </head>
 
 <body>
+<div class="app">
+  <header class="header">
+    <div class="title">VIRAL ZONE 🔥</div>
+    <div class="subtitle">Exclusive Premium Access</div>
+  </header>
 
-<div class="header">
-  <h2>🔥 VIRAL ZONE</h2>
-  <p>Exclusive Premium Access</p>
+  <div id="cards" class="cards"></div>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active"><i class="fas fa-home"></i><div>হোম</div></button>
+    <button class="nav-btn"><i class="fas fa-heart"></i><div>পছন্দের</div></button>
+    <button class="nav-btn"><i class="fas fa-book-open"></i><div>টিউটোরিয়াল</div></button>
+    <button class="nav-btn"><i class="fas fa-link"></i><div>লিংক</div></button>
+  </nav>
 </div>
 
-<div id="posts"></div>
-
-<div id="toast" class="toast"></div>
-
 <script>
-/* ================= CONFIG ================= */
-const REQUIRED = 5;
-let adBusy = false;
+/* ===== STATIC DATA (ADMIN REMOVED) ===== */
+const REQUIRED_ADS = 5;
 
-/* আলাদা আলাদা demo reward link */
-const REWARD_LINKS = {
-  p1:"https://example.com/demo1",
-  p2:"https://example.com/demo2",
-  p3:"https://example.com/demo3",
-  p4:"https://example.com/demo4",
-  p5:"https://example.com/demo5",
-  p6:"https://example.com/demo6",
-  p7:"https://example.com/demo7",
-  p8:"https://example.com/demo8"
-};
-
-/* ================= POSTS ================= */
-const POSTS = [
- {id:"p1",title:"Jannat Toha Viral Video",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/images%20(99).jpeg"},
- {id:"p2",title:"Ridhii Moni Viral Video",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251018_194758_066.jpg"},
- {id:"p3",title:"Era Moni Viral Video",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/main/IMG_20251016_155725_290.jpg"},
- {id:"p4",title:"Othoi TikToker",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251112_172356_482.jpg"},
- {id:"p5",title:"Riddhi TikToker",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251112_173647_302.jpg"},
- {id:"p6",title:"Afrin Moni TikTok",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251112_174614_584.jpg"},
- {id:"p7",title:"Kids Viral Video",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251015_011606_673.jpg"},
- {id:"p8",title:"Nadiya Viral Video",img:"https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251119_084017_616.jpg"}
+const FILES = [
+ {id:"p1",title:"বাংলাদেশি ভাইরাল ভিডিও",desc:"Premium content unlock করুন",img:"https://picsum.photos/600/400?1"},
+ {id:"p2",title:"TikTok Viral Clip",desc:"Ads দেখে আনলক করুন",img:"https://picsum.photos/600/400?2"},
+ {id:"p3",title:"Exclusive Private Video",desc:"Only for members",img:"https://picsum.photos/600/400?3"}
 ];
 
-/* ================= HELPERS ================= */
-function toast(msg){
- const t=document.getElementById("toast");
- t.innerText=msg;
- t.style.display="block";
- setTimeout(()=>t.style.display="none",1500);
+function getCount(id){
+ return Number(localStorage.getItem("ads_"+id)||0);
 }
 
-/* ================= ADS LOGIC ================= */
-function waitForAdexora(){
- return new Promise((res,rej)=>{
-  let t=0;
-  const i=setInterval(()=>{
-   if(window.showAdexora){
-    clearInterval(i);res();
-   }
-   t+=100;
-   if(t>5000){clearInterval(i);rej();}
-  },100);
- });
-}
-
-async function showAd(id){
- if(adBusy) return;
- adBusy=true;
-
- try{
-  await waitForAdexora();
-  await window.showAdexora(); // must complete
-
-  let key="ads_"+id;
-  let c=Number(localStorage.getItem(key)||0);
-  if(c<REQUIRED){
-    c++;
-    localStorage.setItem(key,c);
-    toast("+1 Ads Completed ✅");
-    updateCard(id,c);
-  }
- }catch{
-  toast("Ad not completed ❌");
+async function showAdAndCount(id){
+ if(!window.show_10531261){
+   alert("Ad not ready");
+   return;
  }
-
- adBusy=false;
-}
-
-/* ================= UI ================= */
-function updateCard(id,c){
- const btn=document.getElementById("btn_"+id);
- btn.innerText=`UNLOCK – ${c}/${REQUIRED} ADS`;
- if(c>=REQUIRED){
-  btn.innerText="UNLOCKED ✅";
-  btn.disabled=true;
-  window.open(REWARD_LINKS[id],"_blank");
+ await window.show_10531261(); // must complete
+ let c=getCount(id)+1;
+ localStorage.setItem("ads_"+id,c);
+ render();
+ if(c>=REQUIRED_ADS){
+   alert("Unlocked ✅");
  }
 }
 
 function render(){
- const box=document.getElementById("posts");
+ const box=document.getElementById("cards");
  box.innerHTML="";
- POSTS.forEach(p=>{
-  const c=Number(localStorage.getItem("ads_"+p.id)||0);
-  box.innerHTML+=`
+ FILES.forEach(f=>{
+   const c=getCount(f.id);
+   box.innerHTML+=`
    <div class="card">
-    <img src="${p.img}">
-    <h3>${p.title}</h3>
-    <p>Unlock এ ক্লিক করে Ads দেখে আনলক করুন</p>
-    <button id="btn_${p.id}" class="unlock" ${c>=REQUIRED?"disabled":""}
-      onclick="showAd('${p.id}')">
-      ${c>=REQUIRED?"UNLOCKED ✅":`UNLOCK – ${c}/${REQUIRED} ADS`}
-    </button>
-   </div>
-  `;
+     <div class="media"><img src="${f.img}"></div>
+     <div class="meta">
+       <h3>${f.title}</h3>
+       <p>${f.desc}</p>
+       <div class="row">
+         <button class="unlock-btn" ${c>=REQUIRED_ADS?"disabled":""}
+           onclick="showAdAndCount('${f.id}')">
+           ${c>=REQUIRED_ADS?"UNLOCKED":"UNLOCK – "+c+"/"+REQUIRED_ADS}
+         </button>
+       </div>
+     </div>
+   </div>`;
  });
 }
-
 render();
 </script>
-
 </body>
 </html>
