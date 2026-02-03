@@ -8,8 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- Monetag Ads Script (আপনি যেটা ব্যবহার করছিলেন সেটা 그대로 রাখলাম) -->
-  <script src='//libtl.com/sdk.js' data-zone='10531261' data-sdk='show_10531261'></script>
+  <!-- ✅ Adexora Ads Script -->
+  <script src="https://adexora.com/cdn/ads.js?id=650"></script>
 
   <style>
     :root {
@@ -232,27 +232,25 @@
 
 <script>
 /** =========================
- *  CONFIG / DATA (SAFE)
- *  =========================
- *  ✅ এখানে 9টা পোস্ট রাখা হলো (আপনার চাওয়া অনুযায়ী)।
- *  আপনি নিজের অনুমতিপ্রাপ্ত কনটেন্টের photo/title/desc/reward_link বসাবেন।
- */
+ *  DATA (9 posts) + stable order
+ *  ========================= */
 const POSTS = [
-  { id: 1, order: 1, photo: "https://via.placeholder.com/800x450?text=Post+1", title: "Post 1 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward1" },
-  { id: 2, order: 2, photo: "https://via.placeholder.com/800x450?text=Post+2", title: "Post 2 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward2" },
-  { id: 3, order: 3, photo: "https://via.placeholder.com/800x450?text=Post+3", title: "Post 3 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward3" },
-  { id: 4, order: 4, photo: "https://via.placeholder.com/800x450?text=Post+4", title: "Post 4 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward4" },
-  { id: 5, order: 5, photo: "https://via.placeholder.com/800x450?text=Post+5", title: "Post 5 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward5" },
-  { id: 6, order: 6, photo: "https://via.placeholder.com/800x450?text=Post+6", title: "Post 6 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward6" },
-  { id: 7, order: 7, photo: "https://via.placeholder.com/800x450?text=Post+7", title: "Post 7 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward7" },
-  { id: 8, order: 8, photo: "https://via.placeholder.com/800x450?text=Post+8", title: "Post 8 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward8" },
-  { id: 9, order: 9, photo: "https://via.placeholder.com/800x450?text=Post+9", title: "Post 9 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward9" },
+  // ✅ এখানে আপনার photo/title/desc/reward_link বসাবেন (আইনসঙ্গত/অনুমতিপ্রাপ্ত কনটেন্ট)
+  { id: 1, order: 1, photo: "https://via.placeholder.com/800x450?text=1", title: "Jannat Toha", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward1" },
+  { id: 2, order: 2, photo: "https://via.placeholder.com/800x450?text=2", title: "Ohtoi",      desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward2" },
+  { id: 3, order: 3, photo: "https://via.placeholder.com/800x450?text=3", title: "Ridhii",     desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward3" },
+  { id: 4, order: 4, photo: "https://via.placeholder.com/800x450?text=4", title: "Afreen",     desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward4" },
+  { id: 5, order: 5, photo: "https://via.placeholder.com/800x450?text=5", title: "Ratri",      desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward5" },
+  { id: 6, order: 6, photo: "https://via.placeholder.com/800x450?text=6", title: "Mim",        desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward6" },
+  { id: 7, order: 7, photo: "https://via.placeholder.com/800x450?text=7", title: "Sofiq",      desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward7" },
+  { id: 8, order: 8, photo: "https://via.placeholder.com/800x450?text=8", title: "Bangladeshi",desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward8" },
+  { id: 9, order: 9, photo: "https://via.placeholder.com/800x450?text=9", title: "Nadia",      desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward9" },
 ];
 
-const REQUIRED_ADS = 5; // ✅ 5 ads complete হলে Watch Video
-const DEFAULT_YT_ID = "M7lc1UVf-VE"; // ✅ tutorial default video (পরে আপনি বদলাবেন)
+const REQUIRED_ADS = 5;
+const DEFAULT_YT_ID = "M7lc1UVf-VE"; // tutorial default (পরে change করবেন)
 
-// ✅ links section: 2 channel links with button
+// links section: 2 channel buttons
 const CHANNEL_LINKS = [
   { name: "Channel One", url: "https://example.com/channel1" },
   { name: "Channel Two", url: "https://example.com/channel2" },
@@ -301,18 +299,21 @@ function setProgress(postId, watched){
 }
 
 /** =========================
- *  ADS
+ *  ✅ ADEXORA AD WRAPPER
  *  ========================= */
-function showMonetagAd(){
+function showAdexoraAd(){
   return new Promise((resolve, reject) => {
     try{
-      if(typeof window.show_10531261 === 'function'){
-        window.show_10531261().then(resolve).catch(reject);
+      if (typeof window.showAdexora === 'function') {
+        window.showAdexora()
+          .then(() => resolve(true))
+          .catch(err => reject(err));
       } else {
-        // SDK না থাকলে fallback delay
-        setTimeout(resolve, 15000);
+        reject('Adexora not loaded');
       }
-    }catch(e){ reject(e); }
+    }catch(e){
+      reject(e);
+    }
   });
 }
 
@@ -347,7 +348,7 @@ function cardHtml(p){
 function render(){
   const q = (document.getElementById('searchInput').value || '').toLowerCase();
 
-  // ✅ Stable order (refresh করলে up-down হবে না)
+  // ✅ stable order
   const list = [...POSTS]
     .sort((a,b)=> (a.order||0) - (b.order||0))
     .filter(p => (p.title||'').toLowerCase().includes(q) || (p.desc||'').toLowerCase().includes(q));
@@ -362,11 +363,8 @@ function render(){
 /** =========================
  *  UNLOCK LOGIC
  *  =========================
- *  ✅ 5 ads complete হলে button = Watch Video
- *  ✅ Watch Video tap করলে:
- *     - reward link open
- *     - count reset 0
- *     - আবার ads দেখাবে
+ *  5 ads complete -> Watch Video
+ *  Watch Video tap -> open reward_link + reset to 0
  */
 async function onUnlock(e){
   const btn = e.currentTarget;
@@ -377,40 +375,41 @@ async function onUnlock(e){
   const pr = getProgress(id);
   const done = pr.watched >= REQUIRED_ADS;
 
-  // Done -> Watch Video
+  // ✅ Watch Video
   if(done){
     if(post.reward_link){
       window.open(String(post.reward_link), '_blank');
-    }else{
+    } else {
       showToast('Reward link set করা নেই', 2800);
     }
-    setProgress(id, 0); // reset
+    setProgress(id, 0);
     showToast('Count reset ✅ আবার Ads দেখে Unlock করুন', 2800);
     render();
     return;
   }
 
-  // Not done -> Show ad then +1
+  // ✅ Show Adexora ad then +1
   btn.classList.add('loading');
   try{
-    await showMonetagAd();
+    await showAdexoraAd(); // ✅ ADEXORA
     const after = Math.min(REQUIRED_ADS, pr.watched + 1);
     setProgress(id, after);
 
     if(after >= REQUIRED_ADS){
       showToast('৫টি Ads সম্পন্ন ✅ এখন Watch Video এসেছে', 3000);
-    }else{
+    } else {
       showToast(`${after}/${REQUIRED_ADS} সম্পন্ন — আবার Unlock চাপুন`, 2600);
     }
     render();
-  }catch(_){
-    showToast('Ad সম্পূর্ণ হয়নি — পুরো সময় দেখুন', 3200);
+  }catch(err){
+    console.warn('Adexora ad failed:', err);
+    showToast('Ad সম্পূর্ণ হয়নি — আবার চেষ্টা করুন', 3200);
   }finally{
     btn.classList.remove('loading');
   }
 }
 
-/** share link (optional) */
+/** Share link */
 function shareLink(postId){
   const base = window.location.origin + window.location.pathname;
   return `${base}?post=${postId}`;
@@ -433,9 +432,7 @@ function onCopy(e){
   }
 }
 
-/** =========================
- *  NAV + Tutorial + Links
- *  ========================= */
+/** NAV + Tutorial + Links */
 function switchSection(secId, navId){
   document.querySelectorAll('.section').forEach(s=> s.classList.remove('active'));
   document.getElementById(secId).classList.add('active');
@@ -471,27 +468,12 @@ function renderLinks(){
   `).join('');
 }
 
-/** =========================
- *  SERVICE WORKER REGISTER
- *  =========================
- *  ✅ আপনি যে নতুন API/worker config দিয়েছেন সেটা service-worker.js এ থাকবে।
- */
-async function registerSW(){
-  if(!('serviceWorker' in navigator)) return;
-  try{
-    await navigator.serviceWorker.register('./service-worker.js');
-  }catch(e){
-    // silent fail
-  }
-}
-
 /** INIT */
 (function init(){
   renderTutorial();
   renderLinks();
   render();
-  registerSW();
 })();
 </script>
 </body>
-</html>
+  </html>
