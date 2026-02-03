@@ -1,1548 +1,497 @@
 <!doctype html>
 <html lang="bn">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>VIRAL ZONE — Exclusive Video Access</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<!-- Monetag Ads Script -->
-<script src='//libtl.com/sdk.js' data-zone='10531261' data-sdk='show_10531261'></script>
-
-<style>
-:root {
-  --primary: #7e22ce;
-  --primary-light: #a855f7;
-  --primary-dark: #581c87;
-  --secondary: #c084fc;
-  --accent: #e879f9;
-  --bg-dark: #0f0f23;
-  --bg-card: #1a1a2e;
-  --bg-panel: #1e1e30;
-  --text-light: #f3f4f6;
-  --text-muted: #c7d2fe;
-  --border: rgba(124, 58, 237, 0.2);
-  --radius: 14px;
-  --shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-}
-
-* {
-  box-sizing: border-box;
-  font-family: 'Poppins', system-ui, Arial;
-}
-
-html, body {
-  height: 100%;
-  margin: 0;
-  background: linear-gradient(135deg, var(--bg-dark), #1e1b4b);
-  color: var(--text-light);
-  -webkit-font-smoothing: antialiased;
-}
-
-.app {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 16px;
-}
-
-/* SINGLE FILE VIEW STYLES */
-.single-file-view {
-  display: none;
-}
-
-.single-file-view.active {
-  display: block;
-  min-height: 100vh;
-  padding-top: 20px;
-}
-
-.back-btn {
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-.single-card {
-  background: var(--bg-card);
-  border-radius: var(--radius);
-  overflow: hidden;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  margin-bottom: 20px;
-}
-
-.single-card .media {
-  position: relative;
-  width: 100%;
-  height: 0;
-  padding-bottom: 56.25%;
-  background: var(--bg-dark);
-}
-
-.single-card .media img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.single-card .heart {
-  position: absolute;
-  right: 12px;
-  top: 12px;
-  background: rgba(0, 0, 0, 0.6);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  border: 0;
-  cursor: pointer;
-  transition: all 0.3s;
-  z-index: 2;
-}
-
-.single-card .heart:hover {
-  background: rgba(0, 0, 0, 0.8);
-  color: var(--accent);
-}
-
-.single-card .meta {
-  padding: 20px;
-}
-
-.single-card .meta h3 {
-  margin: 0 0 12px 0;
-  font-size: 22px;
-  color: var(--text-light);
-}
-
-.single-card .meta p {
-  margin: 0 0 20px 0;
-  color: var(--text-muted);
-  font-size: 15px;
-  line-height: 1.5;
-}
-
-.single-card .row {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  margin-top: 20px;
-}
-
-/* NORMAL APP VIEW */
-.normal-app-view {
-  display: block;
-}
-
-.normal-app-view.hidden {
-  display: none;
-}
-
-.header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 8px;
-  margin-bottom: 20px;
-  padding: 20px 16px;
-  background: var(--bg-panel);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-}
-
-.brand {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-}
-
-.title {
-  font-size: 28px;
-  font-weight: 800;
-  background: linear-gradient(90deg, var(--primary-light), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.subtitle {
-  font-size: 14px;
-  color: var(--text-muted);
-  font-weight: 500;
-  letter-spacing: 0.5px;
-}
-
-.controls {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 16px;
-  align-items: center;
-}
-
-.input {
-  flex: 1;
-  padding: 12px 16px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: rgba(30, 30, 48, 0.7);
-  color: var(--text-light);
-  outline: none;
-  transition: all 0.3s;
-}
-
-.input:focus {
-  border-color: var(--primary-light);
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
-}
-
-.btn {
-  padding: 12px 20px;
-  border-radius: var(--radius);
-  border: 0;
-  cursor: pointer;
-  font-weight: 700;
-  transition: all 0.3s;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--primary-light));
-  color: white;
-  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
-}
-
-.btn-secondary {
-  background: var(--bg-card);
-  color: var(--text-light);
-  border: 1px solid var(--border);
-}
-
-.btn-secondary:hover {
-  background: rgba(124, 58, 237, 0.1);
-  border-color: var(--primary-light);
-}
-
-.filter-buttons {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
-  overflow-x: auto;
-  padding-bottom: 8px;
-}
-
-.filter-btn {
-  padding: 10px 16px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  border-radius: var(--radius);
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.3s;
-  font-size: 13px;
-  font-weight: 600;
-  position: relative;
-}
-
-.filter-btn.active {
-  background: linear-gradient(135deg, var(--primary), var(--primary-light));
-  color: white;
-  border-color: var(--primary-light);
-}
-
-.filter-btn:hover:not(.active) {
-  border-color: var(--primary-light);
-  color: var(--primary-light);
-}
-
-.filter-count {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  background: var(--accent);
-  color: white;
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  font-size: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-}
-
-.cards {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding-bottom: 140px;
-}
-
-.card {
-  background: var(--bg-card);
-  border-radius: var(--radius);
-  overflow: hidden;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  transition: all 0.3s;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-  border-color: var(--primary-light);
-}
-
-.media {
-  position: relative;
-  width: 100%;
-  height: 0;
-  padding-bottom: 56.25%;
-  background: var(--bg-dark);
-}
-
-.media img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.heart {
-  position: absolute;
-  right: 12px;
-  top: 12px;
-  background: rgba(0, 0, 0, 0.6);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  border: 0;
-  cursor: pointer;
-  transition: all 0.3s;
-  z-index: 2;
-}
-
-.heart:hover {
-  background: rgba(0, 0, 0, 0.8);
-  color: var(--accent);
-}
-
-.meta {
-  padding: 16px;
-}
-
-.meta h3 {
-  margin: 0 0 8px 0;
-  font-size: 18px;
-}
-
-.meta p {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-top: 12px;
-}
-
-/* NEON GRADIENT ANIMATED UNLOCK BUTTON */
-.unlock-btn {
-  flex: 1;
-  padding: 14px;
-  border-radius: var(--radius);
-  border: 0;
-  cursor: pointer;
-  font-weight: 800;
-  transition: all 0.3s;
-  position: relative;
-  overflow: hidden;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 14px;
-
-  background: linear-gradient(
-    135deg,
-    #ff0080,
-    #ff8c00,
-    #40e0d0,
-    #ff0080,
-    #ff8c00
-  );
-  background-size: 400% 400%;
-  animation: neonGradient 3s ease infinite, neonPulse 2s ease-in-out infinite alternate;
-
-  box-shadow:
-    0 0 20px rgba(255, 0, 128, 0.5),
-    0 0 40px rgba(255, 140, 0, 0.3),
-    0 0 60px rgba(64, 224, 208, 0.2),
-    inset 0 0 20px rgba(255, 255, 255, 0.1);
-
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.unlock-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.4),
-    transparent
-  );
-  transition: 0.6s;
-}
-
-.unlock-btn:hover::before {
-  left: 100%;
-}
-
-.unlock-btn:hover {
-  transform: translateY(-3px) scale(1.02);
-  animation: none;
-  background: linear-gradient(
-    135deg,
-    #ff0080,
-    #ff8c00,
-    #40e0d0,
-    #ff0080
-  );
-  background-size: 400% 400%;
-  animation: neonGradient 1.5s ease infinite, neonPulseHover 0.5s ease-in-out infinite alternate;
-
-  box-shadow:
-    0 0 30px rgba(255, 0, 128, 0.7),
-    0 0 60px rgba(255, 140, 0, 0.5),
-    0 0 90px rgba(64, 224, 208, 0.3),
-    0 5px 20px rgba(0, 0, 0, 0.4),
-    inset 0 0 25px rgba(255, 255, 255, 0.15);
-}
-
-.unlock-btn:active {
-  transform: translateY(-1px) scale(1.01);
-  box-shadow:
-    0 0 15px rgba(255, 0, 128, 0.6),
-    0 0 30px rgba(255, 140, 0, 0.4),
-    0 0 45px rgba(64, 224, 208, 0.2),
-    0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.unlock-btn.loading {
-  pointer-events: none;
-  animation: none;
-  background: linear-gradient(135deg, #4f46e5, #6366f1);
-  box-shadow: 0 0 20px rgba(79, 70, 229, 0.5);
-}
-
-.unlock-btn.loading::after {
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  top: 50%;
-  left: 50%;
-  margin: -10px 0 0 -10px;
-  border: 2px solid transparent;
-  border-top: 2px solid white;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-.unlock-btn.success {
-  animation: none;
-  background: linear-gradient(135deg, #00ff88, #00ccff);
-  box-shadow:
-    0 0 25px rgba(0, 255, 136, 0.6),
-    0 0 50px rgba(0, 204, 255, 0.4);
-}
-
-.unlock-btn.success::before {
-  content: '✓ ';
-  position: static;
-  background: none;
-}
-
-@keyframes neonGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes neonPulse {
-  0% {
-    box-shadow:
-      0 0 20px rgba(255, 0, 128, 0.5),
-      0 0 40px rgba(255, 140, 0, 0.3),
-      0 0 60px rgba(64, 224, 208, 0.2),
-      inset 0 0 20px rgba(255, 255, 255, 0.1);
-  }
-  100% {
-    box-shadow:
-      0 0 25px rgba(255, 0, 128, 0.7),
-      0 0 45px rgba(255, 140, 0, 0.5),
-      0 0 65px rgba(64, 224, 208, 0.3),
-      inset 0 0 25px rgba(255, 255, 255, 0.15);
-  }
-}
-
-@keyframes neonPulseHover {
-  0% {
-    box-shadow:
-      0 0 30px rgba(255, 0, 128, 0.7),
-      0 0 60px rgba(255, 140, 0, 0.5),
-      0 0 90px rgba(64, 224, 208, 0.3),
-      0 5px 20px rgba(0, 0, 0, 0.4),
-      inset 0 0 25px rgba(255, 255, 255, 0.15);
-  }
-  100% {
-    box-shadow:
-      0 0 35px rgba(255, 0, 128, 0.8),
-      0 0 65px rgba(255, 140, 0, 0.6),
-      0 0 95px rgba(64, 224, 208, 0.4),
-      0 7px 25px rgba(0, 0, 0, 0.5),
-      inset 0 0 30px rgba(255, 255, 255, 0.2);
-  }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-@keyframes bounce {
-  0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
-  40%, 43% { transform: translate3d(0,-8px,0); }
-  70% { transform: translate3d(0,-4px,0); }
-}
-
-.unlock-btn.pulse { animation: pulse 0.5s ease-in-out; }
-.unlock-btn.bounce { animation: bounce 0.5s ease-in-out; }
-
-.copy-link-btn {
-  background: var(--bg-panel);
-  color: var(--text-light);
-  border: 1px solid var(--border);
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s;
-  flex-shrink: 0;
-}
-
-.copy-link-btn:hover {
-  background: rgba(59, 130, 246, 0.1);
-  border-color: #3b82f6;
-  color: #3b82f6;
-}
-
-.copy-link-btn.copied {
-  background: rgba(16, 185, 129, 0.1);
-  border-color: #10b981;
-  color: #10b981;
-  animation: pulse 0.5s;
-}
-
-.toast {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 150px;
-  background: var(--bg-panel);
-  padding: 12px 20px;
-  border-radius: var(--radius);
-  color: white;
-  z-index: 3000;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-  display: none;
-  animation: slideUp 0.3s ease-out;
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-  to { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
-
-.bottom-nav {
-  position: fixed;
-  left: 12px;
-  right: 12px;
-  bottom: 12px;
-  margin: 0 auto;
-  max-width: 900px;
-  background: var(--bg-panel);
-  border-radius: 999px;
-  padding: 10px;
-  display: flex;
-  justify-content: space-around;
-  backdrop-filter: blur(10px);
-  z-index: 2000;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-}
-
-.nav-btn {
-  background: transparent;
-  border: 0;
-  color: var(--text-muted);
-  font-size: 13px;
-  padding: 10px;
-  border-radius: var(--radius);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.3s;
-  min-width: 60px;
-}
-
-.nav-btn.active {
-  color: var(--primary-light);
-  background: rgba(124, 58, 237, 0.1);
-}
-
-.section { display: none; }
-.section.active { display: block; }
-
-/* Tutorial Styles */
-.tutorial-container {
-  background: var(--bg-card);
-  border-radius: var(--radius);
-  padding: 20px;
-  margin-bottom: 20px;
-  border: 1px solid var(--border);
-}
-
-.tutorial-container h4 {
-  margin-top: 0;
-  margin-bottom: 15px;
-  color: var(--primary-light);
-}
-
-.tutorial-steps { margin-top: 20px; }
-
-.tutorial-step {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 15px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid var(--border);
-}
-
-.tutorial-step:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.step-number {
-  background: linear-gradient(135deg, var(--primary), var(--primary-light));
-  color: white;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  flex-shrink: 0;
-}
-
-.step-content { flex: 1; }
-
-.step-content h5 { margin: 0 0 5px 0; color: var(--text-light); }
-.step-content p { margin: 0; color: var(--text-muted); font-size: 14px; }
-
-@media (min-width: 900px) {
-  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-  .single-card { max-width: 600px; margin: 0 auto; }
-  .unlock-btn { font-size: 15px; padding: 16px; }
-}
-
-@media (max-width: 768px) {
-  .controls { flex-direction: row; }
-  .input { width: 100%; }
-  .row { flex-direction: row; }
-  .unlock-btn { font-size: 12px; padding: 12px; }
-  .tutorial-step { flex-direction: column; gap: 10px; }
-}
-
-@media (max-width: 520px) {
-  .title { font-size: 24px; }
-  .meta h3 { font-size: 16px; }
-  .media { padding-bottom: 66.6%; }
-  .controls { flex-direction: row; gap: 8px; }
-  .btn { padding: 12px 16px; font-size: 14px; }
-  .header { padding: 16px 12px; }
-  .unlock-btn { font-size: 11px; padding: 10px; }
-  .row { gap: 6px; }
-}
-</style>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VIRAL ZONE — Exclusive Video Access</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Monetag Ads Script (আপনি যেটা ব্যবহার করছিলেন সেটা 그대로 রাখলাম) -->
+  <script src='//libtl.com/sdk.js' data-zone='10531261' data-sdk='show_10531261'></script>
+
+  <style>
+    :root {
+      --primary: #7e22ce;
+      --primary-light: #a855f7;
+      --primary-dark: #581c87;
+      --secondary: #c084fc;
+      --accent: #e879f9;
+      --bg-dark: #0f0f23;
+      --bg-card: #1a1a2e;
+      --bg-panel: #1e1e30;
+      --text-light: #f3f4f6;
+      --text-muted: #c7d2fe;
+      --border: rgba(124, 58, 237, 0.2);
+      --radius: 14px;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    * { box-sizing: border-box; font-family: 'Poppins', system-ui, Arial; }
+    html, body { height: 100%; margin: 0; background: linear-gradient(135deg, var(--bg-dark), #1e1b4b); color: var(--text-light); -webkit-font-smoothing: antialiased; }
+    .app { max-width: 900px; margin: 0 auto; padding: 16px; }
+
+    .header {
+      display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px;
+      margin-bottom: 20px; padding: 20px 16px; background: var(--bg-panel);
+      border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border);
+    }
+    .brand { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
+    .title {
+      font-size: 28px; font-weight: 800;
+      background: linear-gradient(90deg, var(--primary-light), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: 1px; text-transform: uppercase;
+    }
+    .subtitle { font-size: 14px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.5px; }
+
+    .controls { display: flex; gap: 10px; margin-bottom: 16px; align-items: center; }
+    .input {
+      flex: 1; padding: 12px 16px; border-radius: 999px; border: 1px solid var(--border);
+      background: rgba(30, 30, 48, 0.7); color: var(--text-light); outline: none; transition: all 0.3s;
+    }
+    .input:focus { border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2); }
+
+    .btn {
+      padding: 12px 20px; border-radius: var(--radius); border: 0; cursor: pointer; font-weight: 700;
+      transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      position: relative; overflow: hidden;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white;
+      box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5); }
+
+    .cards { display: flex; flex-direction: column; gap: 20px; padding-bottom: 140px; }
+    .card {
+      background: var(--bg-card); border-radius: var(--radius); overflow: hidden;
+      border: 1px solid var(--border); box-shadow: var(--shadow); transition: all 0.3s;
+    }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); border-color: var(--primary-light); }
+
+    .media { position: relative; width: 100%; height: 0; padding-bottom: 56.25%; background: var(--bg-dark); }
+    .media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+    .meta { padding: 16px; }
+    .meta h3 { margin: 0 0 8px 0; font-size: 18px; }
+    .meta p { margin: 0; color: var(--text-muted); font-size: 14px; line-height: 1.4; }
+
+    .row { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
+
+    /* Neon unlock/watch button */
+    .unlock-btn {
+      flex: 1;
+      padding: 14px;
+      border-radius: var(--radius);
+      border: 0;
+      cursor: pointer;
+      font-weight: 800;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 14px;
+      background: linear-gradient(135deg,#ff0080,#ff8c00,#40e0d0,#ff0080,#ff8c00);
+      background-size: 400% 400%;
+      animation: neonGradient 3s ease infinite, neonPulse 2s ease-in-out infinite alternate;
+      box-shadow:
+        0 0 20px rgba(255, 0, 128, 0.5),
+        0 0 40px rgba(255, 140, 0, 0.3),
+        0 0 60px rgba(64, 224, 208, 0.2),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .unlock-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: 0.6s;
+    }
+    .unlock-btn:hover::before { left: 100%; }
+    .unlock-btn:active { transform: translateY(-1px) scale(1.01); }
+
+    .unlock-btn.loading {
+      pointer-events: none;
+      animation: none;
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      box-shadow: 0 0 20px rgba(79, 70, 229, 0.5);
+    }
+    .unlock-btn.loading::after {
+      content: '';
+      position: absolute;
+      width: 20px; height: 20px;
+      top: 50%; left: 50%;
+      margin: -10px 0 0 -10px;
+      border: 2px solid transparent;
+      border-top: 2px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    .unlock-btn.watch {
+      animation: none;
+      background: linear-gradient(135deg, #00ff88, #00ccff);
+      box-shadow: 0 0 25px rgba(0, 255, 136, 0.6), 0 0 50px rgba(0, 204, 255, 0.4);
+    }
+
+    .copy-link-btn {
+      background: var(--bg-panel);
+      color: var(--text-light);
+      border: 1px solid var(--border);
+      width: 44px; height: 44px;
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.3s; flex-shrink: 0;
+    }
+    .copy-link-btn:hover { background: rgba(59, 130, 246, 0.1); border-color: #3b82f6; color: #3b82f6; }
+    .copy-link-btn.copied { background: rgba(16, 185, 129, 0.1); border-color: #10b981; color: #10b981; }
+
+    .toast {
+      position: fixed; left: 50%; transform: translateX(-50%);
+      bottom: 150px; background: var(--bg-panel);
+      padding: 12px 20px; border-radius: var(--radius);
+      color: white; z-index: 3000;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+      display: none;
+      animation: slideUp 0.3s ease-out;
+    }
+    @keyframes slideUp { from {opacity:0; transform:translateX(-50%) translateY(20px)} to {opacity:1; transform:translateX(-50%) translateY(0)} }
+    @keyframes neonGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    @keyframes neonPulse { 0% { box-shadow:0 0 20px rgba(255,0,128,.5),0 0 40px rgba(255,140,0,.3),0 0 60px rgba(64,224,208,.2),inset 0 0 20px rgba(255,255,255,.1)} 100% { box-shadow:0 0 25px rgba(255,0,128,.7),0 0 45px rgba(255,140,0,.5),0 0 65px rgba(64,224,208,.3),inset 0 0 25px rgba(255,255,255,.15)} }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    .bottom-nav {
+      position: fixed; left: 12px; right: 12px; bottom: 12px; margin: 0 auto; max-width: 900px;
+      background: var(--bg-panel); border-radius: 999px; padding: 10px;
+      display: flex; justify-content: space-around;
+      backdrop-filter: blur(10px);
+      z-index: 2000; box-shadow: var(--shadow); border: 1px solid var(--border);
+    }
+    .nav-btn {
+      background: transparent; border: 0; color: var(--text-muted);
+      font-size: 13px; padding: 10px; border-radius: var(--radius);
+      display: flex; flex-direction: column; align-items: center;
+      cursor: pointer; transition: all 0.3s; min-width: 60px;
+    }
+    .nav-btn.active { color: var(--primary-light); background: rgba(124, 58, 237, 0.1); }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    .tutorial-container { background: var(--bg-card); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; border: 1px solid var(--border); }
+    @media (min-width: 900px) { .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+    @media (max-width: 520px) { .title { font-size: 24px; } }
+  </style>
 </head>
+
 <body>
   <div class="app">
-    <!-- SINGLE FILE VIEW (Shows when accessing via link) -->
-    <div id="singleFileView" class="single-file-view">
-      <button id="backToAllBtn" class="btn btn-secondary back-btn">
-        <i class="fas fa-arrow-left"></i> Back to All Files
-      </button>
-      <div id="singleFileCard" class="single-card">
-        <!-- Single file will be loaded here -->
+    <header class="header">
+      <div class="brand">
+        <div class="title">VIRAL ZONE 🔥</div>
+        <div class="subtitle">Exclusive Premium Access</div>
       </div>
+    </header>
+
+    <div id="homeSection" class="section active">
+      <div class="controls">
+        <input id="searchInput" class="input" placeholder="Search title or description..." />
+        <button id="searchBtn" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+      </div>
+      <div id="cards" class="cards"></div>
     </div>
 
-    <!-- NORMAL APP VIEW (Shows when no file parameter in URL) -->
-    <div id="normalAppView" class="normal-app-view">
-      <header class="header">
-        <div class="brand">
-          <div class="title">VIRAL ZONE 🔥</div>
-          <div class="subtitle">Exclusive Premium Access</div>
+    <section id="tutorialSection" class="section">
+      <h3 class="title" style="margin:8px 0; font-size:22px"><i class="fas fa-book-open"></i> টিউটোরিয়াল</h3>
+      <div class="tutorial-container">
+        <div id="tutorialEmbed" style="position:relative;padding-bottom:56.25%;height:0;margin-bottom:12px"></div>
+        <div style="color:var(--text-muted);font-size:14px;line-height:1.5">
+          ১) Unlock চাপুন → ২) Ads দেখুন → ৩) ৫টি Ads শেষ হলে Watch Video আসবে → ৪) Watch Video চাপলে লিংক ওপেন হবে এবং আবার 0 থেকে শুরু হবে।
         </div>
-      </header>
-
-      <div id="homeSection" class="section active">
-        <div class="controls">
-          <input id="searchInput" class="input" placeholder="Search title or description..." />
-          <button id="searchBtn" class="btn btn-primary">
-            <i class="fas fa-search"></i> Search
-          </button>
-        </div>
-
-        <div class="filter-buttons" id="filterButtons">
-          <!-- Filters will be loaded from API -->
-        </div>
-
-        <div id="cards" class="cards">Loading files…</div>
       </div>
+    </section>
 
-      <section id="likedSection" class="section">
-        <h3 class="title" style="margin:8px 0"><i class="fas fa-heart"></i> পছন্দের</h3>
-        <div id="likedCards" class="cards"></div>
-      </section>
+    <section id="linksSection" class="section">
+      <h3 class="title" style="margin:8px 0; font-size:22px"><i class="fas fa-link"></i> Useful Links</h3>
+      <div id="linksList" class="cards"></div>
+    </section>
 
-      <section id="tutorialSection" class="section">
-        <h3 class="title" style="margin:8px 0"><i class="fas fa-book-open"></i> কিভাবে আনলক করবেন</h3>
-        <div id="tutorialContent">
-          <div class="tutorial-container">
-            <div id="tutorialEmbed" style="position:relative;padding-bottom:56.25%;height:0;margin-bottom:20px"></div>
-            <div id="tutorialSteps" class="tutorial-steps">
-              <!-- Tutorial steps will be loaded here -->
-            </div>
-          </div>
-        </div>
-      </section>
+    <div id="toast" class="toast"></div>
 
-      <section id="linksSection" class="section">
-        <h3 class="title" style="margin:8px 0"><i class="fas fa-link"></i> Useful Links</h3>
-        <div id="linksList"></div>
-      </section>
-
-      <div id="toast" class="toast" style="display:none"></div>
-
-      <nav class="bottom-nav">
-        <button id="navHome" class="nav-btn active">
-          <i class="fas fa-home"></i>
-          <div>হোম</div>
-        </button>
-        <button id="navLiked" class="nav-btn">
-          <i class="fas fa-heart"></i>
-          <div>পছন্দের</div>
-        </button>
-        <button id="navTutorial" class="nav-btn">
-          <i class="fas fa-book-open"></i>
-          <div>টিউটোরিয়াল</div>
-        </button>
-        <button id="navLinks" class="nav-btn">
-          <i class="fas fa-link"></i>
-          <div>লিংক</div>
-        </button>
-      </nav>
-    </div>
+    <nav class="bottom-nav">
+      <button id="navHome" class="nav-btn active"><i class="fas fa-home"></i><div>হোম</div></button>
+      <button id="navTutorial" class="nav-btn"><i class="fas fa-book-open"></i><div>টিউটোরিয়াল</div></button>
+      <button id="navLinks" class="nav-btn"><i class="fas fa-link"></i><div>লিংক</div></button>
+    </nav>
   </div>
 
 <script>
-// --- API Configuration ---
-const API_BASE = 'your api';
-const FILES_API = `${API_BASE}/files_public.php`;
-const SETTINGS_API = `${API_BASE}/settings_public.php`;
+/** =========================
+ *  CONFIG / DATA (SAFE)
+ *  =========================
+ *  ✅ এখানে 9টা পোস্ট রাখা হলো (আপনার চাওয়া অনুযায়ী)।
+ *  আপনি নিজের অনুমতিপ্রাপ্ত কনটেন্টের photo/title/desc/reward_link বসাবেন।
+ */
+const POSTS = [
+  { id: 1, order: 1, photo: "https://via.placeholder.com/800x450?text=Post+1", title: "Post 1 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward1" },
+  { id: 2, order: 2, photo: "https://via.placeholder.com/800x450?text=Post+2", title: "Post 2 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward2" },
+  { id: 3, order: 3, photo: "https://via.placeholder.com/800x450?text=Post+3", title: "Post 3 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward3" },
+  { id: 4, order: 4, photo: "https://via.placeholder.com/800x450?text=Post+4", title: "Post 4 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward4" },
+  { id: 5, order: 5, photo: "https://via.placeholder.com/800x450?text=Post+5", title: "Post 5 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward5" },
+  { id: 6, order: 6, photo: "https://via.placeholder.com/800x450?text=Post+6", title: "Post 6 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward6" },
+  { id: 7, order: 7, photo: "https://via.placeholder.com/800x450?text=Post+7", title: "Post 7 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward7" },
+  { id: 8, order: 8, photo: "https://via.placeholder.com/800x450?text=Post+8", title: "Post 8 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward8" },
+  { id: 9, order: 9, photo: "https://via.placeholder.com/800x450?text=Post+9", title: "Post 9 Title", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://example.com/reward9" },
+];
 
-// --- Helper Functions ---
-function showToast(msg, t=3000){
-  const toastEl = document.getElementById('toast');
-  toastEl.textContent = msg;
-  toastEl.style.display='block';
-  clearTimeout(toastEl._to);
-  toastEl._to = setTimeout(()=>toastEl.style.display='none', t);
+const REQUIRED_ADS = 5; // ✅ 5 ads complete হলে Watch Video
+const DEFAULT_YT_ID = "M7lc1UVf-VE"; // ✅ tutorial default video (পরে আপনি বদলাবেন)
+
+// ✅ links section: 2 channel links with button
+const CHANNEL_LINKS = [
+  { name: "Channel One", url: "https://example.com/channel1" },
+  { name: "Channel Two", url: "https://example.com/channel2" },
+];
+
+/** =========================
+ *  HELPERS
+ *  ========================= */
+function showToast(msg, t=2600){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.style.display = 'block';
+  clearTimeout(el._to);
+  el._to = setTimeout(()=> el.style.display='none', t);
 }
 
-function escapeHtml(s){
+function esc(s){
   return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
+function uid(){
+  let v = localStorage.getItem('device_id');
+  if(!v){ v = 'd_' + Math.random().toString(36).slice(2,11); localStorage.setItem('device_id', v); }
+  return v;
+}
+
 function todayKey(){
-  const d=new Date();
+  const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
-// --- SIMPLE API Request Wrapper ---
-async function simpleApiRequest(url) {
-    try {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: { 'Accept': 'application/json' }
-        });
+function progKey(postId){ return `ad_prog_${uid()}_${postId}`; }
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('API Request Error:', error);
-        return { success: false, message: error.message, data: [] };
-    }
-}
-
-// --- State Variables ---
-let settings = { ads_limit: 20, tutorial_youtube_id: '', channels: [], filters: [] };
-let files = [];
-let currentFilter = 'all';
-
-// --- User Data Management ---
-function getUserUid() {
-  let deviceId = localStorage.getItem('device_id');
-  if (!deviceId) {
-    deviceId = 'd_' + Math.random().toString(36).substr(2, 9);
-    localStorage.setItem('device_id', deviceId);
-  }
-  return deviceId;
-}
-
-async function getUserDailyCount(uid){
+function getProgress(postId){
   try{
-    const raw = localStorage.getItem('user_daily_totals_' + uid);
-    if(!raw) return 0;
+    const raw = localStorage.getItem(progKey(postId));
+    if(!raw) return { date: todayKey(), watched: 0 };
     const p = JSON.parse(raw);
-    return p.date === todayKey() ? (p.count||0) : 0;
-  }catch(err){ return 0; }
+    if(p.date !== todayKey()) return { date: todayKey(), watched: 0 };
+    return { date: p.date, watched: Number(p.watched||0) };
+  }catch(_){ return { date: todayKey(), watched: 0 }; }
 }
 
-async function getUserFileProgress(uid, fileId){
-  try{
-    const raw = localStorage.getItem('user_ad_progress_' + uid + '_' + fileId);
-    return raw ? JSON.parse(raw) : { date: null, watched_today: 0, total_watched: 0 };
-  }catch(err){
-    return { date: null, watched_today: 0, total_watched: 0 };
-  }
+function setProgress(postId, watched){
+  localStorage.setItem(progKey(postId), JSON.stringify({ date: todayKey(), watched }));
 }
 
-async function recordAdView(uid, fileId, increment=1){
-  try {
-    const totalKey = 'user_daily_totals_' + uid;
-    let tot = JSON.parse(localStorage.getItem(totalKey) || '{}');
-    if (tot.date === todayKey()) tot.count = (tot.count || 0) + increment;
-    else tot = { date: todayKey(), count: increment };
-    localStorage.setItem(totalKey, JSON.stringify(tot));
-
-    const fileKey = 'user_ad_progress_' + uid + '_' + fileId;
-    let fp = JSON.parse(localStorage.getItem(fileKey) || '{}');
-    fp.total_watched = (fp.total_watched || 0) + increment;
-    if (fp.date === todayKey()) fp.watched_today = (fp.watched_today || 0) + increment;
-    else { fp.date = todayKey(); fp.watched_today = increment; }
-    localStorage.setItem(fileKey, JSON.stringify(fp));
-    return true;
-  } catch(err) {
-    console.error('Local storage update error:', err);
-    return false;
-  }
-}
-
-// CHECK URL AND SET INITIAL VIEW
-function checkInitialView() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const fileId = urlParams.get('file');
-
-  if (fileId) {
-    document.getElementById('normalAppView').classList.add('hidden');
-    document.getElementById('singleFileView').classList.add('active');
-    return fileId;
-  }
-  return null;
-}
-
-// LOAD AND DISPLAY SINGLE FILE
-async function loadSingleFile(fileId) {
-  try {
-    const file = files.find(f => f.id == fileId);
-    if (file) displaySingleFile(file);
-    else {
-      showToast('File not found. Showing all files.', 3000);
-      showAllFiles();
-    }
-  } catch (error) {
-    console.error('Error loading file:', error);
-    showToast('Error loading file. Showing all files.', 3000);
-    showAllFiles();
-  }
-}
-
-// DISPLAY SINGLE FILE IN SINGLE VIEW
-function displaySingleFile(file) {
-  const adsReq = parseInt(file.ad_watches_required || 1, 10);
-  const singleFileCard = document.getElementById('singleFileCard');
-
-  document.title = `${file.name || file.title} - VIRAL ZONE`;
-
-  singleFileCard.innerHTML = `
-    <div class="media">
-      <img src="${escapeHtml(file.image_url||'https://via.placeholder.com/800x450?text=No+Image')}" onerror="this.src='https://via.placeholder.com/800x450?text=No+Image'" alt="${escapeHtml(file.name||file.title||'')}">
-      <button class="heart" data-id="${file.id}"><i class="far fa-heart"></i></button>
-    </div>
-    <div class="meta">
-      <h3>${escapeHtml(file.name||file.title||'Untitled')}</h3>
-      <p>${escapeHtml(file.description||file.desc||'')}</p>
-      <div class="row">
-        <button class="unlock-btn" data-id="${file.id}" data-ads="${adsReq}" data-daily="${(typeof file.daily_limit==='number')? file.daily_limit : settings.ads_limit}">
-          <span class="btn-text" id="singleBtnText_${file.id}">UNLOCK — 0/${adsReq} ADS</span>
-        </button>
-        <button class="copy-link-btn" data-id="${file.id}" title="Copy Shareable Link">
-          <i class="fas fa-link"></i>
-        </button>
-      </div>
-    </div>
-  `;
-
-  loadFileProgress(file.id, adsReq, true);
-
-  const heartBtn = singleFileCard.querySelector(`.heart[data-id="${file.id}"]`);
-  if (heartBtn) heartBtn.addEventListener('click', onLikeClick);
-
-  const unlockBtn = singleFileCard.querySelector(`.unlock-btn[data-id="${file.id}"]`);
-  if (unlockBtn) unlockBtn.addEventListener('click', onUnlockClick);
-
-  const copyBtn = singleFileCard.querySelector(`.copy-link-btn[data-id="${file.id}"]`);
-  if (copyBtn) copyBtn.addEventListener('click', onCopyLinkClick);
-}
-
-// SHOW ALL FILES (BACK TO NORMAL VIEW)
-function showAllFiles() {
-  const url = new URL(window.location);
-  url.searchParams.delete('file');
-  window.history.replaceState({}, document.title, url);
-
-  document.getElementById('singleFileView').classList.remove('active');
-  document.getElementById('normalAppView').classList.remove('hidden');
-
-  document.title = 'VIRAL ZONE — Exclusive Video Access';
-
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById('homeSection').classList.add('active');
-
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('navHome').classList.add('active');
-
-  if (files && files.length > 0) renderCards();
-  else document.getElementById('cards').innerHTML = 'Loading files...';
-}
-
-// BACK BUTTON EVENT
-document.getElementById('backToAllBtn').addEventListener('click', showAllFiles);
-
-// --- Data Loading ---
-async function loadSettings(){
-  try{
-    try {
-      const cachedSettings = localStorage.getItem('cached_settings');
-      if (cachedSettings) {
-        const parsed = JSON.parse(cachedSettings);
-        if (parsed.tutorial_youtube_id) settings.tutorial_youtube_id = parsed.tutorial_youtube_id;
-        if (parsed.channels) settings.channels = parsed.channels;
-        if (parsed.filters) settings.filters = parsed.filters;
-        if (parsed.ads_limit) settings.ads_limit = parsed.ads_limit;
+/** =========================
+ *  ADS
+ *  ========================= */
+function showMonetagAd(){
+  return new Promise((resolve, reject) => {
+    try{
+      if(typeof window.show_10531261 === 'function'){
+        window.show_10531261().then(resolve).catch(reject);
+      } else {
+        // SDK না থাকলে fallback delay
+        setTimeout(resolve, 15000);
       }
-    } catch (e) {}
-
-    const response = await simpleApiRequest(SETTINGS_API);
-
-    if(response.success && response.data){
-      const d = response.data;
-      settings.ads_limit = typeof d.ads_limit === 'number' ? d.ads_limit : settings.ads_limit;
-      settings.tutorial_youtube_id = d.tutorial_youtube_id || settings.tutorial_youtube_id;
-      settings.channels = d.channels || settings.channels || [];
-      settings.filters = d.filters || [{id: 'all', name: 'All', count: 0}];
-
-      localStorage.setItem('cached_settings', JSON.stringify({
-        tutorial_youtube_id: settings.tutorial_youtube_id,
-        channels: settings.channels,
-        filters: settings.filters,
-        ads_limit: settings.ads_limit
-      }));
-    } else {
-      settings.filters = [{id: 'all', name: 'All', count: 0}];
-    }
-
-    renderFilterButtons();
-    renderLinks();
-    renderTutorial();
-
-  }catch(e){
-    console.warn('load settings error:', e);
-    settings.filters = [{id: 'all', name: 'All', count: 0}];
-    renderFilterButtons();
-  }
-}
-
-async function fetchFiles(){
-  try{
-    const response = await simpleApiRequest(FILES_API);
-
-    if(response.success){
-        files = response.data || [];
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const fileId = urlParams.get('file');
-
-        if (fileId) {
-          const fileExists = files.some(f => f.id == fileId);
-          if (!fileExists) {
-            showToast('File not found. Showing all files.', 3000);
-            showAllFiles();
-          } else {
-            if (document.getElementById('singleFileView').classList.contains('active')) {
-              loadSingleFile(fileId);
-            }
-          }
-        } else {
-          calculateFilterCounts();
-          renderFilterButtons();
-          renderCards();
-        }
-    } else {
-        console.warn('fetch files error:', response.message);
-        files = getDemoFiles();
-        document.getElementById('cards').innerHTML = '<div style="padding:12px;color:var(--text-muted)">Using demo data. API connection failed.</div>';
-        calculateFilterCounts();
-        renderFilterButtons();
-        renderCards();
-    }
-  }catch(e){
-    console.warn('fetch files error:', e);
-    files = getDemoFiles();
-    document.getElementById('cards').innerHTML = '<div style="padding:12px;color:var(--text-muted)">Using demo data. Please check connection.</div>';
-    calculateFilterCounts();
-    renderFilterButtons();
-    renderCards();
-  }
-}
-
-// Demo data fallback
-function getDemoFiles() {
-  return [
-    {
-      id: 1,
-      name: 'Sample Video 1',
-      description: 'This is a sample video description.',
-      image_url: 'https://via.placeholder.com/800x450',
-      download_link: 'https://example.com/video1.mp4',
-      ad_watches_required: 3,
-      category: ''
-    },
-    {
-      id: 2,
-      name: 'Sample Video 2',
-      description: 'Another sample video for testing.',
-      image_url: 'https://via.placeholder.com/800x450',
-      download_link: 'https://example.com/video2.mp4',
-      ad_watches_required: 5,
-      category: ''
-    }
-  ];
-}
-
-// --- UI Rendering ---
-function calculateFilterCounts() {
-  if (!settings.filters) return;
-
-  settings.filters.forEach(filter => {
-    if (filter.id === 'all') filter.count = files.length;
-    else filter.count = files.filter(f => f.category === filter.id).length;
+    }catch(e){ reject(e); }
   });
 }
 
-function renderFilterButtons() {
-  const container = document.getElementById('filterButtons');
-  container.innerHTML = '';
-
-  if (!settings.filters || settings.filters.length === 0) {
-    settings.filters = [{id: 'all', name: 'All', count: 0}];
-  }
-
-  calculateFilterCounts();
-
-  settings.filters.forEach(filter => {
-    const btn = document.createElement('button');
-    btn.className = `filter-btn ${filter.id === 'all' ? 'active' : ''}`;
-    btn.innerHTML = `${filter.name}`;
-
-    if (filter.count > 0) {
-      const countBadge = document.createElement('span');
-      countBadge.className = 'filter-count';
-      countBadge.textContent = filter.count;
-      btn.appendChild(countBadge);
-    }
-
-    btn.dataset.filter = filter.id;
-    btn.addEventListener('click', () => {
-      currentFilter = filter.id;
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderCards();
-    });
-    container.appendChild(btn);
-  });
-}
-
-function createCard(f){
-  const adsReq = parseInt(f.ad_watches_required || 1, 10);
-  const card = document.createElement('article');
-  card.className = 'card';
-  card.innerHTML = `
-    <div class="media">
-      <img src="${escapeHtml(f.image_url||'https://via.placeholder.com/800x450?text=No+Image')}" onerror="this.src='https://via.placeholder.com/800x450?text=No+Image'" alt="${escapeHtml(f.name||f.title||'')}">
-      <button class="heart" data-id="${f.id}"><i class="far fa-heart"></i></button>
-    </div>
-    <div class="meta">
-      <h3>${escapeHtml(f.name||f.title||'Untitled')}</h3>
-      <p>${escapeHtml(f.description||f.desc||'')}</p>
-      <div class="row">
-        <button class="unlock-btn" data-id="${f.id}" data-ads="${adsReq}" data-daily="${(typeof f.daily_limit==='number')? f.daily_limit : settings.ads_limit}">
-          <span class="btn-text" id="btnText_${f.id}">UNLOCK — 0/${adsReq} ADS</span>
-        </button>
-        <button class="copy-link-btn" data-id="${f.id}" title="Copy Shareable Link">
-          <i class="fas fa-link"></i>
-        </button>
+/** =========================
+ *  RENDER
+ *  ========================= */
+function cardHtml(p){
+  const pr = getProgress(p.id);
+  const done = pr.watched >= REQUIRED_ADS;
+  const btnText = done ? "Watch Video" : `UNLOCK — ${pr.watched}/${REQUIRED_ADS} ADS`;
+  return `
+    <article class="card" data-id="${p.id}">
+      <div class="media">
+        <img src="${esc(p.photo)}" onerror="this.src='https://via.placeholder.com/800x450?text=No+Image'">
       </div>
-    </div>
+      <div class="meta">
+        <h3>${esc(p.title)}</h3>
+        <p>${esc(p.desc)}</p>
+        <div class="row">
+          <button class="unlock-btn ${done?'watch':''}" data-id="${p.id}">
+            <span class="btn-text">${btnText}</span>
+          </button>
+          <button class="copy-link-btn" data-id="${p.id}" title="Copy share link">
+            <i class="fas fa-link"></i>
+          </button>
+        </div>
+      </div>
+    </article>
   `;
-  return card;
 }
 
-async function loadFileProgress(fileId, adsReq, isSingleView = false) {
-  const uid = getUserUid();
-  const prog = await getUserFileProgress(uid, fileId);
-  const totalWatched = prog.total_watched || 0;
-
-  const btnTextId = isSingleView ? `singleBtnText_${fileId}` : `btnText_${fileId}`;
-  const btnTextEl = document.getElementById(btnTextId);
-
-  if(btnTextEl) btnTextEl.textContent = `UNLOCK — ${totalWatched}/${adsReq} ADS`;
-}
-
-async function renderCards(){
-  const container = document.getElementById('cards');
-  container.innerHTML = '';
-
+function render(){
   const q = (document.getElementById('searchInput').value || '').toLowerCase();
-  let filteredFiles = files.filter(f => {
-    const matchesSearch = (f.name||f.title||'').toLowerCase().includes(q) ||
-                         (f.description||f.desc||'').toLowerCase().includes(q);
-    const matchesFilter = currentFilter === 'all' ||
-                         (f.category && f.category === currentFilter);
-    return matchesSearch && matchesFilter;
-  });
 
-  if(filteredFiles.length === 0){
-    container.innerHTML = '<div style="padding:12px;color:var(--text-muted)">No files found.</div>';
+  // ✅ Stable order (refresh করলে up-down হবে না)
+  const list = [...POSTS]
+    .sort((a,b)=> (a.order||0) - (b.order||0))
+    .filter(p => (p.title||'').toLowerCase().includes(q) || (p.desc||'').toLowerCase().includes(q));
+
+  const wrap = document.getElementById('cards');
+  wrap.innerHTML = list.map(cardHtml).join('') || `<div style="color:var(--text-muted);padding:10px">No posts found.</div>`;
+
+  wrap.querySelectorAll('.unlock-btn').forEach(b => b.addEventListener('click', onUnlock));
+  wrap.querySelectorAll('.copy-link-btn').forEach(b => b.addEventListener('click', onCopy));
+}
+
+/** =========================
+ *  UNLOCK LOGIC
+ *  =========================
+ *  ✅ 5 ads complete হলে button = Watch Video
+ *  ✅ Watch Video tap করলে:
+ *     - reward link open
+ *     - count reset 0
+ *     - আবার ads দেখাবে
+ */
+async function onUnlock(e){
+  const btn = e.currentTarget;
+  const id = Number(btn.dataset.id);
+  const post = POSTS.find(x=>x.id===id);
+  if(!post) return;
+
+  const pr = getProgress(id);
+  const done = pr.watched >= REQUIRED_ADS;
+
+  // Done -> Watch Video
+  if(done){
+    if(post.reward_link){
+      window.open(String(post.reward_link), '_blank');
+    }else{
+      showToast('Reward link set করা নেই', 2800);
+    }
+    setProgress(id, 0); // reset
+    showToast('Count reset ✅ আবার Ads দেখে Unlock করুন', 2800);
+    render();
     return;
   }
 
-  for(const f of filteredFiles) {
-    const card = createCard(f);
-    container.appendChild(card);
-
-    const adsReq = parseInt(f.ad_watches_required || 1, 10);
-    await loadFileProgress(f.id, adsReq, false);
-
-    const likedArr = JSON.parse(localStorage.getItem('liked_files_' + getUserUid()) || '[]');
-    const heartIcon = card.querySelector(`.heart[data-id="${f.id}"] i`);
-    if(heartIcon) heartIcon.className = likedArr.includes(f.id) ? 'fas fa-heart' : 'far fa-heart';
-  }
-
-  document.querySelectorAll('.heart').forEach(b => b.addEventListener('click', onLikeClick));
-  document.querySelectorAll('.unlock-btn').forEach(b => b.addEventListener('click', onUnlockClick));
-  document.querySelectorAll('.copy-link-btn').forEach(b => b.addEventListener('click', onCopyLinkClick));
-}
-
-function onLikeClick(e){
-  e.stopPropagation();
-  const id = e.currentTarget.dataset.id;
-  const uid = getUserUid();
-  const key = 'liked_files_' + uid;
-  let arr = [];
-  try{ arr = JSON.parse(localStorage.getItem(key) || '[]'); }catch(err){ arr=[]; }
-  if(arr.includes(id)) arr = arr.filter(x=>x!==id); else arr.push(id);
-  localStorage.setItem(key, JSON.stringify(arr));
-  const heart = document.querySelector(`.heart[data-id="${id}"] i`);
-  if(heart) heart.className = arr.includes(id) ? 'fas fa-heart' : 'far fa-heart';
-}
-
-function generateShareableLink(fileId) {
-  const baseUrl = window.location.origin + window.location.pathname;
-  return `${baseUrl}?file=${fileId}`;
-}
-
-function copyToClipboard(text) {
-  navigator.clipboard.writeText(text).then(() => {
-    showToast('Link copied to clipboard!', 2000);
-  }).catch(() => {
-    const textArea = document.createElement('textarea');
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textArea);
-    showToast('Link copied!', 2000);
-  });
-}
-
-function onCopyLinkClick(e) {
-  e.stopPropagation();
-  const fileId = e.currentTarget.dataset.id;
-
-  const shareableLink = generateShareableLink(fileId);
-  copyToClipboard(shareableLink);
-
-  const btn = e.currentTarget;
-  btn.classList.add('copied');
-  btn.innerHTML = '<i class="fas fa-check"></i>';
-
-  setTimeout(() => {
-    btn.classList.remove('copied');
-    btn.innerHTML = '<i class="fas fa-link"></i>';
-  }, 2000);
-}
-
-function showMonetagAd() {
-  return new Promise((resolve, reject) => {
-    try {
-      if (typeof window.show_10531261 === 'function') {
-        window.show_10531261().then(resolve).catch(reject);
-      } else {
-        console.warn('Monetag SDK function not found');
-        setTimeout(resolve, 15000);
-      }
-    } catch (error) {
-      reject(error);
-    }
-  });
-}
-
-async function onUnlockClick(e){
-  const btn = e.currentTarget;
-  const btnText = btn.querySelector('.btn-text');
-  const originalText = btnText.textContent;
-
-  btn.classList.add('loading', 'pulse');
-  btn.disabled = true;
-
-  const fileId = btn.dataset.id;
-  const requiredAds = parseInt(btn.dataset.ads,10) || 1;
-  const perFileDaily = parseInt(btn.dataset.daily,10) || settings.ads_limit;
-  const uid = getUserUid();
-
+  // Not done -> Show ad then +1
+  btn.classList.add('loading');
   try{
-    const todayCount = await getUserDailyCount(uid);
-    if(todayCount >= (settings.ads_limit || 20)){
-      showToast('আজকের ভিডিও দেখার limit শেষ — কালকে আবার ভিডিও দেখতে পারবেন।',4000);
-      btn.classList.remove('loading', 'pulse');
-      btn.disabled = false;
-      return;
+    await showMonetagAd();
+    const after = Math.min(REQUIRED_ADS, pr.watched + 1);
+    setProgress(id, after);
+
+    if(after >= REQUIRED_ADS){
+      showToast('৫টি Ads সম্পন্ন ✅ এখন Watch Video এসেছে', 3000);
+    }else{
+      showToast(`${after}/${REQUIRED_ADS} সম্পন্ন — আবার Unlock চাপুন`, 2600);
     }
-
-    const fileProg = await getUserFileProgress(uid, fileId);
-    const alreadyTotal = fileProg.total_watched || 0;
-
-    if(alreadyTotal >= requiredAds){
-      const f = files.find(x=>x.id == fileId) || {};
-
-      btn.classList.remove('loading');
-      btn.classList.add('success', 'bounce');
-      btnText.textContent = 'Unlocked!';
-      setTimeout(() => {
-        btn.classList.remove('success', 'bounce');
-        btnText.textContent = originalText;
-        btn.disabled = false;
-      }, 2000);
-
-      const downloadUrl = f.download_link || f.download || f.url || f.link || f.download_url || f.file_url || f.video_url;
-
-      if(downloadUrl && downloadUrl.toString().trim() !== '') {
-          window.open(downloadUrl.toString().trim(), '_blank');
-      } else {
-          // ✅ admin রেফারেন্স রিমুভ করা হলো
-          showToast('Download link not available.', 4000);
-      }
-      return;
-    }
-
-    const watchedToday = (fileProg && fileProg.date === todayKey()) ? (fileProg.watched_today || 0) : 0;
-    if(watchedToday >= perFileDaily){
-      showToast('এই ফাইলের আজকের লিমিট শেষ।',3000);
-      btn.classList.remove('loading', 'pulse');
-      btn.disabled = false;
-      return;
-    }
-
-    await showMonetagAd()
-      .then(async () => {
-        const success = await recordAdView(uid, fileId, 1);
-        if (!success) {
-          showToast('কাউন্ট সেভ হয়নি — আবার চেষ্টা করুন', 4000);
-          btn.classList.remove('loading', 'pulse');
-          btn.disabled = false;
-          return;
-        }
-
-        const prog = await getUserFileProgress(uid, fileId);
-        const totalAfter = prog.total_watched || 0;
-
-        const btnTextId = document.getElementById('singleFileView').classList.contains('active')
-          ? `singleBtnText_${fileId}`
-          : `btnText_${fileId}`;
-
-        const btnTextEl = document.getElementById(btnTextId);
-        if(btnTextEl) btnTextEl.textContent = `UNLOCK — ${totalAfter}/${requiredAds} ADS`;
-
-        btn.classList.remove('loading');
-        btn.classList.add('pulse');
-
-        if(totalAfter >= requiredAds){
-          showToast('ফাইল আনলক! ডাউনলোড শুরু...',2000);
-          const f = files.find(x=>x.id == fileId) || {};
-
-          btn.classList.add('success');
-          btnText.textContent = 'Unlocked!';
-          setTimeout(() => {
-            btn.classList.remove('success', 'pulse');
-            btnText.textContent = `UNLOCK — ${totalAfter}/${requiredAds} ADS`;
-            btn.disabled = false;
-          }, 3000);
-
-          const downloadUrl = f.download_link || f.download || f.url || f.link || f.download_url || f.file_url || f.video_url;
-
-          if(downloadUrl && downloadUrl.toString().trim() !== '') {
-              window.open(downloadUrl.toString().trim(), '_blank');
-          } else {
-              // ✅ admin রেফারেন্স রিমুভ করা হলো
-              showToast('Download link not available.', 4000);
-          }
-        } else {
-          showToast(`${totalAfter}/${requiredAds} সম্পূর্ণ - আবার Unlock ক্লিক করুন`,3000);
-          setTimeout(() => {
-            btn.classList.remove('pulse');
-            btn.disabled = false;
-          }, 1000);
-        }
-      })
-      .catch((e) => {
-        console.warn('Monetag ad failed:', e);
-        showToast('আপনি ১৫ সেকেন্ড ads দেখেননি - পুরো সময় দেখুন',4000);
-        btn.classList.remove('loading', 'pulse');
-        btn.disabled = false;
-      });
-
-  }catch(err){
-    console.error('unlock error:', err);
-    showToast('ত্রুটি — আবার চেষ্টা করুন',3000);
-    btn.classList.remove('loading', 'pulse');
-    btn.disabled = false;
+    render();
+  }catch(_){
+    showToast('Ad সম্পূর্ণ হয়নি — পুরো সময় দেখুন', 3200);
+  }finally{
+    btn.classList.remove('loading');
   }
 }
 
-// --- Navigation and Section Switching ---
-document.getElementById('searchBtn').addEventListener('click', () => renderCards());
-document.getElementById('searchInput').addEventListener('keyup', (e)=>{
-  if(e.key==='Enter') renderCards();
-});
+/** share link (optional) */
+function shareLink(postId){
+  const base = window.location.origin + window.location.pathname;
+  return `${base}?post=${postId}`;
+}
 
-document.getElementById('navHome').addEventListener('click', () => switchSection('homeSection', 'navHome'));
-document.getElementById('navLiked').addEventListener('click', () => { switchSection('likedSection', 'navLiked'); renderLiked(); });
-document.getElementById('navTutorial').addEventListener('click', () => { switchSection('tutorialSection', 'navTutorial'); renderTutorial(); });
-document.getElementById('navLinks').addEventListener('click', () => { switchSection('linksSection', 'navLinks'); renderLinks(); });
+function onCopy(e){
+  const id = e.currentTarget.dataset.id;
+  const link = shareLink(id);
+  const btn = e.currentTarget;
 
-function switchSection(secId, navId) {
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(link).then(()=>{
+      btn.classList.add('copied');
+      btn.innerHTML = '<i class="fas fa-check"></i>';
+      showToast('Link copied ✅', 2000);
+      setTimeout(()=>{ btn.classList.remove('copied'); btn.innerHTML = '<i class="fas fa-link"></i>'; }, 1800);
+    });
+  }else{
+    showToast('Copy support নেই', 2200);
+  }
+}
+
+/** =========================
+ *  NAV + Tutorial + Links
+ *  ========================= */
+function switchSection(secId, navId){
+  document.querySelectorAll('.section').forEach(s=> s.classList.remove('active'));
   document.getElementById(secId).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=> b.classList.remove('active'));
   document.getElementById(navId).classList.add('active');
 }
 
-function renderLinks(){
-  const list = document.getElementById('linksList'); list.innerHTML = '';
-  if(!settings.channels || settings.channels.length === 0){
-    list.innerHTML = '<div class="tutorial-container"><div style="color:var(--text-muted);text-align:center">No links configured yet.</div></div>';
-    return;
-  }
-  for(const c of settings.channels){
-    const el = document.createElement('div'); el.className='card'; el.style.padding='12px';
-    el.innerHTML = `<div style="display:flex;gap:12px;align-items:center"><div style="font-size:20px">${c.type==='youtube'?'<i class="fab fa-youtube"></i>':c.type==='telegram'?'<i class="fab fa-telegram"></i>':'<i class="fas fa-link"></i>'}</div><div><strong>${escapeHtml(c.title||c.name||'Link')}</strong><div style="color:var(--text-muted);font-size:13px">${escapeHtml(c.url||'')}</div></div><div style="margin-left:auto"><a class="btn btn-primary" style="padding:8px 12px;font-size:13px" href="${escapeHtml(c.url||'#')}" target="_blank">Open</a></div></div>`;
-    list.appendChild(el);
-  }
-}
+document.getElementById('navHome').addEventListener('click', ()=> switchSection('homeSection','navHome'));
+document.getElementById('navTutorial').addEventListener('click', ()=> switchSection('tutorialSection','navTutorial'));
+document.getElementById('navLinks').addEventListener('click', ()=> switchSection('linksSection','navLinks'));
+
+document.getElementById('searchBtn').addEventListener('click', render);
+document.getElementById('searchInput').addEventListener('keyup', (ev)=>{ if(ev.key==='Enter') render(); });
 
 function renderTutorial(){
-  const container = document.getElementById('tutorialEmbed');
-  const stepsContainer = document.getElementById('tutorialSteps');
-
-  if(!settings.tutorial_youtube_id || settings.tutorial_youtube_id.trim() === ''){
-    container.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:40px 20px">No tutorial video configured yet.</div>';
-
-    stepsContainer.innerHTML = `
-      <div class="tutorial-step">
-        <div class="step-number">1</div>
-        <div class="step-content">
-          <h5>Unlock এ ক্লিক করুন</h5>
-          <p>যে ভিডিওটি দেখতে চান তার নিচে "UNLOCK" বাটনে ক্লিক করুন।</p>
-        </div>
-      </div>
-      <div class="tutorial-step">
-        <div class="step-number">2</div>
-        <div class="step-content">
-          <h5>এড দেখুন</h5>
-          <p>১৫ সেকেন্ডের এডটি সম্পূর্ণ দেখুন। এড শেষ হওয়ার পর আপনা-আপনি আনলক হয়ে যাবে।</p>
-        </div>
-      </div>
-      <div class="tutorial-step">
-        <div class="step-number">3</div>
-        <div class="step-content">
-          <h5>ভিডিও ডাউনলোড করুন</h5>
-          <p>এড শেষ হলে ভিডিওটি অটোমেটিক ডাউনলোড শুরু হবে। যদি না হয়, ম্যানুয়ালি ডাউনলোড করুন।</p>
-        </div>
-      </div>
-      <div class="tutorial-step">
-        <div class="step-number">4</div>
-        <div class="step-content">
-          <h5>দৈনিক লিমিট</h5>
-          <p>প্রতিদিন সর্বোচ্চ ${settings.ads_limit || 20} টি এড দেখতে পারবেন। প্রতিটি ফাইলের জন্য আলাদা লিমিট থাকতে পারে।</p>
-        </div>
-      </div>
-    `;
-  } else {
-    container.innerHTML = `<iframe src="https://www.youtube.com/embed/${settings.tutorial_youtube_id}?rel=0" style="position:absolute;inset:0;width:100%;height:100%;border:0" allowfullscreen></iframe>`;
-
-    stepsContainer.innerHTML = `
-      <div class="tutorial-step">
-        <div class="step-number">1</div>
-        <div class="step-content">
-          <h5>ভিডিও উপরে দেখুন</h5>
-          <p>উপরে দেওয়া ভিডিওটি দেখে নিন কিভাবে আনলক করতে হয়।</p>
-        </div>
-      </div>
-      <div class="tutorial-step">
-        <div class="step-number">2</div>
-        <div class="step-content">
-          <h5>Unlock এ ক্লিক করুন</h5>
-          <p>যে ভিডিওটি দেখতে চান তার নিচে "UNLOCK" বাটনে ক্লিক করুন।</p>
-        </div>
-      </div>
-      <div class="tutorial-step">
-        <div class="step-number">3</div>
-        <div class="step-content">
-          <h5>এড দেখুন</h5>
-          <p>১৫ সেকেন্ডের এডটি সম্পূর্ণ দেখুন। এড শেষ হওয়ার পর আপনা-আপনি আনলক হয়ে যাবে।</p>
-        </div>
-      </div>
-      <div class="tutorial-step">
-        <div class="step-number">4</div>
-        <div class="step-content">
-          <h5>ডাউনলোড করুন</h5>
-          <p>এড শেষ হলে ভিডিওটি অটোমেটিক ডাউনলোড শুরু হবে।</p>
-        </div>
-      </div>
-    `;
-  }
-  }
-  async function renderLiked(){
-  const uid = getUserUid();
-  const key = 'liked_files_' + uid;
-  let arr = [];
-  try{ arr = JSON.parse(localStorage.getItem(key) || '[]'); }catch(e){ arr = []; }
-  const container = document.getElementById('likedCards');
-  container.innerHTML = '';
-  if(arr.length === 0){
-    container.innerHTML = '<div class="tutorial-container"><div style="color:var(--text-muted);text-align:center">No liked items yet.</div></div>';
-    return;
-  }
-  for(const id of arr){
-    const f = files.find(x=>x.id == id);
-    if(!f) continue;
-    const card = createCard(f);
-    container.appendChild(card);
-  }
-  document.querySelectorAll('.heart').forEach(b => b.addEventListener('click', onLikeClick));
-  document.querySelectorAll('.unlock-btn').forEach(b => b.addEventListener('click', onUnlockClick));
-  document.querySelectorAll('.copy-link-btn').forEach(b => b.addEventListener('click', onCopyLinkClick));
+  const el = document.getElementById('tutorialEmbed');
+  el.innerHTML = `<iframe src="https://www.youtube.com/embed/${DEFAULT_YT_ID}?rel=0" style="position:absolute;inset:0;width:100%;height:100%;border:0" allowfullscreen></iframe>`;
 }
 
-// MAIN INITIALIZATION
-(async function init(){
-  const fileId = checkInitialView();
+function renderLinks(){
+  const wrap = document.getElementById('linksList');
+  wrap.innerHTML = CHANNEL_LINKS.map(c=>`
+    <div class="card" style="padding:14px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <i class="fas fa-link" style="font-size:18px"></i>
+        <div style="flex:1">
+          <div style="font-weight:800">${esc(c.name)}</div>
+          <div style="color:var(--text-muted);font-size:13px">${esc(c.url)}</div>
+        </div>
+        <a class="btn btn-primary" style="padding:10px 12px;text-decoration:none" href="${esc(c.url)}" target="_blank">Open</a>
+      </div>
+    </div>
+  `).join('');
+}
 
-  await loadSettings();
-  await fetchFiles();
-
-  if (fileId && document.getElementById('singleFileView').classList.contains('active')) {
-    await loadSingleFile(fileId);
+/** =========================
+ *  SERVICE WORKER REGISTER
+ *  =========================
+ *  ✅ আপনি যে নতুন API/worker config দিয়েছেন সেটা service-worker.js এ থাকবে।
+ */
+async function registerSW(){
+  if(!('serviceWorker' in navigator)) return;
+  try{
+    await navigator.serviceWorker.register('./service-worker.js');
+  }catch(e){
+    // silent fail
   }
+}
+
+/** INIT */
+(function init(){
+  renderTutorial();
+  renderLinks();
+  render();
+  registerSW();
 })();
-  setInterval(async () => {
-  await fetchFiles();
-  console.log('Files auto-refreshed');
-}, 30000);
 </script>
 </body>
 </html>
