@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <title>VIRAL ZONE — Exclusive Video Access</title>
 
   <!-- Fonts / Icons -->
@@ -39,13 +39,31 @@
     }
 
     *{box-sizing:border-box;font-family:'Poppins',system-ui,Arial}
-    html,body{height:100%;margin:0;color:var(--text-light);-webkit-font-smoothing:antialiased;}
+
+    html,body{
+      height:100%;
+      margin:0;
+      color:var(--text-light);
+      -webkit-font-smoothing:antialiased;
+      width:100%;
+      overflow-x:hidden;
+      overflow-y:auto;
+      overscroll-behavior-y:none;
+      -webkit-text-size-adjust:100%;
+      touch-action: pan-y;
+    }
+
     body{
       background:
         radial-gradient(900px 500px at 15% 20%, rgba(124,92,255,.20), transparent 60%),
         radial-gradient(700px 450px at 85% 80%, rgba(0,212,255,.15), transparent 60%),
         linear-gradient(180deg, var(--bg1), var(--bg2));
       overflow-x:hidden;
+
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
     }
 
     /* ===== Loading Overlay ===== */
@@ -143,7 +161,10 @@
       max-width:900px;
       margin:0 auto;
       padding:16px;
-      display:none; /* loading শেষ হলে দেখাবে */
+      display:none;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding-bottom:160px;
     }
 
     .header{
@@ -160,38 +181,222 @@
     }
     .subtitle{font-size:14px;color:var(--text-muted);font-weight:500;letter-spacing:.5px;}
 
-    .controls{display:flex;gap:10px;margin-bottom:16px;align-items:center;}
+    /* ✅ Search smaller */
+    .controls{display:flex;gap:10px;margin-bottom:12px;align-items:center;}
     .input{
-      flex:1;padding:12px 16px;border-radius:999px;border:1px solid var(--border);
-      background: rgba(30,30,48,.7);color:var(--text-light);outline:none;transition:.3s;
+      flex:1;
+      padding:8px 12px;
+      height:40px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(30,30,48,.7);
+      color:var(--text-light);
+      outline:none;
+      transition:.3s;
     }
     .input:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px rgba(124,58,237,.2);}
 
+    /* ✅ Search button even smaller */
     .btn{
-      padding:12px 20px;border-radius:var(--radius);border:0;cursor:pointer;font-weight:700;
-      transition:.3s;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+      height:40px;
+      padding:4px 8px;
+      border-radius:999px;
+      border:0;
+      cursor:pointer;
+      font-weight:900;
+      transition:.3s;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:4px;
+      white-space:nowrap;
+      min-width: 50px;
+      font-size:2px;
     }
     .btn-primary{
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color:#fff;box-shadow:0 4px 15px rgba(124,58,237,.4);
+      color:#fff;
+      box-shadow:0 4px 15px rgba(124,58,237,.4);
     }
 
-    .cards{display:flex;flex-direction:column;gap:20px;padding-bottom:140px;}
+    /* ✅ Tabs row (ONLY tabs, favorite removed from here) */
+    .tabsRow{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:8px;
+    }
+
+    .tabs{
+      flex:1;
+      display:flex;
+      gap:10px;
+      overflow-x:auto;
+      padding:6px 2px 12px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width:none;
+    }
+    .tabs::-webkit-scrollbar{display:none;}
+
+    /* ✅ Tabs smaller (All + others) */
+    .tab{
+      position:relative;
+      border:1px solid var(--border);
+      background: rgba(30,30,48,.7);
+      color: var(--text-light);
+      padding:10px 12px 9px;
+      border-radius:16px;
+      cursor:pointer;
+      font-weight:900;
+      white-space:nowrap;
+      transition:.25s;
+      min-width: 106px;     /* smaller */
+      text-align:center;
+      user-select:none;
+      font-size:13px;       /* smaller */
+    }
+    .tab.active{
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-color: rgba(255,255,255,.15);
+    }
+
+    /* ✅ badge smaller but colorful */
+    .tab .badge{
+      position:absolute;
+      top:-10px;
+      right:10px;
+      width:28px;
+      height:28px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      font-weight:900;
+      font-size:12px;
+      color:#fff;
+      border:2px solid rgba(255,255,255,.18);
+      box-shadow:0 10px 25px rgba(0,0,0,.35);
+      background: linear-gradient(135deg, #ff4fd8, #b56bff, #7c5cff);
+    }
+
+    /* ✅ Cards + labels */
+    .cards{display:flex;flex-direction:column;gap:20px;padding-bottom:20px;}
     .card{
-      background:var(--bg-card);border-radius:var(--radius);overflow:hidden;
-      border:1px solid var(--border);box-shadow:var(--shadow);transition:.3s;
+      background:var(--bg-card);
+      border-radius:var(--radius);
+      overflow:hidden;
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+      transition:.3s;
+      position:relative;
     }
     .card:hover{transform:translateY(-5px);box-shadow:0 15px 30px rgba(0,0,0,.4);border-color:var(--primary-light);}
+
+    .labels{
+      position:absolute;
+      top:12px;
+      left:12px;
+      display:flex;
+      gap:8px;
+      z-index:5;
+      pointer-events:none;
+    }
+    .pill{
+      font-size:11px;
+      font-weight:900;
+      padding:7px 10px;
+      border-radius:999px;
+      color:#fff;
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:0 10px 25px rgba(0,0,0,.25);
+      backdrop-filter: blur(8px);
+      pointer-events:none;
+      user-select:none;
+      position:relative;
+      overflow:hidden;
+      letter-spacing:.3px;
+      text-shadow: 0 8px 20px rgba(0,0,0,.35);
+    }
+
+    /* ✅ TRENDING fire effect */
+    .pill.trending{
+      background: linear-gradient(135deg,#ff8c00,#ff4fd8,#b56bff);
+    }
+    .pill.trending::before{
+      content:"";
+      position:absolute;
+      inset:-30%;
+      background:
+        radial-gradient(closest-side at 30% 70%, rgba(255,140,0,.55), transparent 60%),
+        radial-gradient(closest-side at 60% 40%, rgba(255,80,120,.45), transparent 62%),
+        radial-gradient(closest-side at 70% 80%, rgba(255,255,255,.14), transparent 58%);
+      filter: blur(6px);
+      opacity:.85;
+      animation: flame 1.1s ease-in-out infinite alternate;
+      mix-blend-mode: screen;
+    }
+    .pill.trending::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
+      transform: translateX(-60%);
+      animation: sweep2 1.2s linear infinite;
+      opacity:.55;
+    }
+    @keyframes flame{
+      0%{transform:translate(-2px,2px) scale(1); opacity:.75}
+      100%{transform:translate(2px,-2px) scale(1.06); opacity:1}
+    }
+    @keyframes sweep2{to{transform:translateX(60%)}}
+
+    .pill.new{background: linear-gradient(135deg,#00ff88,#00d4ff,#5b8cff);}
+
+    /* ✅ Favorite button on every post */
+    .favBtn{
+      position:absolute;
+      top:12px;
+      right:12px;
+      z-index:6;
+      width:42px;height:42px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.35);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      transition:.2s;
+      box-shadow:0 12px 26px rgba(0,0,0,.35);
+      backdrop-filter: blur(8px);
+    }
+    .favBtn i{font-size:18px;color: rgba(255,255,255,.9);}
+    .favBtn.on{
+      background: linear-gradient(135deg,#ff4fd8,#b56bff,#7c5cff);
+      border-color: rgba(255,255,255,.22);
+    }
+    .favBtn.on i{color:#fff;}
+    .favBtn:active{transform:scale(.98)}
+
     .media{position:relative;width:100%;height:0;padding-bottom:56.25%;background:var(--bg-dark);}
     .media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
     .meta{padding:16px;}
     .meta h3{margin:0 0 8px 0;font-size:18px;}
     .meta p{margin:0;color:var(--text-muted);font-size:14px;line-height:1.4;}
-    .row{display:flex;gap:8px;align-items:center;margin-top:12px;}
+    .row{display:flex;gap:10px;align-items:center;margin-top:12px;}
 
     .unlock-btn{
-      flex:1;padding:14px;border-radius:var(--radius);border:0;cursor:pointer;font-weight:800;
-      transition:.3s;position:relative;overflow:hidden;color:#fff;text-transform:uppercase;letter-spacing:1px;font-size:14px;
+      flex:1;
+      padding:14px;
+      border-radius:var(--radius);
+      border:0;
+      cursor:pointer;
+      font-weight:900;
+      transition:.3s;
+      position:relative;
+      overflow:hidden;
+      color:#fff;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      font-size:14px;
       background: linear-gradient(135deg,#ff0080,#ff8c00,#40e0d0,#ff0080,#ff8c00);
       background-size:400% 400%;
       animation: neonGradient 3s ease infinite, neonPulse 2s ease-in-out infinite alternate;
@@ -199,11 +404,28 @@
     }
     .unlock-btn.loading{pointer-events:none;animation:none;background: linear-gradient(135deg,#4f46e5,#6366f1);}
     .unlock-btn.loading::after{
-      content:'';position:absolute;width:20px;height:20px;top:50%;left:50%;
+      content:'';
+      position:absolute;width:20px;height:20px;top:50%;left:50%;
       margin:-10px 0 0 -10px;border:2px solid transparent;border-top:2px solid #fff;border-radius:50%;
       animation: spin 1s linear infinite;
     }
     .unlock-btn.watch{animation:none;background: linear-gradient(135deg,#00ff88,#00ccff);}
+
+    .shareBtn{
+      width:56px;
+      height:48px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:#fff;
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+      box-shadow:0 12px 26px rgba(0,0,0,.25);
+      transition:.2s;
+    }
+    .shareBtn i{font-size:16px}
+    .shareBtn:active{transform:scale(.98)}
 
     @keyframes neonGradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
     @keyframes neonPulse{0%{box-shadow:0 0 20px rgba(255,0,128,.45)}100%{box-shadow:0 0 30px rgba(255,0,128,.65)}}
@@ -233,6 +455,72 @@
     .tutorial-container{background:var(--bg-card);border-radius:var(--radius);padding:20px;margin-bottom:20px;border:1px solid var(--border);}
 
     @media (min-width:900px){.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}}
+
+    /* ✅ Skeleton loader */
+    .skeletonWrap{display:flex;flex-direction:column;gap:16px;}
+    .skel{
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      overflow:hidden;
+      box-shadow:0 10px 25px rgba(0,0,0,.2);
+    }
+    .skel .thumb{height:190px;background: linear-gradient(90deg, rgba(255,255,255,.04), rgba(255,255,255,.12), rgba(255,255,255,.04)); background-size:200% 100%; animation: sh 1.2s linear infinite;}
+    .skel .lines{padding:14px;}
+    .skel .l1,.skel .l2{height:12px;border-radius:10px;background: linear-gradient(90deg, rgba(255,255,255,.04), rgba(255,255,255,.12), rgba(255,255,255,.04)); background-size:200% 100%; animation: sh 1.2s linear infinite;}
+    .skel .l1{width:70%;margin-bottom:10px;}
+    .skel .l2{width:92%;}
+    @keyframes sh{to{background-position:-200% 0}}
+
+    /* ✅ Home footer */
+    .home-footer{
+      margin-top:14px;
+      padding:14px 14px 8px;
+      background: rgba(30,30,48,.55);
+      border:1px solid var(--border);
+      border-radius:16px;
+      text-align:center;
+      box-shadow: var(--shadow);
+    }
+    .home-footer .line1{
+      font-weight:900;
+      letter-spacing:.3px;
+      font-size:13px;
+      color: #f3f4f6;
+    }
+    .home-footer .icons{
+      display:flex;
+      justify-content:center;
+      gap:14px;
+      margin:10px 0 6px;
+    }
+    .home-footer .iconBtn{
+      width:42px;height:42px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      text-decoration:none;
+      color:#fff;
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:0 12px 26px rgba(0,0,0,.35);
+      transition:.2s;
+    }
+    .home-footer .iconBtn:active{transform:scale(.98)}
+    .home-footer .tg{background: linear-gradient(135deg, #2AABEE, #229ED9);}
+    .home-footer .yt{background: linear-gradient(135deg, #ff0033, #ff4d4d);}
+
+    .home-footer .dev{
+      margin-top:10px;
+      color: var(--text-muted);
+      font-size:12px;
+      line-height:1.6;
+    }
+    .home-footer .year{
+      margin-top:6px;
+      font-weight:900;
+      font-size:12px;
+      opacity:.9;
+    }
   </style>
 </head>
 
@@ -279,14 +567,50 @@
       </div>
     </header>
 
+    <!-- ✅ HOME -->
     <div id="homeSection" class="section active">
       <div class="controls">
         <input id="searchInput" class="input" placeholder="Search title or description..." />
         <button id="searchBtn" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
       </div>
+
+      <!-- ✅ ONLY TABS (Favorite quick removed) -->
+      <div class="tabsRow">
+        <div id="tabs" class="tabs"></div>
+      </div>
+
       <div id="cards" class="cards"></div>
+
+      <!-- ✅ ONLY HOME footer -->
+      <div id="homeFooter" class="home-footer" style="display:none">
+        <div class="line1">Website Make by PBC COMMUNITY</div>
+
+        <div class="icons">
+          <a class="iconBtn tg" href="https://t.me/PBC_COMMUNITY" target="_blank" aria-label="Telegram" rel="noopener">
+  <i class="fab fa-telegram-plane"></i>
+          </a>
+          <a class="iconBtn yt" href="https://www.youtube.com/@ToxicNexoDev" target="_blank" aria-label="YouTube" rel="noopener">
+            <i class="fab fa-youtube"></i>
+          </a>
+        </div>
+
+        <div class="dev">
+          <div>Dev: <b>Toxic Nexo</b></div>
+          <div class="year">©️2025-2026©️</div>
+        </div>
+      </div>
     </div>
 
+    <!-- ✅ FAVORITES SECTION -->
+    <div id="favSection" class="section">
+      <div class="controls">
+        <input id="favSearchInput" class="input" placeholder="Search in favorites..." />
+        <button id="favSearchBtn" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+      </div>
+      <div id="favCards" class="cards"></div>
+    </div>
+
+    <!-- ✅ TUTORIAL -->
     <section id="tutorialSection" class="section">
       <h3 class="appTitle" style="margin:8px 0; font-size:22px"><i class="fas fa-book-open"></i> টিউটোরিয়াল</h3>
       <div class="tutorial-container">
@@ -297,6 +621,7 @@
       </div>
     </section>
 
+    <!-- ✅ LINKS -->
     <section id="linksSection" class="section">
       <h3 class="appTitle" style="margin:8px 0; font-size:22px"><i class="fas fa-link"></i> Useful Links</h3>
       <div id="linksList" class="cards"></div>
@@ -304,278 +629,626 @@
 
     <div id="toast" class="toast"></div>
 
+    <!-- ✅ Bottom Nav: Home -> Favorites -> Tutorial -> Links -->
     <nav class="bottom-nav">
       <button id="navHome" class="nav-btn active"><i class="fas fa-home"></i><div>হোম</div></button>
+      <button id="navFav" class="nav-btn"><i class="fas fa-heart"></i><div>Favorite</div></button>
       <button id="navTutorial" class="nav-btn"><i class="fas fa-book-open"></i><div>টিউটোরিয়াল</div></button>
       <button id="navLinks" class="nav-btn"><i class="fas fa-link"></i><div>লিংক</div></button>
     </nav>
   </div>
 
 <script>
-  /* =========================
-   *  LOADING ANIMATION -> SHOW APP
-   * ========================= */
-  (function runLoader(){
-    const pctEl = document.getElementById("pct");
-    const fillEl = document.getElementById("fill");
-    const panel = document.getElementById("panel");
-    const statusText = document.getElementById("statusText");
-    const doneEl = document.getElementById("done");
-    const bar = document.querySelector(".bar");
-    const overlay = document.getElementById("loadingOverlay");
-    const appRoot = document.getElementById("appRoot");
-
-    const MIN_MS = 1500;
-    const MAX_MS = 3000;
-
-    let p = 1;
-    const duration = Math.floor(Math.random() * (MAX_MS - MIN_MS + 1)) + MIN_MS;
-    const start = performance.now();
-
-    const phases = [
-      {at: 15, text: "Initializing"},
-      {at: 40, text: "Loading assets"},
-      {at: 70, text: "Almost there"},
-      {at: 90, text: "Finalizing"}
-    ];
-
-    function setProgress(val){
-      p = Math.max(1, Math.min(100, val));
-      pctEl.textContent = p;
-      fillEl.style.width = p + "%";
-      bar.setAttribute("aria-valuenow", String(p));
-      for (const ph of phases){
-        if (p >= ph.at) statusText.textContent = ph.text;
-      }
+/* ✅ Telegram WebApp: full-screen expand */
+(function(){
+  try{
+    if (window.Telegram && Telegram.WebApp) {
+      Telegram.WebApp.ready();
+      Telegram.WebApp.expand();
+      Telegram.WebApp.disableVerticalSwipes && Telegram.WebApp.disableVerticalSwipes();
     }
+  }catch(e){}
+})();
 
-    function openApp(){
-      // fade overlay then show app
-      panel.classList.add("fadeOut");
-      setTimeout(() => {
-        overlay.style.display = "none";
-        appRoot.style.display = "block";
-        // app init
-        App.init();
-      }, 480);
+/* ✅ Block pinch-zoom + double-tap zoom (scroll OK) */
+document.addEventListener('touchstart', function(e){
+  if(e.touches && e.touches.length > 1) e.preventDefault();
+}, { passive:false });
+
+document.addEventListener('touchmove', function(e){
+  if(e.touches && e.touches.length > 1) e.preventDefault();
+}, { passive:false });
+
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function(e){
+  const now = Date.now();
+  if(now - lastTouchEnd <= 300) e.preventDefault();
+  lastTouchEnd = now;
+}, { passive:false });
+
+/* =========================
+ *  LOADING -> SHOW APP
+ * ========================= */
+(function runLoader(){
+  const pctEl = document.getElementById("pct");
+  const fillEl = document.getElementById("fill");
+  const panel = document.getElementById("panel");
+  const statusText = document.getElementById("statusText");
+  const doneEl = document.getElementById("done");
+  const bar = document.querySelector(".bar");
+  const overlay = document.getElementById("loadingOverlay");
+  const appRoot = document.getElementById("appRoot");
+
+  const MIN_MS = 1500;
+  const MAX_MS = 3000;
+
+  let p = 1;
+  const duration = Math.floor(Math.random() * (MAX_MS - MIN_MS + 1)) + MIN_MS;
+  const start = performance.now();
+
+  const phases = [
+    {at: 15, text: "Initializing"},
+    {at: 40, text: "Loading assets"},
+    {at: 70, text: "Almost there"},
+    {at: 90, text: "Finalizing"}
+  ];
+
+  function setProgress(val){
+    p = Math.max(1, Math.min(100, val));
+    pctEl.textContent = p;
+    fillEl.style.width = p + "%";
+    bar.setAttribute("aria-valuenow", String(p));
+    for (const ph of phases){
+      if (p >= ph.at) statusText.textContent = ph.text;
     }
+  }
 
-    function tick(now){
-      const t = (now - start) / duration;
-      const eased = 1 - Math.pow(1 - Math.min(1, t), 3);
-      const target = Math.floor(1 + eased * 99);
-      setProgress(target);
+  function openApp(){
+    panel.classList.add("fadeOut");
+    setTimeout(() => {
+      overlay.style.display = "none";
+      appRoot.style.display = "block";
+      App.init();
+    }, 480);
+  }
 
-      if (t < 1){
-        requestAnimationFrame(tick);
-      } else {
-        setProgress(100);
-        statusText.textContent = "Done";
-        doneEl.style.display = "block";
-        setTimeout(openApp, 350);
-      }
+  function tick(now){
+    const t = (now - start) / duration;
+    const eased = 1 - Math.pow(1 - Math.min(1, t), 3);
+    const target = Math.floor(1 + eased * 99);
+    setProgress(target);
+
+    if (t < 1){
+      requestAnimationFrame(tick);
+    } else {
+      setProgress(100);
+      statusText.textContent = "Done";
+      doneEl.style.display = "block";
+      setTimeout(openApp, 350);
     }
+  }
 
-    requestAnimationFrame(tick);
-  })();
+  requestAnimationFrame(tick);
+})();
 
-  /* =========================
-   *  MAIN APP (Adexora)
-   * ========================= */
-  const App = (() => {
-    // ✅ 9 posts (placeholder) — আপনি এখানে photo + reward_link বসাবেন (বৈধ/অনুমতিপ্রাপ্ত)
-    const POSTS = [
-      { id: 1, order: 1, photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/images%20(99).jpeg?text=1", title: "জান্নাত তোহা ভাইরাল ভিডিও 🥵", desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://t.me/+QuVYuTsi8MFiODE1" },
-      { id: 2, order: 2, photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/images%20-%202025-11-18T161325.673.jpeg?text=2", title: "নাদিয়া ভাইরাল ভিডিও লিংক 🔥",      desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://t.me/+aMw5YvpJNahkNzNl" },
-      { id: 3, order: 3, photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251112_174614_584.jpg?text=3", title: "আফরিন ভাইরাল ভিডিও লিংক 🔥",     desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://t.me/+mO5bTZFZIS9jZjY9" },
-      { id: 4, order: 4, photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251018_194758_066.jpg?text=4", title: "রাএির ভাইরাল ভিডিও লিংক 🎬",     desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://t.me/+FlrpR6OUDAU0MjNl" },
-      { id: 5, order: 5, photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20260203_211931_232.jpg?text=5", title: "শসা রিধির ভাইরাল ভিডিও লিংক 🥒",      desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://t.me/+kq8Px8viqgYyNjI1" },
-      { id: 6, order: 6, photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20260203_140028_185.jpg?text=6", title: "আরোহী মিম ভাইরাল ভিডিও লিংক 🎬",        desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://t.me/+e0YWHQfXDGVlOWNl" },
-      { id: 7, order: 7, photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251112_172356_482.jpg?text=7", title: "অথৈয় ভাইরাল ভিডিও লিংক 😋",      desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://t.me/+bA9XHoJl8ZE1Zjhl" },
-      { id: 8, order: 8, photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20260203_213626_890.jpg?text=8", title: "সফিকের ভাইরাল ভিডিও লিংক 😁",desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://t.me/+CnRaOrcUi9plMWZl" },
-      { id: 9, order: 9, photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20260203_214113_430.jpg?text=9", title: "বাংলাদেশি ভাইরাল ভিডিও লিংক 🇧🇩",      desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬", reward_link: "https://t.me/+0ODu5k53wH43ZWQ1" },
-    ];
+/* =========================
+ *  MAIN APP
+ * ========================= */
+const App = (() => {
 
-    const REQUIRED_ADS = 5;
-    const DEFAULT_YT_ID = "M7lc1UVf-VE"; // tutorial default
+  const POSTS = [
+    {
+      id: 1, order: 1, cat: "তোহা ভিডিও",
+      trending: true, isNew: false,
+      photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/images%20(99).jpeg?text=1",
+      title: "জান্নাত তোহা ভাইরাল ভিডিও 🥵",
+      desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬",
+      reward_link: "https://t.me/+QuVYuTsi8MFiODE1",
+      keywords: ["Jannat","Toha","Jannat toha","Jannat toha viral video","তোহা","জান্নাত","জান্নাত তোহা"]
+    },
+    {
+      id: 2, order: 2, cat: "নাদিয়া ভিডিও",
+      trending: true, isNew: true,
+      photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/images%20-%202025-11-18T161325.673.jpeg?text=2",
+      title: "নাদিয়া ভাইরাল ভিডিও লিংক 🔥",
+      desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬",
+      reward_link: "https://t.me/+aMw5YvpJNahkNzNl",
+      keywords: ["Nadiya","Nadia","Nadiya viral","Nadia viral video","নাদিয়া","নাদিয়া","নাদিয়া ভাইরাল ভিডিও"]
+    },
+    {
+      id: 3, order: 3, cat: "আফরিন ভিডিও",
+      trending: false, isNew: true,
+      photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251112_174614_584.jpg?text=3",
+      title: "আফরিন ভাইরাল ভিডিও লিংক 🔥",
+      desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬",
+      reward_link: "https://t.me/+mO5bTZFZIS9jZjY9",
+      keywords: ["Afrin","Afrin viral","আফরিন","আফরিন ভাইরাল ভিডিও"]
+    },
+    {
+      id: 4, order: 4, cat: "রাএি ভিডিও",
+      trending: false, isNew: false,
+      photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251018_194758_066.jpg?text=4",
+      title: "রাএির ভাইরাল ভিডিও লিংক 🎬",
+      desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬",
+      reward_link: "https://t.me/+FlrpR6OUDAU0MjNl",
+      keywords: ["Raei","রাএি","রাএির ভিডিও","রাএি ভাইরাল"]
+    },
+    {
+      id: 5, order: 5, cat: "রিধির ভিডিও",
+      trending: false, isNew: false,
+      photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20260203_211931_232.jpg?text=5",
+      title: "শসা রিধির ভাইরাল ভিডিও লিংক 🥒",
+      desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬",
+      reward_link: "https://t.me/+kq8Px8viqgYyNjI1",
+      keywords: ["Ridhi","Ridhi video","Ridhi viral","রিধি","রিধির ভিডিও","রিধির ভাইরাল ভিডিও"]
+    },
+    {
+      id: 6, order: 6, cat: "আরোহী ভিডিও",
+      trending: false, isNew: false,
+      photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20260203_140028_185.jpg?text=6",
+      title: "আরোহী মিম ভাইরাল ভিডিও লিংক 🎬",
+      desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬",
+      reward_link: "https://t.me/+e0YWHQfXDGVlOWNl",
+      keywords: ["Arohi","Arohi meme","আরোহী","আরোহী ভিডিও","আরোহী ভাইরাল"]
+    },
+    {
+      id: 7, order: 7, cat: "অথৈয় ভিডিও",
+      trending: false, isNew: false,
+      photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20251112_172356_482.jpg?text=7",
+      title: "অথৈয় ভাইরাল ভিডিও লিংক 😋",
+      desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬",
+      reward_link: "https://t.me/+bA9XHoJl8ZE1Zjhl",
+      keywords: ["Othoiy","Othoiy video","অথৈয়","অথৈয় ভিডিও","অথৈয় ভাইরাল"]
+    },
+    {
+      id: 8, order: 8, cat: "সফিক ভিডিও",
+      trending: false, isNew: false,
+      photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20260203_213626_890.jpg?text=8",
+      title: "সফিকের ভাইরাল ভিডিও লিংক 😁",
+      desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬",
+      reward_link: "https://t.me/+CnRaOrcUi9plMWZl",
+      keywords: ["Sofik","Sofik video","সফিক","সফিক ভিডিও","সফিকের ভিডিও"]
+    },
+    {
+      id: 9, order: 9, cat: "বাংলাদেশি ভিডিও",
+      trending: false, isNew: false,
+      photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/IMG_20260203_214113_430.jpg?text=9",
+      title: "বাংলাদেশি ভাইরাল ভিডিও লিংক 🇧🇩",
+      desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬",
+      reward_link: "https://t.me/+0ODu5k53wH43ZWQ1",
+      keywords: ["Bangladesh","BD viral","বাংলাদেশি ভিডিও","বাংলাদেশ ভাইরাল ভিডিও"]
+    },
+  ];
 
-    const CHANNEL_LINKS = [
-      { name: "Premium Video", url: "https://t.me/+hZMlyZjGCckwMTZh" },
-      { name: "Promotion Channel", url: "https://t.me/+GlFKvMzAl_QxOGM9" },
-    ];
+  const REQUIRED_ADS = 5;
+  const DEFAULT_YT_ID = "M7lc1UVf-VE";
 
-    function showToast(msg, t=2600){
-      const el = document.getElementById('toast');
-      el.textContent = msg;
-      el.style.display = 'block';
-      clearTimeout(el._to);
-      el._to = setTimeout(()=> el.style.display='none', t);
+  const CHANNEL_LINKS = [
+    { name: "Premium Video", url: "https://t.me/+hZMlyZjGCckwMTZh" },
+    { name: "Promotion Channel", url: "https://t.me/+GlFKvMzAl_QxOGM9" },
+    { name: "Paid Promote / Promotion", url: "https://t.me/PromoOwner_BOT" },
+  ];
+
+  let activeCat = "All";
+
+  /* ✅ Favorites store */
+  const FAV_KEY = "vz_favs_v1";
+  const getFavs = () => {
+    try{
+      const raw = localStorage.getItem(FAV_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      return new Set(Array.isArray(arr) ? arr : []);
+    }catch(_){ return new Set(); }
+  };
+  const setFavs = (set) => localStorage.setItem(FAV_KEY, JSON.stringify([...set]));
+  let favs = getFavs();
+
+  function showToast(msg, t=2600){
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.style.display = 'block';
+    clearTimeout(el._to);
+    el._to = setTimeout(()=> el.style.display='none', t);
+  }
+
+  function esc(s){
+    return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function uid(){
+    let v = localStorage.getItem('device_id');
+    if(!v){
+      v = 'd_' + Math.random().toString(36).slice(2,11);
+      localStorage.setItem('device_id', v);
     }
+    return v;
+  }
 
-    function esc(s){
-      return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    }
+  function todayKey(){
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
 
-    function uid(){
-      let v = localStorage.getItem('device_id');
-      if(!v){ v = 'd_' + Math.random().toString(36).slice(2,11); localStorage.setItem('device_id', v); }
-      return v;
-    }
+  function progKey(postId){ return `ad_prog_${uid()}_${postId}`; }
 
-    function todayKey(){
-      const d = new Date();
-      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    }
+  function getProgress(postId){
+    try{
+      const raw = localStorage.getItem(progKey(postId));
+      if(!raw) return { date: todayKey(), watched: 0 };
+      const p = JSON.parse(raw);
+      if(p.date !== todayKey()) return { date: todayKey(), watched: 0 };
+      return { date: p.date, watched: Number(p.watched||0) };
+    }catch(_){ return { date: todayKey(), watched: 0 }; }
+  }
 
-    function progKey(postId){ return `ad_prog_${uid()}_${postId}`; }
+  function setProgress(postId, watched){
+    localStorage.setItem(progKey(postId), JSON.stringify({ date: todayKey(), watched }));
+  }
 
-    function getProgress(postId){
+  function showAdexoraAd(){
+    return new Promise((resolve, reject) => {
       try{
-        const raw = localStorage.getItem(progKey(postId));
-        if(!raw) return { date: todayKey(), watched: 0 };
-        const p = JSON.parse(raw);
-        if(p.date !== todayKey()) return { date: todayKey(), watched: 0 };
-        return { date: p.date, watched: Number(p.watched||0) };
-      }catch(_){ return { date: todayKey(), watched: 0 }; }
-    }
-
-    function setProgress(postId, watched){
-      localStorage.setItem(progKey(postId), JSON.stringify({ date: todayKey(), watched }));
-    }
-
-    // ✅ ADEXORA wrapper
-    function showAdexoraAd(){
-      return new Promise((resolve, reject) => {
-        try{
-          if (typeof window.showAdexora === 'function') {
-            window.showAdexora().then(()=>resolve(true)).catch(reject);
-          } else {
-     reject('Adexora not loaded');
-          }
-        }catch(e){ reject(e); }
-      });
-    }
-
-    function cardHtml(p){
-      const pr = getProgress(p.id);
-      const done = pr.watched >= REQUIRED_ADS;
-      const btnText = done ? "Watch Video" : `UNLOCK — ${pr.watched}/${REQUIRED_ADS} ADS`;
-      return `
-        <article class="card">
-          <div class="media">
-            <img src="${esc(p.photo)}" onerror="this.src='https://via.placeholder.com/800x450?text=No+Image'">
-          </div>
-          <div class="meta">
-            <h3>${esc(p.title)}</h3>
-            <p>${esc(p.desc)}</p>
-            <div class="row">
-              <button class="unlock-btn ${done?'watch':''}" data-id="${p.id}">
-                <span class="btn-text">${btnText}</span>
-              </button>
-            </div>
-     </div>
-        </article>
-      `;
-    }
-
-    function render(){
-      const q = (document.getElementById('searchInput').value || '').toLowerCase();
-      const list = [...POSTS]
-        .sort((a,b)=> (a.order||0) - (b.order||0)) // ✅ stable order
-        .filter(p => (p.title||'').toLowerCase().includes(q) || (p.desc||'').toLowerCase().includes(q));
-
-      const wrap = document.getElementById('cards');
-      wrap.innerHTML = list.map(cardHtml).join('') || `<div style="color:var(--text-muted);padding:10px">No posts found.</div>`;
-      wrap.querySelectorAll('.unlock-btn').forEach(b => b.addEventListener('click', onUnlock));
-    }
-
-    async function onUnlock(e){
-      const btn = e.currentTarget;
-      const id = Number(btn.dataset.id);
-      const post = POSTS.find(x=>x.id===id);
-      if(!post) return;
-
-      const pr = getProgress(id);
-      const done = pr.watched >= REQUIRED_ADS;
-
-      // ✅ Watch Video -> open link + reset
-      if(done){
-        if(post.reward_link){
-          window.open(String(post.reward_link), '_blank');
+        if (typeof window.showAdexora === 'function') {
+          window.showAdexora().then(()=>resolve(true)).catch(reject);
         } else {
-          showToast('Reward link set করা নেই', 2800);
+          reject('Adexora not loaded');
         }
-        setProgress(id, 0);
-        showToast('Count reset ✅ আবার Ads দেখে Unlock করুন', 2800);
-        render();
+      }catch(e){ reject(e); }
+    });
+  }
+
+  /* ✅ Share */
+  function sharePost(post){
+    try{
+      const title = post?.title ? String(post.title) : "VIRAL ZONE";
+      const link = post?.reward_link ? String(post.reward_link) : (location.href || "");
+      const text = `${title}\n\n${link}`;
+      if (navigator.share) {
+        navigator.share({ title: title, text: text, url: link }).catch(()=>{});
         return;
       }
-
-      // ✅ Show ad then +1
-      btn.classList.add('loading');
-      try{
-        await showAdexoraAd();
-        const after = Math.min(REQUIRED_ADS, pr.watched + 1);
-        setProgress(id, after);
-
-        if(after >= REQUIRED_ADS) showToast('৫টি Ads সম্পন্ন ✅ এখন Watch Video এসেছে', 3000);
-        else showToast(`${after}/${REQUIRED_ADS} সম্পন্ন — আবার Unlock চাপুন`, 2600);
-
-        render();
-      }catch(err){
-        console.warn(err);
-        showToast('Ad সম্পূর্ণ হয়নি — আবার চেষ্টা করুন', 3200);
-      }finally{
-        btn.classList.remove('loading');
+      const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(title)}`;
+      if (window.Telegram && Telegram.WebApp && Telegram.WebApp.openTelegramLink) {
+        Telegram.WebApp.openTelegramLink(shareUrl);
+      } else {
+        window.open(shareUrl, '_blank');
       }
-    }
+    }catch(e){}
+  }
 
-    function switchSection(secId, navId){
-      document.querySelectorAll('.section').forEach(s=> s.classList.remove('active'));
-      document.getElementById(secId).classList.add('active');
-      document.querySelectorAll('.nav-btn').forEach(b=> b.classList.remove('active'));
-      document.getElementById(navId).classList.add('active');
-    }
-//Youtube Video link
-    function renderTutorial(){
-      const el = document.getElementById('tutorialEmbed');
-      el.innerHTML = `<iframe src="https://www.youtube.com/embed/${DEFAULT_YT_ID}?rel=0"
-        style="position:absolute;inset:0;width:100%;height:100%;border:0" allowfullscreen></iframe>`;
-    }
-
-    function renderLinks(){
-      const wrap = document.getElementById('linksList');
-      wrap.innerHTML = CHANNEL_LINKS.map(c=>`
-        <div class="card" style="padding:14px">
-          <div style="display:flex;align-items:center;gap:10px">
-            <i class="fas fa-link" style="font-size:18px"></i>
-            <div style="flex:1">
-              <div style="font-weight:800">${esc(c.name)}</div>
-              <div style="color:var(--text-muted);font-size:13px">${esc(c.url)}</div>
-            </div>
-            <a class="btn btn-primary" style="padding:10px 12px;text-decoration:none" href="${esc(c.url)}" target="_blank">Open</a>
+  function skeletonHtml(n=3){
+    let out = `<div class="skeletonWrap">`;
+    for(let i=0;i<n;i++){
+      out += `
+        <div class="skel">
+          <div class="thumb"></div>
+          <div class="lines">
+            <div class="l1"></div>
+            <div class="l2"></div>
           </div>
         </div>
-      `).join('');
+      `;
+    }
+    out += `</div>`;
+    return out;
+  }
+
+  function buildSearchText(p){
+    const parts = [
+      p.title || "",
+      p.desc || "",
+      p.cat || "",
+      ...(Array.isArray(p.keywords) ? p.keywords : [])
+    ];
+    return parts.join(" ").toLowerCase();
+  }
+
+  function cardHtml(p){
+    const pr = getProgress(p.id);
+    const done = pr.watched >= REQUIRED_ADS;
+    const btnText = done ? "Watch Video" : `UNLOCK — ${pr.watched}/${REQUIRED_ADS} ADS`;
+    const isFav = favs.has(p.id);
+
+    const pills = `
+      <div class="labels">
+        ${p.trending ? `<span class="pill trending">TRENDING</span>` : ``}
+        ${p.isNew ? `<span class="pill new">NEW</span>` : ``}
+      </div>
+    `;
+
+    return `
+      <article class="card" data-post="${p.id}">
+        ${pills}
+        <button class="favBtn ${isFav ? 'on':''}" data-fav="${p.id}" aria-label="Favorite">
+          <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+        </button>
+
+        <div class="media">
+          <img src="${esc(p.photo)}" onerror="this.src='https://via.placeholder.com/800x450?text=No+Image'">
+        </div>
+
+        <div class="meta">
+          <h3>${esc(p.title)}</h3>
+          <p>${esc(p.desc)}</p>
+
+          <div class="row">
+            <button class="unlock-btn ${done?'watch':''}" data-id="${p.id}">
+              <span class="btn-text">${btnText}</span>
+            </button>
+
+            <button class="shareBtn" data-share="${p.id}" title="Share">
+              <i class="fas fa-share-alt"></i>
+            </button>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  function renderTabs(allPosts){
+    const tabsEl = document.getElementById('tabs');
+    if(!tabsEl) return;
+
+    const orderCats = [];
+    const counts = {};
+
+    for(const p of allPosts){
+      const c = String(p.cat || "Other");
+      if(!(c in counts)) orderCats.push(c);
+      counts[c] = (counts[c] || 0) + 1;
     }
 
-    function bindUI(){
-      document.getElementById('navHome').addEventListener('click', ()=> switchSection('homeSection','navHome'));
-      document.getElementById('navTutorial').addEventListener('click', ()=> switchSection('tutorialSection','navTutorial'));
-      document.getElementById('navLinks').addEventListener('click', ()=> switchSection('linksSection','navLinks'));
-      document.getElementById('searchBtn').addEventListener('click', render);
-      document.getElementById('searchInput').addEventListener('keyup', (ev)=>{ if(ev.key==='Enter') render(); });
+    const tabs = [
+      { key: "All", label: "All", count: allPosts.length },
+      ...orderCats.map(c => ({ key: c, label: c, count: counts[c] }))
+    ];
+
+    tabsEl.innerHTML = tabs.map((t, idx) => `
+      <button class="tab ${t.key===activeCat ? 'active':''}" data-cat="${esc(t.key)}">
+        ${esc(t.label)}
+        <span class="badge" data-i="${idx}">${t.count}</span>
+      </button>
+    `).join('');
+
+    const badgeGradients = [
+      "linear-gradient(135deg,#ff4fd8,#b56bff,#7c5cff)",
+      "linear-gradient(135deg,#00d4ff,#5b8cff,#7c5cff)",
+      "linear-gradient(135deg,#ff8c00,#ff4fd8,#b56bff)",
+      "linear-gradient(135deg,#40e0d0,#00d4ff,#5b8cff)",
+      "linear-gradient(135deg,#00ff88,#00d4ff,#7c5cff)",
+      "linear-gradient(135deg,#ff0033,#ff8c00,#ff4fd8)"
+    ];
+    tabsEl.querySelectorAll('.badge').forEach(b=>{
+      const i = Number(b.dataset.i||0);
+      b.style.background = badgeGradients[i % badgeGradients.length];
+    });
+
+    tabsEl.querySelectorAll('.tab').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        activeCat = btn.dataset.cat;
+        renderHome(true);
+      });
+    });
+  }
+
+  function attachCardEvents(container){
+    container.querySelectorAll('.unlock-btn').forEach(b => b.addEventListener('click', onUnlock));
+
+    container.querySelectorAll('.favBtn').forEach(b => b.addEventListener('click', (e)=>{
+      const id = Number(e.currentTarget.dataset.fav);
+      if(!id) return;
+      if(favs.has(id)) favs.delete(id);
+      else favs.add(id);
+      setFavs(favs);
+
+      const homeActive = document.getElementById('homeSection').classList.contains('active');
+      const favActive = document.getElementById('favSection').classList.contains('active');
+      if(homeActive) renderHome(true);
+      if(favActive) renderFavorites(true);
+    }));
+
+    container.querySelectorAll('.shareBtn').forEach(b => b.addEventListener('click', (e)=>{
+      const id = Number(e.currentTarget.dataset.share);
+      const post = POSTS.find(x=>x.id===id);
+      if(post) sharePost(post);
+    }));
+  }
+
+  function renderHome(skipSkeleton=false){
+    const q = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+
+    const all = [...POSTS].sort((a,b)=> (a.order||0) - (b.order||0));
+    const trending = all.filter(p=>p.trending);
+    const normal = all.filter(p=>!p.trending);
+    const ordered = [...trending, ...normal];
+
+    renderTabs(all);
+
+    const wrap = document.getElementById('cards');
+    if(!skipSkeleton){
+      wrap.innerHTML = skeletonHtml(3);
     }
 
-    function init(){
-      bindUI();
-      renderTutorial();
-      renderLinks();
-      render();
+    const doRender = () => {
+      const filtered = ordered.filter(p=>{
+        const inCat = (activeCat === "All") ? true : (String(p.cat) === String(activeCat));
+        const inSearch = !q ? true : buildSearchText(p).includes(q);
+        return inCat && inSearch;
+      });
+
+      wrap.innerHTML = filtered.map(cardHtml).join('') || `<div style="color:var(--text-muted);padding:10px">No posts found.</div>`;
+      attachCardEvents(wrap);
+
+      const hf = document.getElementById('homeFooter');
+      if(hf) hf.style.display = 'block';
+    };
+
+    if(!skipSkeleton) setTimeout(doRender, 220);
+    else doRender();
+  }
+
+  function renderFavorites(skipSkeleton=false){
+    const q = (document.getElementById('favSearchInput').value || '').trim().toLowerCase();
+
+    const favList = [...POSTS]
+      .filter(p=>favs.has(p.id))
+      .sort((a,b)=> (a.order||0) - (b.order||0));
+
+    const trending = favList.filter(p=>p.trending);
+    const normal = favList.filter(p=>!p.trending);
+    const ordered = [...trending, ...normal];
+
+    const wrap = document.getElementById('favCards');
+    if(!skipSkeleton){
+      wrap.innerHTML = skeletonHtml(2);
     }
 
-    return { init };
-  })();
+    const doRender = () => {
+      const filtered = ordered.filter(p=>{
+        const inSearch = !q ? true : buildSearchText(p).includes(q);
+        return inSearch;
+      });
+
+      wrap.innerHTML = filtered.map(cardHtml).join('') || `<div style="color:var(--text-muted);padding:10px">No favorites yet. ❤️</div>`;
+      attachCardEvents(wrap);
+    };
+
+    if(!skipSkeleton) setTimeout(doRender, 200);
+    else doRender();
+  }
+
+  async function onUnlock(e){
+    const btn = e.currentTarget;
+    const id = Number(btn.dataset.id);
+    const post = POSTS.find(x=>x.id===id);
+    if(!post) return;
+
+    const pr = getProgress(id);
+    const done = pr.watched >= REQUIRED_ADS;
+
+    if(done){
+      if(post.reward_link){
+        window.open(String(post.reward_link), '_blank');
+      } else {
+        showToast('Reward link set করা নেই', 2800);
+      }
+      setProgress(id, 0);
+      showToast('Count reset ✅ আবার Ads দেখে Unlock করুন', 2800);
+
+      if(document.getElementById('homeSection').classList.contains('active')) renderHome(true);
+      if(document.getElementById('favSection').classList.contains('active')) renderFavorites(true);
+      return;
+    }
+
+    btn.classList.add('loading');
+    try{
+      await showAdexoraAd();
+      const after = Math.min(REQUIRED_ADS, pr.watched + 1);
+      setProgress(id, after);
+
+      if(after >= REQUIRED_ADS) showToast('৫টি Ads সম্পন্ন ✅ এখন Watch Video এসেছে', 3000);
+      else showToast(`${after}/${REQUIRED_ADS} সম্পন্ন — আবার Unlock চাপুন`, 2600);
+
+      if(document.getElementById('homeSection').classList.contains('active')) renderHome(true);
+      if(document.getElementById('favSection').classList.contains('active')) renderFavorites(true);
+    }catch(err){
+      console.warn(err);
+      showToast('Ad সম্পূর্ণ হয়নি — আবার চেষ্টা করুন', 3200);
+    }finally{
+      btn.classList.remove('loading');
+    }
+  }
+
+  function switchSection(secId, navId){
+    document.querySelectorAll('.section').forEach(s=> s.classList.remove('active'));
+    const sec = document.getElementById(secId);
+    if(sec) sec.classList.add('active');
+
+    document.querySelectorAll('.nav-btn').forEach(b=> b.classList.remove('active'));
+    const nav = document.getElementById(navId);
+    if(nav) nav.classList.add('active');
+
+    const hf = document.getElementById('homeFooter');
+    if(hf) hf.style.display = (secId === 'homeSection') ? 'block' : 'none';
+
+    if(secId === 'homeSection') renderHome(true);
+    if(secId === 'favSection') renderFavorites(true);
+    if(secId === 'tutorialSection') renderTutorial();
+    if(secId === 'linksSection') renderLinks();
+  }
+
+  function renderTutorial(){
+    const el = document.getElementById('tutorialEmbed');
+    if(!el) return;
+    el.innerHTML = `
+      <iframe
+        src="https://www.youtube.com/embed/${DEFAULT_YT_ID}?rel=0"
+        style="position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:14px"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+    `;
+  }
+
+  function renderLinks(){
+    const wrap = document.getElementById('linksList');
+    if(!wrap) return;
+
+    wrap.innerHTML = CHANNEL_LINKS.map(c=>`
+      <div class="card" style="padding:14px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <i class="fas fa-link" style="font-size:18px"></i>
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:900">${esc(c.name)}</div>
+            <div style="color:var(--text-muted);font-size:13px;word-break:break-all">${esc(c.url)}</div>
+          </div>
+          <a class="btn btn-primary"
+             style="padding:8px 12px;text-decoration:none;min-width:auto;height:40px"
+             href="${esc(c.url)}" target="_blank" rel="noopener">
+            Open
+          </a>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function bindUI(){
+    const navHome = document.getElementById('navHome');
+    const navFav = document.getElementById('navFav');
+    const navTutorial = document.getElementById('navTutorial');
+    const navLinks = document.getElementById('navLinks');
+
+    if(navHome) navHome.addEventListener('click', ()=> switchSection('homeSection','navHome'));
+    if(navFav) navFav.addEventListener('click', ()=> switchSection('favSection','navFav'));
+    if(navTutorial) navTutorial.addEventListener('click', ()=> switchSection('tutorialSection','navTutorial'));
+    if(navLinks) navLinks.addEventListener('click', ()=> switchSection('linksSection','navLinks'));
+
+    const searchBtn = document.getElementById('searchBtn');
+    const searchInput = document.getElementById('searchInput');
+    if(searchBtn) searchBtn.addEventListener('click', ()=> renderHome(true));
+    if(searchInput){
+      searchInput.addEventListener('input', ()=> renderHome(true));     // ✅ auto search
+      searchInput.addEventListener('keyup', (ev)=>{ if(ev.key==='Enter') renderHome(true); });
+    }
+
+    const favSearchBtn = document.getElementById('favSearchBtn');
+    const favSearchInput = document.getElementById('favSearchInput');
+    if(favSearchBtn) favSearchBtn.addEventListener('click', ()=> renderFavorites(true));
+    if(favSearchInput){
+      favSearchInput.addEventListener('input', ()=> renderFavorites(true)); // ✅ auto search
+      favSearchInput.addEventListener('keyup', (ev)=>{ if(ev.key==='Enter') renderFavorites(true); });
+    }
+  }
+
+  function init(){
+    bindUI();
+    renderTutorial();
+    renderLinks();
+    renderHome(false);
+  }
+
+  return { init };
+})();
 </script>
 
 </body>
