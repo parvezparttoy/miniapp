@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- ✅ ADEXORA (NEW ID) -->
+  <!-- ✅ ADEXORA -->
   <script src="https://adexora.com/cdn/ads.js?id=1913"></script>
 
   <style>
@@ -59,7 +59,6 @@
         radial-gradient(700px 450px at 85% 80%, rgba(0,212,255,.15), transparent 60%),
         linear-gradient(180deg, var(--bg1), var(--bg2));
       overflow-x:hidden;
-
       padding-top: env(safe-area-inset-top);
       padding-bottom: env(safe-area-inset-bottom);
       padding-left: env(safe-area-inset-left);
@@ -74,7 +73,6 @@
         radial-gradient(700px 450px at 85% 80%, rgba(0,212,255,.15), transparent 60%),
         linear-gradient(180deg, var(--bg1), var(--bg2));
     }
-
     #loadingOverlay::before{
       content:"";
       position:fixed;inset:-200px;
@@ -96,7 +94,6 @@
       box-shadow:0 20px 60px rgba(0,0,0,.45), 0 0 0 1px rgba(124,92,255,.10);
       position:relative;
     }
-
     .brand{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
     .logo{
       width:40px;height:40px;border-radius:12px;
@@ -111,21 +108,17 @@
       animation: shine 1.6s ease-in-out infinite;
     }
     @keyframes shine{0%{transform:translateX(-40%) rotate(25deg)}100%{transform:translateX(40%) rotate(25deg)}}
-
     .loadTitle{line-height:1.1}
     .loadTitle h1{font-size:18px;margin:0;letter-spacing:.2px;font-weight:700}
     .loadTitle p{margin:4px 0 0;font-size:13px;color:var(--muted)}
-
     .meter{margin-top:18px;}
     .topRow{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;}
     .status{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:10px;user-select:none;}
-
     .dots{display:inline-flex;gap:4px;align-items:center;}
     .dot{width:6px;height:6px;border-radius:50%;background: rgba(255,255,255,.55);animation:bounce 1s infinite ease-in-out;}
     .dot:nth-child(2){animation-delay:.15s}
     .dot:nth-child(3){animation-delay:.3s}
     @keyframes bounce{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-4px);opacity:1}}
-
     .percent{
       font-variant-numeric: tabular-nums;
       font-size:14px;font-weight:700;padding:6px 10px;border-radius:12px;
@@ -152,7 +145,6 @@
     @keyframes sweep{to{transform:translateX(60%)}}
     .hint{margin-top:12px;font-size:12px;color:rgba(154,167,214,.85);}
     .done{display:none;margin-top:14px;font-size:13px;color:#bfefff;}
-
     .fadeOut{animation:fade .45s ease forwards;}
     @keyframes fade{to{opacity:0;transform:translateY(8px);filter:blur(2px)}}
 
@@ -185,7 +177,7 @@
     .controls{display:flex;gap:10px;margin-bottom:12px;align-items:center;}
     .input{
       flex:1;
-      padding:8px 12px;
+      padding:4px 8px;
       height:40px;
       border-radius:999px;
       border:1px solid var(--border);
@@ -199,7 +191,7 @@
     /* ✅ Search button even smaller */
     .btn{
       height:40px;
-      padding:4px 8px;
+      padding:8px 12px;
       border-radius:999px;
       border:0;
       cursor:pointer;
@@ -208,7 +200,7 @@
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      gap:4px;
+      gap:8px;
       white-space:nowrap;
       min-width: 50px;
       font-size:2px;
@@ -219,7 +211,7 @@
       box-shadow:0 4px 15px rgba(124,58,237,.4);
     }
 
-    /* ✅ Tabs row (ONLY tabs, favorite removed from here) */
+    /* ✅ Tabs row (ONLY tabs) */
     .tabsRow{
       display:flex;
       align-items:center;
@@ -238,7 +230,7 @@
     }
     .tabs::-webkit-scrollbar{display:none;}
 
-    /* ✅ Tabs smaller (All + others) */
+    /* ✅ Tabs smaller */
     .tab{
       position:relative;
       border:1px solid var(--border);
@@ -250,10 +242,10 @@
       font-weight:900;
       white-space:nowrap;
       transition:.25s;
-      min-width: 106px;     /* smaller */
+      min-width: 106px;
       text-align:center;
       user-select:none;
-      font-size:13px;       /* smaller */
+      font-size:13px;
     }
     .tab.active{
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
@@ -288,8 +280,21 @@
       box-shadow:var(--shadow);
       transition:.3s;
       position:relative;
+      scroll-margin-top: 120px;
     }
     .card:hover{transform:translateY(-5px);box-shadow:0 15px 30px rgba(0,0,0,.4);border-color:var(--primary-light);}
+
+    /* ✅ highlight when opened from shared link */
+    .card.flash{
+      animation: flash 1.6s ease-in-out 1;
+      border-color: rgba(255,255,255,.25);
+      box-shadow: 0 0 0 2px rgba(124,92,255,.18), 0 18px 40px rgba(0,0,0,.45);
+    }
+    @keyframes flash{
+      0%{transform:translateY(0); filter:brightness(1);}
+      30%{transform:translateY(-2px); filter:brightness(1.15);}
+      100%{transform:translateY(0); filter:brightness(1);}
+    }
 
     .labels{
       position:absolute;
@@ -574,7 +579,6 @@
         <button id="searchBtn" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
       </div>
 
-      <!-- ✅ ONLY TABS (Favorite quick removed) -->
       <div class="tabsRow">
         <div id="tabs" class="tabs"></div>
       </div>
@@ -587,7 +591,7 @@
 
         <div class="icons">
           <a class="iconBtn tg" href="https://t.me/PBC_COMMUNITY" target="_blank" aria-label="Telegram" rel="noopener">
-  <i class="fab fa-telegram-plane"></i>
+            <i class="fab fa-telegram-plane"></i>
           </a>
           <a class="iconBtn yt" href="https://www.youtube.com/@ToxicNexoDev" target="_blank" aria-label="YouTube" rel="noopener">
             <i class="fab fa-youtube"></i>
@@ -629,7 +633,7 @@
 
     <div id="toast" class="toast"></div>
 
-    <!-- ✅ Bottom Nav: Home -> Favorites -> Tutorial -> Links -->
+    <!-- ✅ Bottom Nav -->
     <nav class="bottom-nav">
       <button id="navHome" class="nav-btn active"><i class="fas fa-home"></i><div>হোম</div></button>
       <button id="navFav" class="nav-btn"><i class="fas fa-heart"></i><div>Favorite</div></button>
@@ -739,7 +743,7 @@ const App = (() => {
   const POSTS = [
     {
       id: 1, order: 1, cat: "তোহা ভিডিও",
-      trending: true, isNew: false,
+      trending: false, isNew: false,
       photo: "https://raw.githubusercontent.com/parvezparttoy/miniapp/refs/heads/main/images%20(99).jpeg?text=1",
       title: "জান্নাত তোহা ভাইরাল ভিডিও 🥵",
       desc: "৫টি বিজ্ঞাপন দেখার পর লিংক অটো ওপেন হবে 🎬",
@@ -897,16 +901,26 @@ const App = (() => {
     });
   }
 
-  /* ✅ Share */
+  /* ✅ Deep link builder (THIS IS THE FIX) */
+  function buildPostLink(postId){
+    const u = new URL(window.location.href);
+    u.searchParams.set('post', String(postId));
+    u.searchParams.delete('q');
+    return u.toString();
+  }
+
+  /* ✅ Share: now shares ONLY the post link (not reward_link) */
   function sharePost(post){
     try{
+      const link = buildPostLink(post.id);
       const title = post?.title ? String(post.title) : "VIRAL ZONE";
-      const link = post?.reward_link ? String(post.reward_link) : (location.href || "");
       const text = `${title}\n\n${link}`;
+
       if (navigator.share) {
-        navigator.share({ title: title, text: text, url: link }).catch(()=>{});
+        navigator.share({ title, text, url: link }).catch(()=>{});
         return;
       }
+
       const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(title)}`;
       if (window.Telegram && Telegram.WebApp && Telegram.WebApp.openTelegramLink) {
         Telegram.WebApp.openTelegramLink(shareUrl);
@@ -1212,6 +1226,29 @@ const App = (() => {
     `).join('');
   }
 
+  /* ✅ When opened from shared link: go to that post */
+  function openFromSharedLink(){
+    try{
+      const u = new URL(window.location.href);
+      const postId = Number(u.searchParams.get('post') || 0);
+      if(!postId) return;
+
+      activeCat = "All";
+      switchSection('homeSection','navHome');
+
+      setTimeout(()=>{
+        const card = document.querySelector(`.card[data-post="${postId}"]`);
+        if(card){
+          card.classList.remove('flash');
+          card.scrollIntoView({ behavior:'smooth', block:'start' });
+          setTimeout(()=> card.classList.add('flash'), 250);
+        }else{
+          showToast('Post পাওয়া যায়নি', 2400);
+        }
+      }, 450);
+    }catch(_){}
+  }
+
   function bindUI(){
     const navHome = document.getElementById('navHome');
     const navFav = document.getElementById('navFav');
@@ -1227,7 +1264,7 @@ const App = (() => {
     const searchInput = document.getElementById('searchInput');
     if(searchBtn) searchBtn.addEventListener('click', ()=> renderHome(true));
     if(searchInput){
-      searchInput.addEventListener('input', ()=> renderHome(true));     // ✅ auto search
+      searchInput.addEventListener('input', ()=> renderHome(true));
       searchInput.addEventListener('keyup', (ev)=>{ if(ev.key==='Enter') renderHome(true); });
     }
 
@@ -1235,7 +1272,7 @@ const App = (() => {
     const favSearchInput = document.getElementById('favSearchInput');
     if(favSearchBtn) favSearchBtn.addEventListener('click', ()=> renderFavorites(true));
     if(favSearchInput){
-      favSearchInput.addEventListener('input', ()=> renderFavorites(true)); // ✅ auto search
+      favSearchInput.addEventListener('input', ()=> renderFavorites(true));
       favSearchInput.addEventListener('keyup', (ev)=>{ if(ev.key==='Enter') renderFavorites(true); });
     }
   }
@@ -1245,6 +1282,7 @@ const App = (() => {
     renderTutorial();
     renderLinks();
     renderHome(false);
+    openFromSharedLink();
   }
 
   return { init };
